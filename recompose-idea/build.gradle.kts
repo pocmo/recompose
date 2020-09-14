@@ -1,0 +1,49 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id("java")
+    id("org.jetbrains.kotlin.jvm") version "1.4.0"
+    id("org.jetbrains.intellij") version "0.4.22"
+    id("org.jetbrains.changelog") version "0.5.0"
+}
+
+project.group = "xyz.pocmo.recompose"
+project.version = "1.0"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation(project(":recompose-ast"))
+    implementation(project(":recompose-parser"))
+    implementation(project(":recompose-composer"))
+}
+
+intellij {
+    pluginName = "Recompose"
+    version = "2019.3"
+    updateSinceUntilBuild = false
+    downloadSources = true
+    updateSinceUntilBuild = true
+
+    setPlugins("IntelliLang", "Kotlin")
+}
+
+tasks {
+    // Set the compatibility versions to 1.8
+    withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+    listOf("compileKotlin", "compileTestKotlin").forEach {
+        getByName<KotlinCompile>(it) {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+    patchPluginXml {
+        sinceBuild("193")
+        untilBuild("202.*")
+    }
+}

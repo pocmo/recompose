@@ -1,0 +1,14 @@
+<idea-plugin>
+    <id>xyz.pocmo.recompose</id>
+    <name>Recompose</name>
+    <vendor>Sebastian Kaspari</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.kotlin</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <copyPastePostProcessor implementation="recompose.plugin.copypaste.RecomposeCopyPasteProcessor"/>
+    </extensions>
+</idea-plugin>
+
