@@ -60,7 +60,7 @@ class Parser {
         return parser.layout()
     }
 
-    class ParserException: Exception {
+    class ParserException : Exception {
         constructor(message: String) : super(message)
         constructor(message: String, cause: Throwable) : super(message, cause)
     }

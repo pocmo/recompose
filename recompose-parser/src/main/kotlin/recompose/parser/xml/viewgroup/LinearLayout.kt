@@ -20,8 +20,8 @@ import org.xmlpull.v1.XmlPullParser
 import recompose.ast.values.Orientation
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.parser.values.orientation
-import recompose.parser.xml.viewGroupAttributes
 import recompose.parser.xml.viewAttributes
+import recompose.parser.xml.viewGroupAttributes
 
 /**
  * Parses a `<LinearLayout>` element.

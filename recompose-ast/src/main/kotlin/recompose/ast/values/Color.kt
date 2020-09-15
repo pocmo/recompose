@@ -23,5 +23,5 @@ sealed class Color {
     /**
      * An absolute color like 0xFFFF0000.
      */
-    data class Absolute(val value: Long): Color()
+    data class Absolute(val value: Long) : Color()
 }

@@ -4,6 +4,7 @@ plugins {
     id("java")
     kotlin("jvm")
     id("io.gitlab.arturbosch.detekt")
+    id("org.jlleitschuh.gradle.ktlint")
     id("org.jetbrains.intellij") version "0.4.22"
     id("org.jetbrains.changelog") version "0.5.0"
 }

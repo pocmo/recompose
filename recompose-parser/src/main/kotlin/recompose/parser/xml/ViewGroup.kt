@@ -30,8 +30,8 @@ internal fun XmlPullParser.viewGroupAttributes(): ViewGroupAttributes {
 
     while (next() != END_TAG) {
         if (eventType == TEXT) {
-           // We do not care about text nodes.
-            continue;
+            // We do not care about text nodes.
+            continue
         }
 
         val child = view()

@@ -19,7 +19,6 @@ package recompose.ast.view
 import recompose.ast.ViewNode
 import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.Color
-import recompose.ast.values.LayoutSize
 import recompose.visitor.Visitor
 
 /**

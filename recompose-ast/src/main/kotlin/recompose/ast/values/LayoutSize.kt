@@ -20,6 +20,6 @@ package recompose.ast.values
  * Layout sizes that are used with `android:layout_width` or `android:layout_height`.
  */
 sealed class LayoutSize {
-    object MatchParent: LayoutSize()
-    object WrapContent: LayoutSize()
+    object MatchParent : LayoutSize()
+    object WrapContent : LayoutSize()
 }
