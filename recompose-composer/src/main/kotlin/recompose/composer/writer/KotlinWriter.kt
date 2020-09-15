@@ -23,6 +23,7 @@ import recompose.ast.values.Color
  *
  * It's a bit rough.. But does the job.
  */
+@Suppress("TooManyFunctions")
 internal class KotlinWriter {
     private val builder = StringBuilder()
     private var indent = 0
@@ -92,6 +93,7 @@ internal class KotlinWriter {
                     is Color.Absolute -> {
                         continueLine("Color(")
                         continueLine("0x")
+                        @Suppress("MagicNumber")
                         continueLine(color.value.toString(16))
                         continueLine(".toInt()")
                         continueLine(")")

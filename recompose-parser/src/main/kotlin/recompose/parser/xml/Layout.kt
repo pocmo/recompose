@@ -17,7 +17,9 @@
 package recompose.parser.xml
 
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParser.*
+import org.xmlpull.v1.XmlPullParser.END_DOCUMENT
+import org.xmlpull.v1.XmlPullParser.START_DOCUMENT
+import org.xmlpull.v1.XmlPullParser.START_TAG
 import recompose.ast.Layout
 import recompose.ast.ViewNode
 
