@@ -9,4 +9,3 @@ include(
     ":recompose-cli",
     ":recompose-test"
 )
-

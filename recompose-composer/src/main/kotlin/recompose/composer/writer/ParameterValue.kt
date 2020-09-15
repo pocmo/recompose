@@ -21,14 +21,14 @@ import recompose.ast.values.Color
 /**
  * Sealed class for types of parameter values that a passed to a `Composable`.
  */
-internal sealed class ParameterValue  {
+internal sealed class ParameterValue {
     class StringValue(
         val raw: String
-    ): ParameterValue()
+    ) : ParameterValue()
 
-    object EmptyLambdaValue: ParameterValue()
+    object EmptyLambdaValue : ParameterValue()
 
     class ColoValue(
         val color: Color
-    ): ParameterValue()
+    ) : ParameterValue()
 }

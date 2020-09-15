@@ -35,23 +35,27 @@ class ParserTest {
         val layout = parser.parse(TestData.load("linearlayout-textview-button.xml"))
 
         assertEquals(
-            Layout(listOf(
-                LinearLayoutNode(
-                    ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
-                    ViewGroupAttributes(listOf(
-                        TextViewNode(
-                            ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
-                            text = "Hello World!",
-                            textColor = Color.Absolute(0xFFFF0000)
+            Layout(
+                listOf(
+                    LinearLayoutNode(
+                        ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
+                        ViewGroupAttributes(
+                            listOf(
+                                TextViewNode(
+                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    text = "Hello World!",
+                                    textColor = Color.Absolute(0xFFFF0000)
+                                ),
+                                ButtonNode(
+                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    text = "Click me!"
+                                )
+                            )
                         ),
-                        ButtonNode(
-                            ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
-                            text = "Click me!"
-                        )
-                    )),
-                    Orientation.Vertical
+                        Orientation.Vertical
+                    )
                 )
-            )),
+            ),
             layout
         )
     }
