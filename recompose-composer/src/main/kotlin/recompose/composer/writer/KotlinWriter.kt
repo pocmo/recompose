@@ -100,6 +100,20 @@ internal class KotlinWriter {
                     }
                 }
             }
+            is ParameterValue.ModifierValue -> {
+                var addComma = false
+                continueLine("Modifier.")
+                value.builder.getModifiers().forEach { (name, values) ->
+                    if (addComma) {
+                        continueLine(".")
+                    }
+                    continueLine(name)
+                    continueLine("(")
+                    continueLine(values.joinToString(", "))
+                    continueLine(")")
+                    addComma = true
+                }
+            }
         }
     }
 

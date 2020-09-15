@@ -25,10 +25,17 @@ import recompose.parser.Parser
  * object. Throws [Parser.ParserException] if the size could not be parsed.
  */
 internal fun XmlPullParser.layoutSize(name: String): LayoutSize? {
-    return when (val value = getAttributeValue(null, name)) {
-        "match_parent" -> LayoutSize.MatchParent
-        "wrap_content" -> LayoutSize.WrapContent
-        null -> null
+    val value = getAttributeValue(null, name)
+    return when {
+        value == "match_parent" -> LayoutSize.MatchParent
+        value == "wrap_content" -> LayoutSize.WrapContent
+        value.endsWith("dp") ->
+            try {
+                LayoutSize.Dp(Integer.parseInt(value.substring(0, value.length - 2)))
+            } catch (e: NumberFormatException) {
+                throw Parser.ParserException("Cannot parse dp layout size: $value")
+            }
+        value == null -> null
 
         // There's more we need to handle here (e.g. absolute sizes in dp, px, ..)
         else -> throw Parser.ParserException("Unknown layout size value: $value")

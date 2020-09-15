@@ -31,4 +31,8 @@ internal sealed class ParameterValue {
     class ColoValue(
         val color: Color
     ) : ParameterValue()
+
+    class ModifierValue(
+        val builder: ModifierBuilder
+    ) : ParameterValue()
 }
