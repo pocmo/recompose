@@ -22,6 +22,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.composer.writer.KotlinWriter
+import recompose.composer.writer.ModifierBuilder
 import recompose.composer.writer.ParameterValue
 import recompose.visitor.Visitor
 
@@ -40,6 +41,8 @@ internal class ComposingVisitor : Visitor {
     }
 
     override fun visitButton(node: ButtonNode) {
+        val modifier = ModifierBuilder(node.view)
+
         writer.writeCall(
             name = "Button",
             parameters = mapOf(
@@ -49,18 +52,22 @@ internal class ComposingVisitor : Visitor {
             writeCall(
                 name = "Text",
                 parameters = mapOf(
-                    "text" to ParameterValue.StringValue(node.text)
+                    "text" to ParameterValue.StringValue(node.text),
+                    "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
                 )
             )
         }
     }
 
     override fun visitTextView(node: TextViewNode) {
+        val modifier = ModifierBuilder(node.view)
+
         writer.writeCall(
             name = "Text",
             parameters = mapOf(
                 "text" to ParameterValue.StringValue(node.text),
-                "color" to node.textColor?.let { ParameterValue.ColoValue(it) }
+                "color" to node.textColor?.let { ParameterValue.ColoValue(it) },
+                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
             )
         )
     }

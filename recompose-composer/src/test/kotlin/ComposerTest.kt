@@ -40,4 +40,20 @@ class ComposerTest {
             result
         )
     }
+
+    @Test
+    fun `TextView with absolute dp sizes`() {
+        val parser = Parser()
+        val layout = parser.parse(TestData.load("textview-absolute-dp-sizes.xml"))
+
+        val composer = Composer()
+        val result = composer.compose(layout)
+
+        assertEquals(
+            """
+                Text(text = "I am a test", modifier = Modifier.width(100.dp).height(50.dp))
+            """.trimIndent(),
+            result
+        )
+    }
 }

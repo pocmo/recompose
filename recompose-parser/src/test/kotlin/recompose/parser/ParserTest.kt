@@ -59,4 +59,23 @@ class ParserTest {
             layout
         )
     }
+
+    @Test
+    fun `TextView with absolute dp sizes`() {
+        val parser = Parser()
+        val layout = parser.parse(TestData.load("textview-absolute-dp-sizes.xml"))
+
+        assertEquals(
+            Layout(
+                listOf(
+                    TextViewNode(
+                        ViewAttributes(LayoutSize.Dp(100), LayoutSize.Dp(50)),
+                        text = "I am a test",
+                        textColor = null
+                    )
+                )
+            ),
+            layout
+        )
+    }
 }
