@@ -24,6 +24,7 @@ import recompose.parser.Parser
  * Parses a color attribute and returns the matching [Color] object. Throws [Parser.ParserException] if the color could
  * not be parsed.
  */
+@Suppress("MagicNumber")
 internal fun XmlPullParser.color(name: String): Color? {
     val raw = getAttributeValue(null, name)
 

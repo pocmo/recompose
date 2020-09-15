@@ -17,7 +17,7 @@
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 
-class TestData {
+class TestData private constructor() {
     companion object {
         /**
          * Loads the given file from the test data and returns a [BufferedReader] for it.
