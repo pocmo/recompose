@@ -42,7 +42,7 @@ class ParserTest {
                         TextViewNode(
                             ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
                             text = "Hello World!",
-                            textColor = Color.Absolute(0xFF0000)
+                            textColor = Color.Absolute(0xFFFF0000)
                         ),
                         ButtonNode(
                             ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
