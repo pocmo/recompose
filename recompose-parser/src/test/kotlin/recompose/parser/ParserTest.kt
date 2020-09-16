@@ -16,7 +16,6 @@
 
 package recompose.parser
 
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import recompose.ast.Layout
 import recompose.ast.attributes.ViewAttributes
@@ -26,16 +25,16 @@ import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
+import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.test.utils.assertAST
 
 class ParserTest {
     @Test
     fun `LinearLayout with TextView and Button`() {
-        val parser = Parser()
-        val layout = parser.parse(TestData.load("linearlayout-textview-button.xml"))
-
-        assertEquals(
-            Layout(
+        assertAST(
+            fileName = "linearlayout-textview-button.xml",
+            expected = Layout(
                 listOf(
                     LinearLayoutNode(
                         ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
@@ -55,17 +54,14 @@ class ParserTest {
                         Orientation.Vertical
                     )
                 )
-            ),
-            layout
+            )
         )
     }
 
     @Test
     fun `TextView with absolute dp sizes`() {
-        val parser = Parser()
-        val layout = parser.parse(TestData.load("textview-absolute-dp-sizes.xml"))
-
-        assertEquals(
+        assertAST(
+            "textview-absolute-dp-sizes.xml",
             Layout(
                 listOf(
                     TextViewNode(
@@ -74,8 +70,37 @@ class ParserTest {
                         textColor = null
                     )
                 )
-            ),
-            layout
+            )
+        )
+    }
+
+    @Test
+    fun `ConstraintLayout with Buttons`() {
+        assertAST(
+            fileName = "constraintlayout-buttons.xml",
+            Layout(
+                listOf(
+                    ConstraintLayoutNode(
+                        ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
+                        ViewGroupAttributes(
+                            children = listOf(
+                                ButtonNode(
+                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    text = "000"
+                                ),
+                                ButtonNode(
+                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    text = "001"
+                                ),
+                                ButtonNode(
+                                    ViewAttributes(LayoutSize.Dp(0), LayoutSize.WrapContent),
+                                    text = "010"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         )
     }
 }

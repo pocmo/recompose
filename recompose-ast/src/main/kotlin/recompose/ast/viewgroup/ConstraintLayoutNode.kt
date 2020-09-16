@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package recompose.visitor
+package recompose.ast.viewgroup
 
-import recompose.ast.Layout
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.TextViewNode
-import recompose.ast.viewgroup.ConstraintLayoutNode
-import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.ast.ViewGroupNode
+import recompose.ast.attributes.ViewAttributes
+import recompose.ast.attributes.ViewGroupAttributes
+import recompose.visitor.Visitor
 
 /**
- * Interface for a visitor for performing operations on a parsed [Layout].
+ * Data class holding data of a parsed "ConstraintLayout".
+ *
+ * https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
  */
-interface Visitor {
-    fun visitLayout(layout: Layout)
-    fun visitButton(node: ButtonNode)
-    fun visitTextView(node: TextViewNode)
-    fun visitLinearLayout(node: LinearLayoutNode)
-    fun visitConstraintLayout(node: ConstraintLayoutNode)
+data class ConstraintLayoutNode(
+    override val view: ViewAttributes,
+    override val viewGroup: ViewGroupAttributes
+) : ViewGroupNode {
+    override fun accept(visitor: Visitor) = visitor.visitConstraintLayout(this)
 }

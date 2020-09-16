@@ -20,6 +20,7 @@ import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
+import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.composer.writer.KotlinWriter
 import recompose.composer.writer.ModifierBuilder
@@ -79,6 +80,14 @@ internal class ComposingVisitor : Visitor {
         }
 
         writer.writeCall(composable) {
+            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+        }
+    }
+
+    override fun visitConstraintLayout(node: ConstraintLayoutNode) {
+        // We need to collect and write the constraints here.
+        // https://github.com/pocmo/recompose/issues/12
+        writer.writeCall("ConstraintLayout") {
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }

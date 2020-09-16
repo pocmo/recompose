@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package recompose.visitor
+package recompose.parser.xml.viewgroup
 
-import recompose.ast.Layout
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.TextViewNode
+import org.xmlpull.v1.XmlPullParser
 import recompose.ast.viewgroup.ConstraintLayoutNode
-import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.parser.xml.viewAttributes
+import recompose.parser.xml.viewGroupAttributes
 
 /**
- * Interface for a visitor for performing operations on a parsed [Layout].
+ * Parses a `<ConstraintLayout>` element.
+ *
+ * https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
  */
-interface Visitor {
-    fun visitLayout(layout: Layout)
-    fun visitButton(node: ButtonNode)
-    fun visitTextView(node: TextViewNode)
-    fun visitLinearLayout(node: LinearLayoutNode)
-    fun visitConstraintLayout(node: ConstraintLayoutNode)
+fun XmlPullParser.constraintLayout(): ConstraintLayoutNode {
+    return ConstraintLayoutNode(
+        view = viewAttributes(),
+        viewGroup = viewGroupAttributes()
+    )
 }
