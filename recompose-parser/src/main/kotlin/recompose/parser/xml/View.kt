@@ -58,7 +58,19 @@ internal fun XmlPullParser.view(): ViewNode {
  */
 internal fun XmlPullParser.viewAttributes(): ViewAttributes {
     return ViewAttributes(
-        layoutSize("android:layout_width") ?: LayoutSize.WrapContent,
-        layoutSize("android:layout_height") ?: LayoutSize.WrapContent,
+        id = id(),
+        width = layoutSize("android:layout_width") ?: LayoutSize.WrapContent,
+        height = layoutSize("android:layout_height") ?: LayoutSize.WrapContent,
     )
+}
+
+@Suppress("MagicNumber")
+private fun XmlPullParser.id(): String? {
+    val id = getAttributeValue(null, "android:id") ?: return null
+
+    return when {
+        id.startsWith("@+id/") -> id.substring(5)
+        id.startsWith("@id/") -> id.substring(4)
+        else -> throw Parser.ParserException("Cannot parse id: $id")
+    }
 }
