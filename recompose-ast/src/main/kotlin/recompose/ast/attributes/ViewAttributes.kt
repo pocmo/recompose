@@ -22,6 +22,7 @@ import recompose.ast.values.LayoutSize
  * Attributes that are shared between all Android `View`s.
  */
 data class ViewAttributes(
+    val id: String? = null,
     val width: LayoutSize,
     val height: LayoutSize
 )

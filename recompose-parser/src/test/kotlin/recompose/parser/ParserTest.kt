@@ -37,16 +37,25 @@ class ParserTest {
             expected = Layout(
                 listOf(
                     LinearLayoutNode(
-                        ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
+                        ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent
+                        ),
                         ViewGroupAttributes(
                             listOf(
                                 TextViewNode(
-                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent
+                                    ),
                                     text = "Hello World!",
                                     textColor = Color.Absolute(0xFFFF0000)
                                 ),
                                 ButtonNode(
-                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent
+                                    ),
                                     text = "Click me!"
                                 )
                             )
@@ -65,7 +74,10 @@ class ParserTest {
             Layout(
                 listOf(
                     TextViewNode(
-                        ViewAttributes(LayoutSize.Dp(100), LayoutSize.Dp(50)),
+                        ViewAttributes(
+                            width = LayoutSize.Dp(100),
+                            height = LayoutSize.Dp(50)
+                        ),
                         text = "I am a test",
                         textColor = null
                     )
@@ -81,19 +93,33 @@ class ParserTest {
             Layout(
                 listOf(
                     ConstraintLayoutNode(
-                        ViewAttributes(LayoutSize.MatchParent, LayoutSize.MatchParent),
+                        ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent
+                        ),
                         ViewGroupAttributes(
                             children = listOf(
                                 ButtonNode(
-                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    ViewAttributes(
+                                        id = "button000",
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent
+                                    ),
                                     text = "000"
                                 ),
                                 ButtonNode(
-                                    ViewAttributes(LayoutSize.WrapContent, LayoutSize.WrapContent),
+                                    ViewAttributes(
+                                        id = "button001",
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent
+                                    ),
                                     text = "001"
                                 ),
                                 ButtonNode(
-                                    ViewAttributes(LayoutSize.Dp(0), LayoutSize.WrapContent),
+                                    ViewAttributes(
+                                        width = LayoutSize.Dp(0),
+                                        height = LayoutSize.WrapContent
+                                    ),
                                     text = "010"
                                 )
                             )
