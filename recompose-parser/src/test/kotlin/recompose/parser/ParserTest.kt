@@ -21,6 +21,7 @@ import recompose.ast.Layout
 import recompose.ast.attributes.ViewAttributes
 import recompose.ast.attributes.ViewGroupAttributes
 import recompose.ast.values.Color
+import recompose.ast.values.Constraints
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
@@ -103,7 +104,11 @@ class ParserTest {
                                     ViewAttributes(
                                         id = "button000",
                                         width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent
+                                        height = LayoutSize.WrapContent,
+                                        constraints = Constraints(
+                                            startToStart = Constraints.Id.Parent,
+                                            topToTop = Constraints.Id.Parent
+                                        )
                                     ),
                                     text = "000"
                                 ),
@@ -111,14 +116,24 @@ class ParserTest {
                                     ViewAttributes(
                                         id = "button001",
                                         width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent
+                                        height = LayoutSize.WrapContent,
+                                        constraints = Constraints(
+                                            endToEnd = Constraints.Id.Parent,
+                                            startToStart = Constraints.Id.Parent,
+                                            topToBottom = Constraints.Id.View("button000")
+                                        )
                                     ),
                                     text = "001"
                                 ),
                                 ButtonNode(
                                     ViewAttributes(
                                         width = LayoutSize.Dp(0),
-                                        height = LayoutSize.WrapContent
+                                        height = LayoutSize.WrapContent,
+                                        constraints = Constraints(
+                                            bottomToBottom = Constraints.Id.Parent,
+                                            endToEnd = Constraints.Id.Parent,
+                                            startToStart = Constraints.Id.Parent
+                                        )
                                     ),
                                     text = "010"
                                 )

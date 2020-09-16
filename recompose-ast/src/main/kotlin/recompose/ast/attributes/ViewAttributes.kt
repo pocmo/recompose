@@ -16,6 +16,7 @@
 
 package recompose.ast.attributes
 
+import recompose.ast.values.Constraints
 import recompose.ast.values.LayoutSize
 
 /**
@@ -24,5 +25,6 @@ import recompose.ast.values.LayoutSize
 data class ViewAttributes(
     val id: String? = null,
     val width: LayoutSize,
-    val height: LayoutSize
+    val height: LayoutSize,
+    val constraints: Constraints = Constraints()
 )
