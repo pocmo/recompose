@@ -56,4 +56,30 @@ class ComposerTest {
             result
         )
     }
+
+    @Test
+    fun `ConstraintLayout with Buttons`() {
+        val parser = Parser()
+        val layout = parser.parse(TestData.load("constraintlayout-buttons.xml"))
+
+        val composer = Composer()
+        val result = composer.compose(layout)
+
+        assertEquals(
+            """
+                ConstraintLayout {
+                    Button(onClick = {}) {
+                        Text(text = "000")
+                    }
+                    Button(onClick = {}) {
+                        Text(text = "001")
+                    }
+                    Button(onClick = {}) {
+                        Text(text = "010", modifier = Modifier.width(0.dp))
+                    }
+                }
+            """.trimIndent(),
+            result
+        )
+    }
 }

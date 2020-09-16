@@ -25,6 +25,7 @@ import recompose.parser.Parser
 import recompose.parser.values.layoutSize
 import recompose.parser.xml.view.button
 import recompose.parser.xml.view.textView
+import recompose.parser.xml.viewgroup.constraintLayout
 import recompose.parser.xml.viewgroup.linearLayout
 
 /**
@@ -40,6 +41,9 @@ internal fun XmlPullParser.view(): ViewNode {
         // ViewNode
         "TextView" -> textView()
         "Button" -> button()
+
+        // AndroidX
+        "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()
 
         // Currently when hitting an unknown view node, we just bail completely. There's an opportunity
         // to handle this more gracefully. We could either ignore this view or at least translate this into

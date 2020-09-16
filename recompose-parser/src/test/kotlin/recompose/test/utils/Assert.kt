@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package recompose.visitor
+package recompose.test.utils
 
+import org.junit.Assert
 import recompose.ast.Layout
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.TextViewNode
-import recompose.ast.viewgroup.ConstraintLayoutNode
-import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.parser.Parser
 
-/**
- * Interface for a visitor for performing operations on a parsed [Layout].
- */
-interface Visitor {
-    fun visitLayout(layout: Layout)
-    fun visitButton(node: ButtonNode)
-    fun visitTextView(node: TextViewNode)
-    fun visitLinearLayout(node: LinearLayoutNode)
-    fun visitConstraintLayout(node: ConstraintLayoutNode)
+internal fun assertAST(
+    fileName: String,
+    expected: Layout
+) {
+    val parser = Parser()
+    val layout = parser.parse(TestData.load(fileName))
+
+    Assert.assertEquals(expected, layout)
 }
