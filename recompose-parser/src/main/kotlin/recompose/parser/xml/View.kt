@@ -22,6 +22,7 @@ import recompose.ast.ViewNode
 import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.LayoutSize
 import recompose.parser.Parser
+import recompose.parser.values.constraints
 import recompose.parser.values.layoutSize
 import recompose.parser.xml.view.button
 import recompose.parser.xml.view.textView
@@ -61,12 +62,13 @@ internal fun XmlPullParser.viewAttributes(): ViewAttributes {
         id = id(),
         width = layoutSize("android:layout_width") ?: LayoutSize.WrapContent,
         height = layoutSize("android:layout_height") ?: LayoutSize.WrapContent,
+        constraints = constraints()
     )
 }
 
 @Suppress("MagicNumber")
-private fun XmlPullParser.id(): String? {
-    val id = getAttributeValue(null, "android:id") ?: return null
+internal fun XmlPullParser.id(name: String = "android:id"): String? {
+    val id = getAttributeValue(null, name) ?: return null
 
     return when {
         id.startsWith("@+id/") -> id.substring(5)
