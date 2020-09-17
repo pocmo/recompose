@@ -85,9 +85,16 @@ internal class ComposingVisitor : Visitor {
     }
 
     override fun visitConstraintLayout(node: ConstraintLayoutNode) {
+        val modifier = ModifierBuilder(node.view)
+
         // We need to collect and write the constraints here.
         // https://github.com/pocmo/recompose/issues/12
-        writer.writeCall("ConstraintLayout") {
+        writer.writeCall(
+            name = "ConstraintLayout",
+            parameters = mapOf(
+                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
+            )
+        ) {
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
