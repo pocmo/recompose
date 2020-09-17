@@ -114,6 +114,9 @@ internal class KotlinWriter {
                     addComma = true
                 }
             }
+            is ParameterValue.RawValue -> {
+                continueLine(value.raw)
+            }
         }
     }
 

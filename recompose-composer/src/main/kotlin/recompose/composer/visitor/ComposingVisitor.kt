@@ -54,6 +54,7 @@ internal class ComposingVisitor : Visitor {
                 name = "Text",
                 parameters = mapOf(
                     "text" to ParameterValue.StringValue(node.text),
+                    "textAlign" to ParameterValue.RawValue("TextAlign.Center"),
                     "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
                 )
             )

@@ -33,7 +33,7 @@ class ComposerTest {
                 Column {
                     Text(text = "Hello World!", color = Color(0xffff0000.toInt()))
                     Button(onClick = {}) {
-                        Text(text = "Click me!")
+                        Text(text = "Click me!", textAlign = TextAlign.Center)
                     }
                 }
             """.trimIndent(),
@@ -69,13 +69,13 @@ class ComposerTest {
             """
                 ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
                     Button(onClick = {}) {
-                        Text(text = "000")
+                        Text(text = "000", textAlign = TextAlign.Center)
                     }
                     Button(onClick = {}) {
-                        Text(text = "001")
+                        Text(text = "001", textAlign = TextAlign.Center)
                     }
                     Button(onClick = {}) {
-                        Text(text = "010", modifier = Modifier.width(0.dp))
+                        Text(text = "010", textAlign = TextAlign.Center, modifier = Modifier.width(0.dp))
                     }
                 }
             """.trimIndent(),
