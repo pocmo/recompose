@@ -67,7 +67,7 @@ class ComposerTest {
 
         assertEquals(
             """
-                ConstraintLayout {
+                ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
                     Button(onClick = {}) {
                         Text(text = "000")
                     }

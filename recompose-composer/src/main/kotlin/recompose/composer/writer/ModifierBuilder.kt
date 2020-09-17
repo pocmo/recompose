@@ -25,11 +25,14 @@ class ModifierBuilder(
     private val modifiers = mutableMapOf<String, List<String>>()
 
     init {
-        if (viewAttributes.width is LayoutSize.Dp) {
-            addLayoutSize("width", viewAttributes.width as LayoutSize.Dp)
+        when (viewAttributes.width) {
+            is LayoutSize.Dp -> addLayoutSize("width", viewAttributes.width as LayoutSize.Dp)
+            is LayoutSize.MatchParent -> modifiers["fillMaxWidth"] = emptyList()
         }
-        if (viewAttributes.height is LayoutSize.Dp) {
-            addLayoutSize("height", viewAttributes.height as LayoutSize.Dp)
+
+        when (viewAttributes.height) {
+            is LayoutSize.Dp -> addLayoutSize("height", viewAttributes.height as LayoutSize.Dp)
+            is LayoutSize.MatchParent -> modifiers["fillMaxHeight"] = emptyList()
         }
     }
 
