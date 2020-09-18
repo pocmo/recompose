@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package recompose.ast.attributes
+package recompose.parser.values
 
-import recompose.ast.values.Constraints
+import org.xmlpull.v1.XmlPullParser
 import recompose.ast.values.Drawable
-import recompose.ast.values.LayoutSize
+import recompose.parser.Parser
 
-/**
- * Attributes that are shared between all Android `View`s.
- */
-data class ViewAttributes(
-    val id: String? = null,
-    val width: LayoutSize,
-    val height: LayoutSize,
-    val background: Drawable? = null,
-    val constraints: Constraints = Constraints()
-)
+fun XmlPullParser.drawable(name: String): Drawable? {
+    val value = getAttributeValue(null, name)
+
+    return when {
+        value == null -> null
+
+        value.startsWith("#") -> color(name)?.let { Drawable.ColorValue(it) }
+
+        else -> throw Parser.ParserException("Unknown drawable format: $value")
+    }
+}

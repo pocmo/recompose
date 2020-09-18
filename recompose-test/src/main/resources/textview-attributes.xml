@@ -5,4 +5,5 @@
       android:layout_height="wrap_content"
       android:textColor="#ffcc00"
       android:textSize="20dp"
+      android:background="#AA0000FF"
       android:text="I am a test" />
