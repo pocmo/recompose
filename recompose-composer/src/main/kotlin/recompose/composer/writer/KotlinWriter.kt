@@ -17,6 +17,7 @@
 package recompose.composer.writer
 
 import recompose.ast.values.Color
+import recompose.ast.values.Constraints
 
 /**
  * Helper class for writing Kotlin code to a String.
@@ -25,33 +26,44 @@ import recompose.ast.values.Color
  */
 @Suppress("TooManyFunctions")
 internal class KotlinWriter {
-    private val builder = StringBuilder()
-    private var indent = 0
+    private val writer = LineWriter()
 
+    /**
+     * Writes a function call.
+     *
+     * `name(parameters) { block }`
+     */
     fun writeCall(
         name: String,
         parameters: Map<String, ParameterValue?> = emptyMap(),
         block: (KotlinWriter.() -> Unit)? = null
     ) {
-        startLine(name)
+        writer.startLine(name)
 
         writeParameters(parameters, block != null)
 
         if (block == null) {
-            endLine()
+            writer.endLine()
         } else {
-            endLine(" {")
+            writer.endLine(" {")
             writeBlock(block)
-            writeLine("}")
+            writer.writeLine("}")
         }
     }
 
-    fun writeParameters(parameters: Map<String, ParameterValue?>, isFollowedByLambda: Boolean) {
+    fun writeRefsDeclaration(refs: Set<String>) {
+        writer.startLine("val (")
+        writer.continueLine(refs.joinToString(", "))
+        writer.endLine(") = createRefs()")
+        writer.writeLine()
+    }
+
+    private fun writeParameters(parameters: Map<String, ParameterValue?>, isFollowedByLambda: Boolean) {
         if (parameters.isEmpty() && isFollowedByLambda) {
             return
         }
 
-        continueLine("(")
+        writer.continueLine("(")
 
         var addComma = false
         parameters.forEach { (key, value) ->
@@ -61,7 +73,7 @@ internal class KotlinWriter {
             }
         }
 
-        continueLine(")")
+        writer.continueLine(")")
     }
 
     private fun writeSingleParameter(
@@ -70,86 +82,92 @@ internal class KotlinWriter {
         addComma: Boolean
     ) {
         if (addComma) {
-            continueLine(", ")
+            writer.continueLine(", ")
         }
 
-        continueLine(key)
-        continueLine(" = ")
+        writer.continueLine(key)
+        writer.continueLine(" = ")
         writeParameterValue(value)
     }
 
-    fun writeParameterValue(value: ParameterValue) {
+    private fun writeParameterValue(value: ParameterValue) {
         when (value) {
             is ParameterValue.StringValue -> {
-                continueLine("\"")
-                continueLine(value.raw)
-                continueLine("\"")
+                writer.continueLine("\"")
+                writer.continueLine(value.raw)
+                writer.continueLine("\"")
             }
             is ParameterValue.EmptyLambdaValue -> {
-                continueLine("{}")
+                writer.continueLine("{}")
             }
             is ParameterValue.ColoValue -> {
                 when (val color = value.color) {
                     is Color.Absolute -> {
-                        continueLine("Color(")
-                        continueLine("0x")
+                        writer.continueLine("Color(")
+                        writer.continueLine("0x")
                         @Suppress("MagicNumber")
-                        continueLine(color.value.toString(16))
-                        continueLine(".toInt()")
-                        continueLine(")")
+                        writer.continueLine(color.value.toString(16))
+                        writer.continueLine(".toInt()")
+                        writer.continueLine(")")
                     }
                 }
             }
             is ParameterValue.ModifierValue -> {
                 var addComma = false
-                continueLine("Modifier.")
-                value.builder.getModifiers().forEach { (name, values) ->
+                writer.continueLine("Modifier.")
+                value.builder.getModifiers().forEach { modifier ->
                     if (addComma) {
-                        continueLine(".")
+                        writer.continueLine(".")
                     }
-                    continueLine(name)
-                    continueLine("(")
-                    continueLine(values.joinToString(", "))
-                    continueLine(")")
+
+                    writer.continueLine(modifier.name)
+
+                    writer.continueLine("(")
+                    writer.continueLine(modifier.parameters.joinToString(", "))
+                    writer.continueLine(")")
+
+                    modifier.lambda?.let { lambda ->
+                        writer.endLine(" {")
+                        writeBlock {
+                            lambda.invoke(this)
+                        }
+                        writer.startLine("}")
+                    }
+
                     addComma = true
                 }
             }
             is ParameterValue.RawValue -> {
-                continueLine(value.raw)
+                writer.continueLine(value.raw)
             }
         }
     }
 
-    fun writeBlock(block: KotlinWriter.() -> Unit) {
-        indent++
-        block(this)
-        indent--
+    internal fun writeRelativePositioningConstraint(
+        from: String,
+        id: Constraints.Id,
+        to: String
+    ) {
+        writer.startLine("$from.linkTo(")
+        writeConstraintId(id)
+        writer.endLine(".$to)")
     }
 
-    fun startLine(text: String) {
-        repeat(indent) { builder.append("    ") }
-        builder.append(text)
+    private fun writeConstraintId(id: Constraints.Id) {
+        if (id is Constraints.Id.Parent) {
+            writer.continueLine("parent")
+        } else if (id is Constraints.Id.View) {
+            writer.continueLine(id.id)
+        }
     }
 
-    private fun continueLine(text: String) {
-        builder.append(text)
-    }
-
-    private fun endLine() {
-        builder.append("\n")
-    }
-
-    private fun endLine(text: String) {
-        continueLine(text)
-        endLine()
-    }
-
-    private fun writeLine(text: String) {
-        startLine(text)
-        endLine()
+    private fun writeBlock(block: KotlinWriter.() -> Unit) {
+        writer.writeBlock {
+            block()
+        }
     }
 
     fun getString(): String {
-        return builder.toString().trim()
+        return writer.getString()
     }
 }

@@ -32,4 +32,6 @@ class Composer {
         layout.accept(visitor)
         return visitor.getResult()
     }
+
+    class ComposerException(message: String) : Exception(message)
 }

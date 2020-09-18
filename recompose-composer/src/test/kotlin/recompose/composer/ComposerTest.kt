@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-import org.junit.Assert.assertEquals
+package recompose.composer
+
 import org.junit.Test
-import recompose.composer.Composer
-import recompose.parser.Parser
+import recompose.test.utils.assertComposing
 
 class ComposerTest {
     @Test
     fun `LinearLayout with TextView and Button`() {
-        val parser = Parser()
-        val layout = parser.parse(TestData.load("linearlayout-textview-button.xml"))
-
-        val composer = Composer()
-        val result = composer.compose(layout)
-
-        assertEquals(
+        assertComposing(
+            fileName = "linearlayout-textview-button.xml",
             """
                 Column {
                     Text(text = "Hello World!", color = Color(0xffff0000.toInt()))
@@ -36,50 +31,51 @@ class ComposerTest {
                         Text(text = "Click me!", textAlign = TextAlign.Center)
                     }
                 }
-            """.trimIndent(),
-            result
+            """.trimIndent()
         )
     }
 
     @Test
     fun `TextView with absolute dp sizes`() {
-        val parser = Parser()
-        val layout = parser.parse(TestData.load("textview-absolute-dp-sizes.xml"))
-
-        val composer = Composer()
-        val result = composer.compose(layout)
-
-        assertEquals(
+        assertComposing(
+            fileName = "textview-absolute-dp-sizes.xml",
             """
                 Text(text = "I am a test", modifier = Modifier.width(100.dp).height(50.dp))
-            """.trimIndent(),
-            result
+            """.trimIndent()
         )
     }
 
     @Test
     fun `ConstraintLayout with Buttons`() {
-        val parser = Parser()
-        val layout = parser.parse(TestData.load("constraintlayout-buttons.xml"))
-
-        val composer = Composer()
-        val result = composer.compose(layout)
-
-        assertEquals(
+        assertComposing(
+            fileName = "constraintlayout-buttons.xml",
             """
                 ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
-                    Button(onClick = {}) {
+                    val (button000, button001, ref_1) = createRefs()
+                    
+                    Button(onClick = {}, modifier = Modifier.constrainAs(button000) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                    }) {
                         Text(text = "000", textAlign = TextAlign.Center)
                     }
-                    Button(onClick = {}) {
+                    Button(onClick = {}, modifier = Modifier.constrainAs(button001) {
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                        top.linkTo(button000.bottom)
+                    }) {
                         Text(text = "001", textAlign = TextAlign.Center)
                     }
-                    Button(onClick = {}) {
-                        Text(text = "010", textAlign = TextAlign.Center, modifier = Modifier.width(0.dp))
+                    Button(onClick = {}, modifier = Modifier.width(0.dp).constrainAs(ref_1) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                        top.linkTo(button001.bottom)
+                    }) {
+                        Text(text = "010", textAlign = TextAlign.Center)
                     }
                 }
-            """.trimIndent(),
-            result
+            """.trimIndent()
         )
     }
 }

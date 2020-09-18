@@ -16,35 +16,84 @@
 
 package recompose.composer.writer
 
-import recompose.ast.attributes.ViewAttributes
+import recompose.ast.ViewNode
 import recompose.ast.values.LayoutSize
+import recompose.composer.ext.getRef
+import recompose.composer.ext.hasConstraints
 
-class ModifierBuilder(
-    viewAttributes: ViewAttributes
+internal class ModifierBuilder(
+    node: ViewNode
 ) {
-    private val modifiers = mutableMapOf<String, List<String>>()
+    private val modifiers = mutableListOf<Modifier>()
 
     init {
-        when (viewAttributes.width) {
-            is LayoutSize.Dp -> addLayoutSize("width", viewAttributes.width as LayoutSize.Dp)
-            is LayoutSize.MatchParent -> modifiers["fillMaxWidth"] = emptyList()
-        }
+        addViewModifiers(node)
+    }
 
-        when (viewAttributes.height) {
-            is LayoutSize.Dp -> addLayoutSize("height", viewAttributes.height as LayoutSize.Dp)
-            is LayoutSize.MatchParent -> modifiers["fillMaxHeight"] = emptyList()
-        }
+    fun add(modifier: Modifier) {
+        modifiers.add(modifier)
     }
 
     fun addLayoutSize(name: String, size: LayoutSize.Dp) {
-        modifiers[name] = listOf("${size.value}.dp")
+        modifiers.add(
+            Modifier(
+                name,
+                listOf(
+                    "${size.value}.dp"
+                )
+            )
+        )
     }
 
-    fun getModifiers(): Map<String, List<String>> {
+    fun getModifiers(): List<Modifier> {
         return modifiers
     }
 
     fun hasModifiers(): Boolean {
         return modifiers.isNotEmpty()
     }
+
+    private fun addViewModifiers(node: ViewNode) {
+        val view = node.view
+
+        when (view.width) {
+            is LayoutSize.Dp -> addLayoutSize("width", view.width as LayoutSize.Dp)
+            is LayoutSize.MatchParent -> add(Modifier("fillMaxWidth"))
+        }
+
+        when (view.height) {
+            is LayoutSize.Dp -> addLayoutSize("height", view.height as LayoutSize.Dp)
+            is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
+        }
+
+        if (view.constraints.hasConstraints()) {
+            addConstraints(node)
+        }
+    }
+
+    private fun addConstraints(node: ViewNode) {
+        val constraints = node.view.constraints
+        add(
+            Modifier("constrainAs", listOf(node.getRef())) {
+                constraints.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
+                constraints.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
+                constraints.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }
+                constraints.endToStart?.let { writeRelativePositioningConstraint("end", it, "start") }
+                constraints.leftToLeft?.let { writeRelativePositioningConstraint("left", it, "left") }
+                constraints.leftToRight?.let { writeRelativePositioningConstraint("left", it, "right") }
+                constraints.rightToLeft?.let { writeRelativePositioningConstraint("right", it, "left") }
+                constraints.rightToRight?.let { writeRelativePositioningConstraint("right", it, "right") }
+                constraints.startToEnd?.let { writeRelativePositioningConstraint("start", it, "end") }
+                constraints.startToStart?.let { writeRelativePositioningConstraint("start", it, "start") }
+                constraints.topToBottom?.let { writeRelativePositioningConstraint("top", it, "bottom") }
+                constraints.topToTop?.let { writeRelativePositioningConstraint("top", it, "top") }
+            }
+        )
+    }
 }
+
+internal data class Modifier(
+    val name: String,
+    val parameters: List<String> = emptyList(),
+    val lambda: (KotlinWriter.() -> Unit)? = null
+)
