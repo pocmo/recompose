@@ -162,7 +162,7 @@ class ParserTest {
                             background = Drawable.ColorValue(Color.Absolute(0xAA0000FF))
                         ),
                         text = "I am a test",
-                        textSize = Size.Dp(20),
+                        textSize = Size.Sp(20),
                         textColor = Color.Absolute(0xFFFFCC00)
                     )
                 )

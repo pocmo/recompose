@@ -23,17 +23,14 @@ import recompose.parser.Parser
 internal fun XmlPullParser.size(name: String): Size? {
     val value = getAttributeValue(null, name)
 
-    return when {
-        value == null -> null
-
-        value.endsWith("dp") ->
-            try {
-                Size.Dp(Integer.parseInt(value.substring(0, value.length - 2)))
-            } catch (e: NumberFormatException) {
-                throw Parser.ParserException("Cannot parse dp layout size: $value")
-            }
-
-        // There's more we need to handle here (e.g. absolute sizes in dp, px, ..)
-        else -> throw Parser.ParserException("Unknown layout size value: $value")
+    try {
+        return when {
+            value == null -> null
+            value.endsWith("dp") -> Size.Dp(Integer.parseInt(value.substring(0, value.length - 2)))
+            value.endsWith("sp") -> Size.Sp(Integer.parseInt(value.substring(0, value.length - 2)))
+            else -> throw Parser.ParserException("Unknown size value: $value")
+        }
+    } catch (e: java.lang.NumberFormatException) {
+        throw Parser.ParserException("Cannot parse layout size: $value")
     }
 }

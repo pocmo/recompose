@@ -155,6 +155,7 @@ internal class KotlinWriter {
     private fun writeSize(value: ParameterValue.SizeValue) {
         when (value.size) {
             is Size.Dp -> writer.continueLine("${value.size.value}.dp")
+            is Size.Sp -> writer.continueLine("${value.size.value}.sp")
         }
     }
 
