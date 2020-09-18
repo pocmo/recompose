@@ -132,7 +132,8 @@ class ParserTest {
                                         constraints = Constraints(
                                             bottomToBottom = Constraints.Id.Parent,
                                             endToEnd = Constraints.Id.Parent,
-                                            startToStart = Constraints.Id.Parent
+                                            startToStart = Constraints.Id.Parent,
+                                            topToBottom = Constraints.Id.View("button001")
                                         )
                                     ),
                                     text = "010"

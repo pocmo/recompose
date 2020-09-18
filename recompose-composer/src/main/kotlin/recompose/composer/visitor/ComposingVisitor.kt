@@ -22,6 +22,8 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.composer.ext.collectRefs
+import recompose.composer.ext.getRef
 import recompose.composer.writer.KotlinWriter
 import recompose.composer.writer.ModifierBuilder
 import recompose.composer.writer.ParameterValue
@@ -42,12 +44,13 @@ internal class ComposingVisitor : Visitor {
     }
 
     override fun visitButton(node: ButtonNode) {
-        val modifier = ModifierBuilder(node.view)
+        val modifier = ModifierBuilder(node)
 
         writer.writeCall(
             name = "Button",
             parameters = mapOf(
-                "onClick" to ParameterValue.EmptyLambdaValue
+                "onClick" to ParameterValue.EmptyLambdaValue,
+                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
             )
         ) {
             writeCall(
@@ -55,14 +58,13 @@ internal class ComposingVisitor : Visitor {
                 parameters = mapOf(
                     "text" to ParameterValue.StringValue(node.text),
                     "textAlign" to ParameterValue.RawValue("TextAlign.Center"),
-                    "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
                 )
             )
         }
     }
 
     override fun visitTextView(node: TextViewNode) {
-        val modifier = ModifierBuilder(node.view)
+        val modifier = ModifierBuilder(node)
 
         writer.writeCall(
             name = "Text",
@@ -86,16 +88,23 @@ internal class ComposingVisitor : Visitor {
     }
 
     override fun visitConstraintLayout(node: ConstraintLayoutNode) {
-        val modifier = ModifierBuilder(node.view)
+        val modifier = ModifierBuilder(node)
 
-        // We need to collect and write the constraints here.
-        // https://github.com/pocmo/recompose/issues/12
         writer.writeCall(
             name = "ConstraintLayout",
             parameters = mapOf(
                 "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
             )
         ) {
+            val refs = node.viewGroup.children
+                .map { node -> node.view.constraints.collectRefs().map { it.id } + node.getRef() }
+                .flatten()
+                .toSet()
+
+            if (refs.isNotEmpty()) {
+                writeRefsDeclaration(refs)
+            }
+
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
