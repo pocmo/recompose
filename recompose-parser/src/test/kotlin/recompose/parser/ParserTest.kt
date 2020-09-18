@@ -24,6 +24,7 @@ import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
+import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
@@ -76,8 +77,8 @@ class ParserTest {
                 listOf(
                     TextViewNode(
                         ViewAttributes(
-                            width = LayoutSize.Dp(100),
-                            height = LayoutSize.Dp(50)
+                            width = LayoutSize.Absolute(Size.Dp(100)),
+                            height = LayoutSize.Absolute(Size.Dp(50))
                         ),
                         text = "I am a test",
                         textColor = null
@@ -127,7 +128,7 @@ class ParserTest {
                                 ),
                                 ButtonNode(
                                     ViewAttributes(
-                                        width = LayoutSize.Dp(0),
+                                        width = LayoutSize.Absolute(Size.Dp(0)),
                                         height = LayoutSize.WrapContent,
                                         constraints = Constraints(
                                             bottomToBottom = Constraints.Id.Parent,
@@ -140,6 +141,27 @@ class ParserTest {
                                 )
                             )
                         )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `TextView with attributes`() {
+        assertAST(
+            fileName = "textview-attributes.xml",
+            Layout(
+                children = listOf(
+                    TextViewNode(
+                        view = ViewAttributes(
+                            id = "title",
+                            width = LayoutSize.Absolute(Size.Dp(100)),
+                            height = LayoutSize.WrapContent
+                        ),
+                        text = "I am a test",
+                        textSize = Size.Dp(20),
+                        textColor = Color.Absolute(0xFFFFCC00)
                     )
                 )
             )

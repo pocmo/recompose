@@ -17,19 +17,23 @@
 package recompose.parser.values
 
 import org.xmlpull.v1.XmlPullParser
-import recompose.ast.values.LayoutSize
+import recompose.ast.values.Size
 import recompose.parser.Parser
 
-/**
- * Parses a size attribute (from `android:layout_width` or `android:layout_height`and returns the matching [LayoutSize]
- * object. Throws [Parser.ParserException] if the size could not be parsed.
- */
-internal fun XmlPullParser.layoutSize(name: String): LayoutSize? {
+internal fun XmlPullParser.size(name: String): Size? {
     val value = getAttributeValue(null, name)
+
     return when {
         value == null -> null
-        value == "match_parent" -> LayoutSize.MatchParent
-        value == "wrap_content" -> LayoutSize.WrapContent
-        else -> size(name)?.let { LayoutSize.Absolute(it) }
+
+        value.endsWith("dp") ->
+            try {
+                Size.Dp(Integer.parseInt(value.substring(0, value.length - 2)))
+            } catch (e: NumberFormatException) {
+                throw Parser.ParserException("Cannot parse dp layout size: $value")
+            }
+
+        // There's more we need to handle here (e.g. absolute sizes in dp, px, ..)
+        else -> throw Parser.ParserException("Unknown layout size value: $value")
     }
 }

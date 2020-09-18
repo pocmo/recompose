@@ -71,6 +71,7 @@ internal class ComposingVisitor : Visitor {
             parameters = mapOf(
                 "text" to ParameterValue.StringValue(node.text),
                 "color" to node.textColor?.let { ParameterValue.ColoValue(it) },
+                "textSize" to node.textSize?.let { ParameterValue.SizeValue(it) },
                 "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
             )
         )
