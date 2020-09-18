@@ -22,6 +22,7 @@ import recompose.ast.attributes.ViewAttributes
 import recompose.ast.attributes.ViewGroupAttributes
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
+import recompose.ast.values.Drawable
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
 import recompose.ast.values.Size
@@ -157,7 +158,8 @@ class ParserTest {
                         view = ViewAttributes(
                             id = "title",
                             width = LayoutSize.Absolute(Size.Dp(100)),
-                            height = LayoutSize.WrapContent
+                            height = LayoutSize.WrapContent,
+                            background = Drawable.ColorValue(Color.Absolute(0xAA0000FF))
                         ),
                         text = "I am a test",
                         textSize = Size.Dp(20),

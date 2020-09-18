@@ -23,6 +23,7 @@ import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.LayoutSize
 import recompose.parser.Parser
 import recompose.parser.values.constraints
+import recompose.parser.values.drawable
 import recompose.parser.values.layoutSize
 import recompose.parser.xml.view.button
 import recompose.parser.xml.view.textView
@@ -62,6 +63,7 @@ internal fun XmlPullParser.viewAttributes(): ViewAttributes {
         id = id(),
         width = layoutSize("android:layout_width") ?: LayoutSize.WrapContent,
         height = layoutSize("android:layout_height") ?: LayoutSize.WrapContent,
+        background = drawable("android:background"),
         constraints = constraints()
     )
 }

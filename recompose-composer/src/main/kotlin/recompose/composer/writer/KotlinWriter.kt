@@ -18,6 +18,7 @@ package recompose.composer.writer
 
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
+import recompose.ast.values.Drawable
 import recompose.ast.values.Size
 
 /**
@@ -77,6 +78,17 @@ internal class KotlinWriter {
         writer.continueLine(")")
     }
 
+    private fun writeAnonymousParameterValues(parameters: List<ParameterValue>) {
+        var addComma = false
+        parameters.forEach { value ->
+            if (addComma) {
+                writer.continueLine(", ")
+            }
+            writeParameterValue(value)
+            addComma = true
+        }
+    }
+
     private fun writeSingleParameter(
         key: String,
         value: ParameterValue,
@@ -91,61 +103,80 @@ internal class KotlinWriter {
         writeParameterValue(value)
     }
 
+    private fun writeString(value: ParameterValue.StringValue) {
+        writer.continueLine("\"")
+        writer.continueLine(value.raw)
+        writer.continueLine("\"")
+    }
+
+    private fun writeEmptyLambda() {
+        writer.continueLine("{}")
+    }
+
+    private fun writeColor(value: ParameterValue.ColoValue) {
+        when (val color = value.color) {
+            is Color.Absolute -> {
+                writer.continueLine("Color(")
+                writer.continueLine("0x")
+                @Suppress("MagicNumber")
+                writer.continueLine(color.value.toString(16))
+                writer.continueLine(".toInt()")
+                writer.continueLine(")")
+            }
+        }
+    }
+
+    private fun writeModifierValue(value: ParameterValue.ModifierValue) {
+        var addComma = false
+        writer.continueLine("Modifier.")
+        value.builder.getModifiers().forEach { modifier ->
+            if (addComma) {
+                writer.continueLine(".")
+            }
+
+            writer.continueLine(modifier.name)
+
+            writer.continueLine("(")
+            writeAnonymousParameterValues(modifier.parameters)
+            writer.continueLine(")")
+
+            modifier.lambda?.let { lambda ->
+                writer.endLine(" {")
+                writeBlock {
+                    lambda.invoke(this)
+                }
+                writer.startLine("}")
+            }
+
+            addComma = true
+        }
+    }
+
+    private fun writeSize(value: ParameterValue.SizeValue) {
+        when (value.size) {
+            is Size.Dp -> writer.continueLine("${value.size.value}.dp")
+        }
+    }
+
+    private fun writeDrawable(value: ParameterValue.DrawableValue) {
+        when (value.drawable) {
+            is Drawable.ColorValue -> writeColor(
+                // Repackaging as ParameterValue.ColorValue. That's a bit hacky. We probably want to re-use the
+                // write code instead.
+                ParameterValue.ColoValue(value.drawable.color)
+            )
+        }
+    }
+
     private fun writeParameterValue(value: ParameterValue) {
         when (value) {
-            is ParameterValue.StringValue -> {
-                writer.continueLine("\"")
-                writer.continueLine(value.raw)
-                writer.continueLine("\"")
-            }
-            is ParameterValue.EmptyLambdaValue -> {
-                writer.continueLine("{}")
-            }
-            is ParameterValue.ColoValue -> {
-                when (val color = value.color) {
-                    is Color.Absolute -> {
-                        writer.continueLine("Color(")
-                        writer.continueLine("0x")
-                        @Suppress("MagicNumber")
-                        writer.continueLine(color.value.toString(16))
-                        writer.continueLine(".toInt()")
-                        writer.continueLine(")")
-                    }
-                }
-            }
-            is ParameterValue.ModifierValue -> {
-                var addComma = false
-                writer.continueLine("Modifier.")
-                value.builder.getModifiers().forEach { modifier ->
-                    if (addComma) {
-                        writer.continueLine(".")
-                    }
-
-                    writer.continueLine(modifier.name)
-
-                    writer.continueLine("(")
-                    writer.continueLine(modifier.parameters.joinToString(", "))
-                    writer.continueLine(")")
-
-                    modifier.lambda?.let { lambda ->
-                        writer.endLine(" {")
-                        writeBlock {
-                            lambda.invoke(this)
-                        }
-                        writer.startLine("}")
-                    }
-
-                    addComma = true
-                }
-            }
-            is ParameterValue.RawValue -> {
-                writer.continueLine(value.raw)
-            }
-            is ParameterValue.SizeValue -> {
-                when (value.size) {
-                    is Size.Dp -> writer.continueLine("${value.size.value}.dp")
-                }
-            }
+            is ParameterValue.StringValue -> writeString(value)
+            is ParameterValue.EmptyLambdaValue -> writeEmptyLambda()
+            is ParameterValue.ColoValue -> writeColor(value)
+            is ParameterValue.ModifierValue -> writeModifierValue(value)
+            is ParameterValue.RawValue -> writer.continueLine(value.raw)
+            is ParameterValue.SizeValue -> writeSize(value)
+            is ParameterValue.DrawableValue -> writeDrawable(value)
         }
     }
 

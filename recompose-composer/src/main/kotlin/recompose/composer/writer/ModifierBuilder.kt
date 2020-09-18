@@ -36,14 +36,10 @@ internal class ModifierBuilder(
     }
 
     fun addSize(name: String, size: Size) {
-        val value = when (size) {
-            is Size.Dp -> "${size.value}.dp"
-        }
-
         modifiers.add(
             Modifier(
                 name,
-                listOf(value)
+                listOf(ParameterValue.SizeValue(size))
             )
         )
     }
@@ -69,6 +65,15 @@ internal class ModifierBuilder(
             is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
         }
 
+        view.background?.let { drawable ->
+            add(
+                Modifier(
+                    name = "background",
+                    parameters = listOf(ParameterValue.DrawableValue(drawable))
+                )
+            )
+        }
+
         if (view.constraints.hasConstraints()) {
             addConstraints(node)
         }
@@ -77,7 +82,7 @@ internal class ModifierBuilder(
     private fun addConstraints(node: ViewNode) {
         val constraints = node.view.constraints
         add(
-            Modifier("constrainAs", listOf(node.getRef())) {
+            Modifier("constrainAs", listOf(ParameterValue.RawValue(node.getRef()))) {
                 constraints.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
                 constraints.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
                 constraints.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }
@@ -97,6 +102,6 @@ internal class ModifierBuilder(
 
 internal data class Modifier(
     val name: String,
-    val parameters: List<String> = emptyList(),
+    val parameters: List<ParameterValue> = emptyList(),
     val lambda: (KotlinWriter.() -> Unit)? = null
 )

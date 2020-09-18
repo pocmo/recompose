@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package recompose.ast.attributes
+package recompose.ast.values
 
-import recompose.ast.values.Constraints
-import recompose.ast.values.Drawable
-import recompose.ast.values.LayoutSize
-
-/**
- * Attributes that are shared between all Android `View`s.
- */
-data class ViewAttributes(
-    val id: String? = null,
-    val width: LayoutSize,
-    val height: LayoutSize,
-    val background: Drawable? = null,
-    val constraints: Constraints = Constraints()
-)
+sealed class Drawable {
+    data class ColorValue(val color: Color) : Drawable()
+}

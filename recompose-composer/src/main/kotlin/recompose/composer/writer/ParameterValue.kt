@@ -17,6 +17,7 @@
 package recompose.composer.writer
 
 import recompose.ast.values.Color
+import recompose.ast.values.Drawable
 import recompose.ast.values.Size
 
 /**
@@ -43,5 +44,9 @@ internal sealed class ParameterValue {
 
     class SizeValue(
         val size: Size
+    ) : ParameterValue()
+
+    class DrawableValue(
+        val drawable: Drawable
     ) : ParameterValue()
 }
