@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/eye_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffcc00"
+        android:text="👁"
+        android:textSize="50dp"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/eye_right"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/eye_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffcc00"
+        android:paddingRight="10dp"
+        android:text="👁"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/eye_left"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffcc00"
+        android:text="👃"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eye_right" />
+
+    <TextView
+        android:id="@+id/mouth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="👄"
+        android:padding="5dp"
+        android:background="#ffcc00"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nose" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
