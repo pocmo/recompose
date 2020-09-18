@@ -18,6 +18,7 @@ package recompose.composer.writer
 
 import recompose.ast.ViewNode
 import recompose.ast.values.LayoutSize
+import recompose.ast.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.ext.hasConstraints
 
@@ -34,13 +35,15 @@ internal class ModifierBuilder(
         modifiers.add(modifier)
     }
 
-    fun addLayoutSize(name: String, size: LayoutSize.Dp) {
+    fun addSize(name: String, size: Size) {
+        val value = when (size) {
+            is Size.Dp -> "${size.value}.dp"
+        }
+
         modifiers.add(
             Modifier(
                 name,
-                listOf(
-                    "${size.value}.dp"
-                )
+                listOf(value)
             )
         )
     }
@@ -57,12 +60,12 @@ internal class ModifierBuilder(
         val view = node.view
 
         when (view.width) {
-            is LayoutSize.Dp -> addLayoutSize("width", view.width as LayoutSize.Dp)
+            is LayoutSize.Absolute -> addSize("width", (view.width as LayoutSize.Absolute).size)
             is LayoutSize.MatchParent -> add(Modifier("fillMaxWidth"))
         }
 
         when (view.height) {
-            is LayoutSize.Dp -> addLayoutSize("height", view.height as LayoutSize.Dp)
+            is LayoutSize.Absolute -> addSize("height", (view.height as LayoutSize.Absolute).size)
             is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
         }
 

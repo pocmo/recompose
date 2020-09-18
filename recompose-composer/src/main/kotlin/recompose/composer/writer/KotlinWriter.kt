@@ -18,6 +18,7 @@ package recompose.composer.writer
 
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
+import recompose.ast.values.Size
 
 /**
  * Helper class for writing Kotlin code to a String.
@@ -139,6 +140,11 @@ internal class KotlinWriter {
             }
             is ParameterValue.RawValue -> {
                 writer.continueLine(value.raw)
+            }
+            is ParameterValue.SizeValue -> {
+                when (value.size) {
+                    is Size.Dp -> writer.continueLine("${value.size.value}.dp")
+                }
             }
         }
     }

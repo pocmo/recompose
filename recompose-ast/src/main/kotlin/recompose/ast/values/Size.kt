@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.ast.values
 
-import recompose.ast.ViewNode
-import recompose.ast.attributes.ViewAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Size
-import recompose.visitor.Visitor
-
-/**
- * Data class holding values of a parsed `<TextView>`.
- *
- * https://developer.android.com/reference/kotlin/android/widget/TextView
- */
-data class TextViewNode(
-    override val view: ViewAttributes,
-    val text: String,
-    val textColor: Color? = null,
-    val textSize: Size? = null
-) : ViewNode {
-    override fun accept(visitor: Visitor) = visitor.visitTextView(this)
+sealed class Size {
+    data class Dp(val value: Int) : Size()
 }

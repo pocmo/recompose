@@ -78,4 +78,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `TextView with attributes`() {
+        assertComposing(
+            fileName = "textview-attributes.xml",
+            """
+                Text(text = "I am a test", color = Color(0xffffcc00.toInt()), textSize = 20.dp, modifier = Modifier.width(100.dp))
+            """.trimIndent()
+        )
+    }
 }

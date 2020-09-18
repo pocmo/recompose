@@ -17,6 +17,7 @@
 package recompose.composer.writer
 
 import recompose.ast.values.Color
+import recompose.ast.values.Size
 
 /**
  * Sealed class for types of parameter values that a passed to a `Composable`.
@@ -38,5 +39,9 @@ internal sealed class ParameterValue {
 
     class ModifierValue(
         val builder: ModifierBuilder
+    ) : ParameterValue()
+
+    class SizeValue(
+        val size: Size
     ) : ParameterValue()
 }

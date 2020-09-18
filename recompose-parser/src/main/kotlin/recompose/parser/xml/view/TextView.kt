@@ -20,6 +20,7 @@ import org.xmlpull.v1.XmlPullParser
 import recompose.ast.view.TextViewNode
 import recompose.parser.util.assertEndTagNext
 import recompose.parser.values.color
+import recompose.parser.values.size
 import recompose.parser.xml.viewAttributes
 
 /**
@@ -31,12 +32,14 @@ internal fun XmlPullParser.textView(): TextViewNode {
     val viewAttributes = viewAttributes()
     val text = getAttributeValue(null, "android:text") ?: ""
     val textColor = color("android:textColor")
+    val textSize = size("android:textSize")
 
     assertEndTagNext()
 
     return TextViewNode(
         viewAttributes,
         text,
-        textColor
+        textColor,
+        textSize
     )
 }
