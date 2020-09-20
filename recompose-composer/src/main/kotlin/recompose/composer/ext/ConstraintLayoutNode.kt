@@ -174,7 +174,12 @@ private class ChainBuilder(
 
     fun build(): Set<Chain> {
         return chains.map { (head, elements) ->
-            Chain(direction, head, elements)
+            val style = when (direction) {
+                Chain.Direction.HORIZONTAL -> head.view.constraints.chain.horizontalStyle
+                Chain.Direction.VERTICAL -> head.view.constraints.chain.verticalStyle
+            }
+
+            Chain(direction, head, elements, style)
         }.toSet()
     }
 }

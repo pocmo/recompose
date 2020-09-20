@@ -23,7 +23,8 @@ import recompose.ast.viewgroup.ConstraintLayoutNode
  * Data class holding the constraints for a [Node] inside a [ConstraintLayoutNode].
  */
 data class Constraints(
-    val relative: RelativePositioning = RelativePositioning()
+    val relative: RelativePositioning = RelativePositioning(),
+    val chain: Chain = Chain()
 ) {
     data class RelativePositioning(
         val bottomToBottom: Id? = null,
@@ -39,6 +40,17 @@ data class Constraints(
         val topToBottom: Id? = null,
         val topToTop: Id? = null
     )
+
+    data class Chain(
+        val horizontalStyle: Style? = null,
+        val verticalStyle: Style? = null
+    ) {
+        enum class Style {
+            SPREAD,
+            SPREAD_INSIDE,
+            PACKED
+        }
+    }
 
     sealed class Id {
         data class View(
