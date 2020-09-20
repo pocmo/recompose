@@ -39,7 +39,9 @@ internal class ModifierBuilder(
         modifiers.add(
             Modifier(
                 name,
-                listOf(ParameterValue.SizeValue(size))
+                listOf(
+                    CallParameter(ParameterValue.SizeValue(size))
+                )
             )
         )
     }
@@ -69,7 +71,9 @@ internal class ModifierBuilder(
             add(
                 Modifier(
                     name = "background",
-                    parameters = listOf(ParameterValue.DrawableValue(drawable))
+                    parameters = listOf(
+                        CallParameter(ParameterValue.DrawableValue(drawable))
+                    )
                 )
             )
         }
@@ -82,7 +86,7 @@ internal class ModifierBuilder(
     private fun addConstraints(node: ViewNode) {
         val constraints = node.view.constraints
         add(
-            Modifier("constrainAs", listOf(ParameterValue.RawValue(node.getRef()))) {
+            Modifier("constrainAs", listOf(CallParameter(ParameterValue.RawValue(node.getRef())))) {
                 constraints.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
                 constraints.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
                 constraints.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }
@@ -98,10 +102,21 @@ internal class ModifierBuilder(
             }
         )
     }
+
+    fun toCallParameter(): CallParameter? {
+        if (!hasModifiers()) {
+            return null
+        }
+
+        return CallParameter(
+            name = "modifier",
+            value = ParameterValue.ModifierValue(this)
+        )
+    }
 }
 
 internal data class Modifier(
     val name: String,
-    val parameters: List<ParameterValue> = emptyList(),
+    val parameters: List<CallParameter> = emptyList(),
     val lambda: (KotlinWriter.() -> Unit)? = null
 )
