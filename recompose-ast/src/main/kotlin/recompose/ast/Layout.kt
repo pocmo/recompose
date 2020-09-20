@@ -24,7 +24,7 @@ import recompose.visitor.Visitor
  * @param children The child views parsed from the provided snippet.
  */
 data class Layout(
-    val children: List<ViewNode>
+    val children: List<Node>
 ) {
     fun accept(visitor: Visitor) = visitor.visitLayout(this)
 }

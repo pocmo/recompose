@@ -16,19 +16,19 @@
 
 package recompose.composer.ext
 
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import java.util.WeakHashMap
 
-private val refMap = WeakHashMap<ViewNode, String>()
+private val refMap = WeakHashMap<Node, String>()
 private var refCounter = 0
 
 /**
- * Gets a unique reference for this [ViewNode] to be used in a `ConstraintLayout`.
+ * Gets a unique reference for this [Node] to be used in a `ConstraintLayout`.
  *
  * If available this returns the ID of the `View`. Otherwise a unique reference will be generated.
  */
 @Suppress("ReturnCount")
-internal fun ViewNode.getRef(): String {
+internal fun Node.getRef(): String {
     // If this view has an ID then we can use this as a unique reference.
     view.id?.apply { return this }
 

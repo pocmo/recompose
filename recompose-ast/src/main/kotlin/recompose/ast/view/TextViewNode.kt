@@ -16,7 +16,7 @@
 
 package recompose.ast.view
 
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.Color
 import recompose.ast.values.Size
@@ -32,6 +32,6 @@ data class TextViewNode(
     val text: String,
     val textColor: Color? = null,
     val textSize: Size? = null
-) : ViewNode {
+) : Node {
     override fun accept(visitor: Visitor) = visitor.visitTextView(this)
 }

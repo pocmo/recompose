@@ -29,6 +29,7 @@ import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
+import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.test.utils.assertAST
@@ -229,6 +230,52 @@ class ParserTest {
                                         padding = Padding(horizontal = Size.Dp(10), vertical = Size.Dp(10))
                                     ),
                                     text = "paddingHorizontalVertically"
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic Views`() {
+        assertAST(
+            fileName = "view.xml",
+            Layout(
+                children = listOf(
+                    LinearLayoutNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent
+                        ),
+                        orientation = Orientation.Horizontal,
+                        viewGroup = ViewGroupAttributes(
+                            children = listOf(
+                                ViewNode(
+                                    view = ViewAttributes(
+                                        id = "one",
+                                        width = LayoutSize.Absolute(Size.Dp(50)),
+                                        height = LayoutSize.Absolute(Size.Dp(50)),
+                                        background = Drawable.ColorValue(Color.Absolute(0xffff0000))
+                                    )
+                                ),
+                                ViewNode(
+                                    view = ViewAttributes(
+                                        id = "two",
+                                        width = LayoutSize.Absolute(Size.Dp(50)),
+                                        height = LayoutSize.Absolute(Size.Dp(50)),
+                                        background = Drawable.ColorValue(Color.Absolute(0xff00ff00))
+                                    )
+                                ),
+                                ViewNode(
+                                    view = ViewAttributes(
+                                        id = "three",
+                                        width = LayoutSize.Absolute(Size.Dp(50)),
+                                        height = LayoutSize.Absolute(Size.Dp(50)),
+                                        background = Drawable.ColorValue(Color.Absolute(0xff0000ff))
+                                    )
                                 )
                             )
                         )

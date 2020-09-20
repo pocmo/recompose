@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.parser.xml.view
 
-import recompose.ast.Node
-import recompose.ast.attributes.ViewAttributes
-import recompose.visitor.Visitor
+import org.xmlpull.v1.XmlPullParser
+import recompose.ast.view.ViewNode
+import recompose.parser.util.assertEndTagNext
+import recompose.parser.xml.viewAttributes
 
 /**
- * Data class holding values of a parsed `<Button>`.
+ * Parses a `<View>` element.
  *
- * https://developer.android.com/reference/android/widget/Button
+ * https://developer.android.com/reference/android/view/View
  */
-data class ButtonNode(
-    override val view: ViewAttributes,
-    val text: String
-) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitButton(this)
+fun XmlPullParser.view(): ViewNode {
+    val viewAttributes = viewAttributes()
+    assertEndTagNext()
+    return ViewNode(viewAttributes)
 }

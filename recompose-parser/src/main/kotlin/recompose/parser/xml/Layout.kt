@@ -21,20 +21,20 @@ import org.xmlpull.v1.XmlPullParser.END_DOCUMENT
 import org.xmlpull.v1.XmlPullParser.START_DOCUMENT
 import org.xmlpull.v1.XmlPullParser.START_TAG
 import recompose.ast.Layout
-import recompose.ast.ViewNode
+import recompose.ast.Node
 
 /**
  * Parses a complete layout structure potentially containing multiple view elements.
  */
 internal fun XmlPullParser.layout(): Layout {
-    val children = mutableListOf<ViewNode>()
+    val children = mutableListOf<Node>()
 
     var event = eventType
     while (event != END_DOCUMENT) {
         when (event) {
             START_DOCUMENT -> Unit
             START_TAG -> {
-                val child = view()
+                val child = node()
                 children.add(child)
             }
         }

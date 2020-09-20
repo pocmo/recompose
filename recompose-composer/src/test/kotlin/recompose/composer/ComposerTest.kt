@@ -104,4 +104,18 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic Views`() {
+        assertComposing(
+            fileName = "view.xml",
+            """
+                Row {
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xffff0000.toInt())))
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xff00ff00.toInt())))
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xff0000ff.toInt())))
+                }
+            """.trimIndent()
+        )
+    }
 }

@@ -16,7 +16,7 @@
 
 package recompose.composer.writer
 
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Padding
 import recompose.ast.values.Size
@@ -25,7 +25,7 @@ import recompose.composer.ext.hasConstraints
 import recompose.composer.ext.hasValues
 
 internal class ModifierBuilder(
-    node: ViewNode
+    node: Node
 ) {
     private val modifiers = mutableListOf<Modifier>()
 
@@ -56,7 +56,7 @@ internal class ModifierBuilder(
         return modifiers.isNotEmpty()
     }
 
-    private fun addViewModifiers(node: ViewNode) {
+    private fun addViewModifiers(node: Node) {
         val view = node.view
 
         when (view.width) {
@@ -89,7 +89,7 @@ internal class ModifierBuilder(
         }
     }
 
-    private fun addConstraints(node: ViewNode) {
+    private fun addConstraints(node: Node) {
         val constraints = node.view.constraints
         add(
             Modifier("constrainAs", listOf(CallParameter(ParameterValue.RawValue(node.getRef())))) {

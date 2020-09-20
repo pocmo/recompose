@@ -16,11 +16,11 @@
 
 package recompose.ast.attributes
 
-import recompose.ast.ViewNode
+import recompose.ast.Node
 
 /**
  * Attributes that are shared between all `ViewGroup`s.
  */
 data class ViewGroupAttributes(
-    val children: List<ViewNode>
+    val children: List<Node>
 )
