@@ -37,7 +37,7 @@ internal class KotlinWriter {
      */
     fun writeCall(
         name: String,
-        parameters: Map<String, ParameterValue?> = emptyMap(),
+        parameters: List<CallParameter?> = emptyList(),
         block: (KotlinWriter.() -> Unit)? = null
     ) {
         writer.startLine(name)
@@ -58,49 +58,6 @@ internal class KotlinWriter {
         writer.continueLine(refs.joinToString(", "))
         writer.endLine(") = createRefs()")
         writer.writeLine()
-    }
-
-    private fun writeParameters(parameters: Map<String, ParameterValue?>, isFollowedByLambda: Boolean) {
-        if (parameters.isEmpty() && isFollowedByLambda) {
-            return
-        }
-
-        writer.continueLine("(")
-
-        var addComma = false
-        parameters.forEach { (key, value) ->
-            if (value != null) {
-                writeSingleParameter(key, value, addComma)
-                addComma = true
-            }
-        }
-
-        writer.continueLine(")")
-    }
-
-    private fun writeAnonymousParameterValues(parameters: List<ParameterValue>) {
-        var addComma = false
-        parameters.forEach { value ->
-            if (addComma) {
-                writer.continueLine(", ")
-            }
-            writeParameterValue(value)
-            addComma = true
-        }
-    }
-
-    private fun writeSingleParameter(
-        key: String,
-        value: ParameterValue,
-        addComma: Boolean
-    ) {
-        if (addComma) {
-            writer.continueLine(", ")
-        }
-
-        writer.continueLine(key)
-        writer.continueLine(" = ")
-        writeParameterValue(value)
     }
 
     private fun writeString(value: ParameterValue.StringValue) {
@@ -136,9 +93,10 @@ internal class KotlinWriter {
 
             writer.continueLine(modifier.name)
 
-            writer.continueLine("(")
-            writeAnonymousParameterValues(modifier.parameters)
-            writer.continueLine(")")
+            writeParameters(
+                modifier.parameters,
+                isFollowedByLambda = modifier.lambda != null
+            )
 
             modifier.lambda?.let { lambda ->
                 writer.endLine(" {")
@@ -150,6 +108,34 @@ internal class KotlinWriter {
 
             addComma = true
         }
+    }
+
+    private fun writeParameters(parameters: List<CallParameter?>, isFollowedByLambda: Boolean) {
+        if (parameters.isEmpty() && isFollowedByLambda) {
+            // Without lambda we need to write an empty parameter list: Foo()
+            // Otherwise we can just continue without parameters: Foo { .. }
+            return
+        }
+
+        writer.continueLine("(")
+
+        var addSeparator = false
+        parameters.filterNotNull().forEach { parameter ->
+            if (addSeparator) {
+                writer.continueLine(", ")
+            }
+
+            if (parameter.name != null) {
+                writer.continueLine(parameter.name)
+                writer.continueLine(" = ")
+            }
+
+            writeParameterValue(parameter.value)
+
+            addSeparator = true
+        }
+
+        writer.continueLine(")")
     }
 
     private fun writeSize(value: ParameterValue.SizeValue) {

@@ -24,6 +24,7 @@ import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.composer.ext.collectRefs
 import recompose.composer.ext.getRef
+import recompose.composer.writer.CallParameter
 import recompose.composer.writer.KotlinWriter
 import recompose.composer.writer.ModifierBuilder
 import recompose.composer.writer.ParameterValue
@@ -48,16 +49,16 @@ internal class ComposingVisitor : Visitor {
 
         writer.writeCall(
             name = "Button",
-            parameters = mapOf(
-                "onClick" to ParameterValue.EmptyLambdaValue,
-                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
+            parameters = listOf(
+                CallParameter(name = "onClick", value = ParameterValue.EmptyLambdaValue),
+                modifier.toCallParameter()
             )
         ) {
             writeCall(
                 name = "Text",
-                parameters = mapOf(
-                    "text" to ParameterValue.StringValue(node.text),
-                    "textAlign" to ParameterValue.RawValue("TextAlign.Center"),
+                parameters = listOf(
+                    CallParameter(name = "text", value = ParameterValue.StringValue(node.text)),
+                    CallParameter(name = "textAlign", value = ParameterValue.RawValue("TextAlign.Center"))
                 )
             )
         }
@@ -68,11 +69,11 @@ internal class ComposingVisitor : Visitor {
 
         writer.writeCall(
             name = "Text",
-            parameters = mapOf(
-                "text" to ParameterValue.StringValue(node.text),
-                "color" to node.textColor?.let { ParameterValue.ColoValue(it) },
-                "fontSize" to node.textSize?.let { ParameterValue.SizeValue(it) },
-                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
+            parameters = listOf(
+                CallParameter(name = "text", value = ParameterValue.StringValue(node.text)),
+                node.textColor?.let { CallParameter(name = "color", value = ParameterValue.ColoValue(it)) },
+                node.textSize?.let { CallParameter(name = "fontSize", value = ParameterValue.SizeValue(it)) },
+                modifier.toCallParameter()
             )
         )
     }
@@ -93,8 +94,8 @@ internal class ComposingVisitor : Visitor {
 
         writer.writeCall(
             name = "ConstraintLayout",
-            parameters = mapOf(
-                "modifier" to ParameterValue.ModifierValue(modifier).takeIf { it.builder.hasModifiers() }
+            parameters = listOf(
+                modifier.toCallParameter()
             )
         ) {
             val refs = node.viewGroup.children
