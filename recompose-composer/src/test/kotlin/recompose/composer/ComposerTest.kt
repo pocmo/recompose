@@ -88,4 +88,20 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `TextViews with different padding configurations`() {
+        assertComposing(
+            fileName = "textview-padding.xml",
+            """
+                Column {
+                    Text(text = "padding", modifier = Modifier.background(Color(0xffff0000.toInt())).padding(10.dp))
+                    Text(text = "paddingTop/Left", modifier = Modifier.background(Color(0xff00ff00.toInt())).absolutePadding(left = 10.dp, top = 10.dp))
+                    Text(text = "paddingRight/Bottom", modifier = Modifier.background(Color(0xff0000ff.toInt())).absolutePadding(right = 10.dp, bottom = 10.dp))
+                    Text(text = "paddingStartEnd", modifier = Modifier.background(Color(0xff00ffff.toInt())))
+                    Text(text = "paddingHorizontalVertically", modifier = Modifier.background(Color(0xffff00ff.toInt())).padding(horizontal = 10.dp, vertical = 10.dp))
+                }
+            """.trimIndent()
+        )
+    }
 }
