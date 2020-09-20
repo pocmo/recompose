@@ -72,7 +72,32 @@ internal class KotlinWriter {
 
             val parameters = (listOf(chain.head) + chain.elements).map { node ->
                 CallParameter(ParameterValue.RawValue(node.getRef()))
+            }.toMutableList()
+
+            when (chain.style) {
+                Constraints.Chain.Style.PACKED ->
+                    parameters.add(
+                        CallParameter(
+                            name = "chainStyle",
+                            value = ParameterValue.RawValue("ChainStyle.Packed")
+                        )
+                    )
+                Constraints.Chain.Style.SPREAD ->
+                    parameters.add(
+                        CallParameter(
+                            name = "chainStyle",
+                            value = ParameterValue.RawValue("ChainStyle.Spread")
+                        )
+                    )
+                Constraints.Chain.Style.SPREAD_INSIDE ->
+                    parameters.add(
+                        CallParameter(
+                            name = "chainStyle",
+                            value = ParameterValue.RawValue("ChainStyle.SpreadInside")
+                        )
+                    )
             }
+
             writeParameters(parameters, false)
             writer.endLine()
         }

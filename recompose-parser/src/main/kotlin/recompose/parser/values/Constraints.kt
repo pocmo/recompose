@@ -18,6 +18,7 @@ package recompose.parser.values
 
 import org.xmlpull.v1.XmlPullParser
 import recompose.ast.values.Constraints
+import recompose.parser.Parser
 import recompose.parser.xml.id
 
 /**
@@ -42,6 +43,12 @@ internal fun XmlPullParser.constraints(): Constraints {
             startToStart = constraintId("app:layout_constraintStart_toStartOf"),
             topToBottom = constraintId("app:layout_constraintTop_toBottomOf"),
             topToTop = constraintId("app:layout_constraintTop_toTopOf")
+        ),
+
+        // Chains
+        chain = Constraints.Chain(
+            horizontalStyle = chainStyle("app:layout_constraintHorizontal_chainStyle"),
+            verticalStyle = chainStyle("app:layout_constraintVertical_chainStyle")
         )
     )
 }
@@ -51,5 +58,15 @@ private fun XmlPullParser.constraintId(name: String): Constraints.Id? {
         Constraints.Id.Parent
     } else {
         id(name)?.let { Constraints.Id.View(it) }
+    }
+}
+
+private fun XmlPullParser.chainStyle(name: String): Constraints.Chain.Style? {
+    return when (val value = getAttributeValue(null, name)) {
+        null -> null
+        "spread" -> Constraints.Chain.Style.SPREAD
+        "spread_inside" -> Constraints.Chain.Style.SPREAD_INSIDE
+        "packed" -> Constraints.Chain.Style.PACKED
+        else -> throw Parser.ParserException("Unknown chain style: $value")
     }
 }

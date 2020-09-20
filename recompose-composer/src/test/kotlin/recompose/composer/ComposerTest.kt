@@ -127,9 +127,9 @@ class ComposerTest {
                 ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
                     val (two, one, four, three, five) = createRefs()
                     
-                    createHorizontalChain(one, two, three)
+                    createHorizontalChain(one, two, three, chainStyle = ChainStyle.Spread)
                     createHorizontalChain(four, five)
-                    createVerticalChain(two, four)
+                    createVerticalChain(two, four, chainStyle = ChainStyle.Packed)
                     
                     Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xffff0000.toInt())).constrainAs(one) {
                         end.linkTo(two.start)

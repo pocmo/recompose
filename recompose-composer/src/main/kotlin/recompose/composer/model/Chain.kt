@@ -17,6 +17,7 @@
 package recompose.composer.model
 
 import recompose.ast.Node
+import recompose.ast.values.Constraints
 
 /**
  * Data class holding information about a chain of a `ConstraintLayout`.
@@ -24,7 +25,8 @@ import recompose.ast.Node
 internal data class Chain(
     val direction: Direction,
     val head: Node,
-    val elements: Set<Node>
+    val elements: Set<Node>,
+    val style: Constraints.Chain.Style? = null
 ) {
     enum class Direction {
         HORIZONTAL,
