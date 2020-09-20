@@ -50,3 +50,7 @@ internal sealed class ParameterValue {
         val drawable: Drawable
     ) : ParameterValue()
 }
+
+internal fun createSizeParameterValue(size: Size?): ParameterValue.SizeValue? {
+    return size?.let { ParameterValue.SizeValue(it) }
+}

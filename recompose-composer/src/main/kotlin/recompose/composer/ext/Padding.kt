@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package recompose.composer.writer
+package recompose.composer.ext
 
-internal data class CallParameter(
-    val value: ParameterValue,
-    val name: String? = null
-)
+import recompose.ast.values.Padding
 
-internal fun createCallParameter(name: String, value: ParameterValue?): CallParameter? {
-    return value?.let {
-        CallParameter(name = name, value = value)
-    }
-}
-
-internal fun createCallParameter(value: ParameterValue?): CallParameter? {
-    return value?.let { CallParameter(it) }
+fun Padding.hasValues(): Boolean {
+    return this != Padding()
 }

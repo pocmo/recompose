@@ -18,9 +18,11 @@ package recompose.composer.writer
 
 import recompose.ast.ViewNode
 import recompose.ast.values.LayoutSize
+import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.ext.hasConstraints
+import recompose.composer.ext.hasValues
 
 internal class ModifierBuilder(
     node: ViewNode
@@ -81,6 +83,10 @@ internal class ModifierBuilder(
         if (view.constraints.hasConstraints()) {
             addConstraints(node)
         }
+
+        if (view.padding.hasValues()) {
+            addPadding(view.padding)
+        }
     }
 
     private fun addConstraints(node: ViewNode) {
@@ -103,6 +109,56 @@ internal class ModifierBuilder(
         )
     }
 
+    @Suppress("ComplexCondition")
+    private fun addPadding(padding: Padding) {
+        if (padding.all != null) {
+            add(
+                Modifier(
+                    name = "padding",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.SizeValue(padding.all!!))
+                    )
+                )
+            )
+        }
+
+        if (padding.horizontal != null || padding.vertical != null) {
+            add(
+                Modifier(
+                    name = "padding",
+                    parameters = listOf(
+                        createCallParameter("horizontal", createSizeParameterValue(padding.horizontal)),
+                        createCallParameter("vertical", createSizeParameterValue(padding.vertical))
+                    )
+                )
+            )
+        }
+
+        if (padding.left != null || padding.right != null) {
+            add(
+                Modifier(
+                    name = "absolutePadding",
+                    parameters = listOf(
+                        createCallParameter("left", createSizeParameterValue(padding.left)),
+                        createCallParameter("right", createSizeParameterValue(padding.right)),
+                        createCallParameter("top", createSizeParameterValue(padding.top)),
+                        createCallParameter("bottom", createSizeParameterValue(padding.bottom))
+                    )
+                )
+            )
+        } else if (padding.start != null || padding.end != null || padding.top != null || padding.bottom != null) {
+            Modifier(
+                name = "padding",
+                parameters = listOf(
+                    createCallParameter("start", createSizeParameterValue(padding.start)),
+                    createCallParameter("end", createSizeParameterValue(padding.end)),
+                    createCallParameter("top", createSizeParameterValue(padding.top)),
+                    createCallParameter("bottom", createSizeParameterValue(padding.bottom))
+                )
+            )
+        }
+    }
+
     fun toCallParameter(): CallParameter? {
         if (!hasModifiers()) {
             return null
@@ -117,6 +173,6 @@ internal class ModifierBuilder(
 
 internal data class Modifier(
     val name: String,
-    val parameters: List<CallParameter> = emptyList(),
+    val parameters: List<CallParameter?> = emptyList(),
     val lambda: (KotlinWriter.() -> Unit)? = null
 )
