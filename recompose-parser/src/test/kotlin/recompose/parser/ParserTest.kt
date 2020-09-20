@@ -110,8 +110,10 @@ class ParserTest {
                                         width = LayoutSize.WrapContent,
                                         height = LayoutSize.WrapContent,
                                         constraints = Constraints(
-                                            startToStart = Constraints.Id.Parent,
-                                            topToTop = Constraints.Id.Parent
+                                            Constraints.RelativePositioning(
+                                                startToStart = Constraints.Id.Parent,
+                                                topToTop = Constraints.Id.Parent
+                                            )
                                         )
                                     ),
                                     text = "000"
@@ -122,9 +124,11 @@ class ParserTest {
                                         width = LayoutSize.WrapContent,
                                         height = LayoutSize.WrapContent,
                                         constraints = Constraints(
-                                            endToEnd = Constraints.Id.Parent,
-                                            startToStart = Constraints.Id.Parent,
-                                            topToBottom = Constraints.Id.View("button000")
+                                            Constraints.RelativePositioning(
+                                                endToEnd = Constraints.Id.Parent,
+                                                startToStart = Constraints.Id.Parent,
+                                                topToBottom = Constraints.Id.View("button000")
+                                            )
                                         )
                                     ),
                                     text = "001"
@@ -134,10 +138,12 @@ class ParserTest {
                                         width = LayoutSize.Absolute(Size.Dp(0)),
                                         height = LayoutSize.WrapContent,
                                         constraints = Constraints(
-                                            bottomToBottom = Constraints.Id.Parent,
-                                            endToEnd = Constraints.Id.Parent,
-                                            startToStart = Constraints.Id.Parent,
-                                            topToBottom = Constraints.Id.View("button001")
+                                            Constraints.RelativePositioning(
+                                                bottomToBottom = Constraints.Id.Parent,
+                                                endToEnd = Constraints.Id.Parent,
+                                                startToStart = Constraints.Id.Parent,
+                                                topToBottom = Constraints.Id.View("button001")
+                                            )
                                         )
                                     ),
                                     text = "010"

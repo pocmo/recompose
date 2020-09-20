@@ -93,18 +93,18 @@ internal class ModifierBuilder(
         val constraints = node.view.constraints
         add(
             Modifier("constrainAs", listOf(CallParameter(ParameterValue.RawValue(node.getRef())))) {
-                constraints.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
-                constraints.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
-                constraints.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }
-                constraints.endToStart?.let { writeRelativePositioningConstraint("end", it, "start") }
-                constraints.leftToLeft?.let { writeRelativePositioningConstraint("left", it, "left") }
-                constraints.leftToRight?.let { writeRelativePositioningConstraint("left", it, "right") }
-                constraints.rightToLeft?.let { writeRelativePositioningConstraint("right", it, "left") }
-                constraints.rightToRight?.let { writeRelativePositioningConstraint("right", it, "right") }
-                constraints.startToEnd?.let { writeRelativePositioningConstraint("start", it, "end") }
-                constraints.startToStart?.let { writeRelativePositioningConstraint("start", it, "start") }
-                constraints.topToBottom?.let { writeRelativePositioningConstraint("top", it, "bottom") }
-                constraints.topToTop?.let { writeRelativePositioningConstraint("top", it, "top") }
+                constraints.relative.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
+                constraints.relative.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
+                constraints.relative.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }
+                constraints.relative.endToStart?.let { writeRelativePositioningConstraint("end", it, "start") }
+                constraints.relative.leftToLeft?.let { writeRelativePositioningConstraint("left", it, "left") }
+                constraints.relative.leftToRight?.let { writeRelativePositioningConstraint("left", it, "right") }
+                constraints.relative.rightToLeft?.let { writeRelativePositioningConstraint("right", it, "left") }
+                constraints.relative.rightToRight?.let { writeRelativePositioningConstraint("right", it, "right") }
+                constraints.relative.startToEnd?.let { writeRelativePositioningConstraint("start", it, "end") }
+                constraints.relative.startToStart?.let { writeRelativePositioningConstraint("start", it, "start") }
+                constraints.relative.topToBottom?.let { writeRelativePositioningConstraint("top", it, "bottom") }
+                constraints.relative.topToTop?.let { writeRelativePositioningConstraint("top", it, "top") }
             }
         )
     }

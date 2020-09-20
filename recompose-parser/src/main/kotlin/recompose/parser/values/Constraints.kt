@@ -29,18 +29,20 @@ internal fun XmlPullParser.constraints(): Constraints {
         // is also what is used in all the docs. But technically an app could use a different namespace.
 
         // Relative Positioning Constraints
-        bottomToBottom = constraintId("app:layout_constraintBottom_toBottomOf"),
-        bottomToTop = constraintId("app:layout_constraintBottom_toTopOf"),
-        endToEnd = constraintId("app:layout_constraintEnd_toEndOf"),
-        endToStart = constraintId("app:layout_constraintEnd_toStartOf"),
-        leftToLeft = constraintId("app:layout_constraintLeft_toLeftOf"),
-        leftToRight = constraintId("app:layout_constraintLeft_toRightOf"),
-        rightToLeft = constraintId("app:layout_constraintRight_toLeftOf"),
-        rightToRight = constraintId("app:layout_constraintRight_toRightOf"),
-        startToEnd = constraintId("app:layout_constraintStart_toEndOf"),
-        startToStart = constraintId("app:layout_constraintStart_toStartOf"),
-        topToBottom = constraintId("app:layout_constraintTop_toBottomOf"),
-        topToTop = constraintId("app:layout_constraintTop_toTopOf"),
+        relative = Constraints.RelativePositioning(
+            bottomToBottom = constraintId("app:layout_constraintBottom_toBottomOf"),
+            bottomToTop = constraintId("app:layout_constraintBottom_toTopOf"),
+            endToEnd = constraintId("app:layout_constraintEnd_toEndOf"),
+            endToStart = constraintId("app:layout_constraintEnd_toStartOf"),
+            leftToLeft = constraintId("app:layout_constraintLeft_toLeftOf"),
+            leftToRight = constraintId("app:layout_constraintLeft_toRightOf"),
+            rightToLeft = constraintId("app:layout_constraintRight_toLeftOf"),
+            rightToRight = constraintId("app:layout_constraintRight_toRightOf"),
+            startToEnd = constraintId("app:layout_constraintStart_toEndOf"),
+            startToStart = constraintId("app:layout_constraintStart_toStartOf"),
+            topToBottom = constraintId("app:layout_constraintTop_toBottomOf"),
+            topToTop = constraintId("app:layout_constraintTop_toTopOf")
+        )
     )
 }
 
