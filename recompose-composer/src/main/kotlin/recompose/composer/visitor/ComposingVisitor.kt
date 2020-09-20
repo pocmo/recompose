@@ -23,8 +23,8 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
-import recompose.composer.ext.collectRefs
-import recompose.composer.ext.getRef
+import recompose.composer.ext.findChains
+import recompose.composer.ext.findRefs
 import recompose.composer.writer.CallParameter
 import recompose.composer.writer.KotlinWriter
 import recompose.composer.writer.ModifierBuilder
@@ -110,13 +110,14 @@ internal class ComposingVisitor : Visitor {
                 modifier.toCallParameter()
             )
         ) {
-            val refs = node.viewGroup.children
-                .map { node -> node.view.constraints.collectRefs().map { it.id } + node.getRef() }
-                .flatten()
-                .toSet()
-
+            val refs = node.findRefs()
             if (refs.isNotEmpty()) {
-                writeRefsDeclaration(refs)
+                writer.writeRefsDeclaration(refs)
+            }
+
+            val chains = node.findChains()
+            if (chains.isNotEmpty()) {
+                writer.writeChains(chains)
             }
 
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }

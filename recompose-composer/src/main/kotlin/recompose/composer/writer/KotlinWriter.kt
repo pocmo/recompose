@@ -20,6 +20,8 @@ import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
 import recompose.ast.values.Size
+import recompose.composer.ext.getRef
+import recompose.composer.model.Chain
 
 /**
  * Helper class for writing Kotlin code to a String.
@@ -57,6 +59,23 @@ internal class KotlinWriter {
         writer.startLine("val (")
         writer.continueLine(refs.joinToString(", "))
         writer.endLine(") = createRefs()")
+        writer.writeLine()
+    }
+
+    fun writeChains(chains: Set<Chain>) {
+        chains.forEach { chain ->
+            if (chain.direction == Chain.Direction.HORIZONTAL) {
+                writer.startLine("createHorizontalChain")
+            } else {
+                writer.startLine("createVerticalChain")
+            }
+
+            val parameters = (listOf(chain.head) + chain.elements).map { node ->
+                CallParameter(ParameterValue.RawValue(node.getRef()))
+            }
+            writeParameters(parameters, false)
+            writer.endLine()
+        }
         writer.writeLine()
     }
 
