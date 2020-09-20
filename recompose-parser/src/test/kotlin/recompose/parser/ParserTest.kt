@@ -25,6 +25,7 @@ import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
+import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
@@ -164,6 +165,73 @@ class ParserTest {
                         text = "I am a test",
                         textSize = Size.Sp(20),
                         textColor = Color.Absolute(0xFFFFCC00)
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `TextViews with different padding configurations`() {
+        assertAST(
+            fileName = "textview-padding.xml",
+            Layout(
+                listOf(
+                    LinearLayoutNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent
+                        ),
+                        orientation = Orientation.Vertical,
+                        viewGroup = ViewGroupAttributes(
+                            children = listOf(
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent,
+                                        background = Drawable.ColorValue(Color.Absolute(0xffff0000)),
+                                        padding = Padding(all = Size.Dp(10))
+                                    ),
+                                    text = "padding"
+                                ),
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent,
+                                        background = Drawable.ColorValue(Color.Absolute(0xff00ff00)),
+                                        padding = Padding(top = Size.Dp(10), left = Size.Dp(10))
+                                    ),
+                                    text = "paddingTop/Left"
+                                ),
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent,
+                                        background = Drawable.ColorValue(Color.Absolute(0xff0000ff)),
+                                        padding = Padding(right = Size.Dp(10), bottom = Size.Dp(10))
+                                    ),
+                                    text = "paddingRight/Bottom"
+                                ),
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent,
+                                        background = Drawable.ColorValue(Color.Absolute(0xff00ffff)),
+                                        padding = Padding(start = Size.Dp(10), end = Size.Dp(10))
+                                    ),
+                                    text = "paddingStartEnd"
+                                ),
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.WrapContent,
+                                        height = LayoutSize.WrapContent,
+                                        background = Drawable.ColorValue(Color.Absolute(0xffff00ff)),
+                                        padding = Padding(horizontal = Size.Dp(10), vertical = Size.Dp(10))
+                                    ),
+                                    text = "paddingHorizontalVertically"
+                                )
+                            )
+                        )
                     )
                 )
             )

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package recompose.ast.attributes
+package recompose.parser.values
 
-import recompose.ast.values.Constraints
-import recompose.ast.values.Drawable
-import recompose.ast.values.LayoutSize
+import org.xmlpull.v1.XmlPullParser
 import recompose.ast.values.Padding
 
-/**
- * Attributes that are shared between all Android `View`s.
- */
-data class ViewAttributes(
-    val id: String? = null,
-    val width: LayoutSize,
-    val height: LayoutSize,
-    val padding: Padding = Padding(),
-    val background: Drawable? = null,
-    val constraints: Constraints = Constraints()
-)
+fun XmlPullParser.padding(): Padding {
+    return Padding(
+        all = size("android:padding"),
+        left = size("android:paddingLeft"),
+        right = size("android:paddingRight"),
+        start = size("android:paddingStart"),
+        end = size("android:paddingEnd"),
+        top = size("android:paddingTop"),
+        bottom = size("android:paddingBottom"),
+        horizontal = size("android:paddingHorizontal"),
+        vertical = size("android:paddingVertical")
+    )
+}

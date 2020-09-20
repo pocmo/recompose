@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package recompose.ast.attributes
-
-import recompose.ast.values.Constraints
-import recompose.ast.values.Drawable
-import recompose.ast.values.LayoutSize
-import recompose.ast.values.Padding
+package recompose.ast.values
 
 /**
- * Attributes that are shared between all Android `View`s.
+ * Holder for parsed padding values.
  */
-data class ViewAttributes(
-    val id: String? = null,
-    val width: LayoutSize,
-    val height: LayoutSize,
-    val padding: Padding = Padding(),
-    val background: Drawable? = null,
-    val constraints: Constraints = Constraints()
+data class Padding(
+    val all: Size? = null,
+    val left: Size? = null,
+    val right: Size? = null,
+    val start: Size? = null,
+    val end: Size? = null,
+    val top: Size? = null,
+    val bottom: Size? = null,
+    val horizontal: Size? = null,
+    val vertical: Size? = null
 )
