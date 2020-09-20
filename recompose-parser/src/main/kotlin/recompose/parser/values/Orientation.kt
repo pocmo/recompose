@@ -25,7 +25,7 @@ import recompose.parser.Parser
  * object. Throws [Parser.ParserException] if the orientation could not be parsed.
  */
 internal fun XmlPullParser.orientation(): Orientation? {
-    return when (val value = getAttributeValue(null, "orientation")) {
+    return when (val value = getAttributeValue(null, "android:orientation")) {
         "vertical" -> Orientation.Vertical
         "horizontal" -> Orientation.Horizontal
         null -> null
