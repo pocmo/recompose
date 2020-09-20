@@ -162,4 +162,39 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `ConstraintLayout rendering Face`() {
+        assertComposing(
+            fileName = "constraintlayout-face.xml",
+            """
+                ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    val (eye_right, eye_left, nose, mouth) = createRefs()
+                    
+                    createHorizontalChain(eye_left, eye_right, chainStyle = ChainStyle.Packed)
+                    
+                    Text(text = "👁", fontSize = 50.sp, modifier = Modifier.background(Color(0xffffcc00.toInt())).constrainAs(eye_left) {
+                        end.linkTo(eye_right.start)
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                    }.absolutePadding(left = 10.dp))
+                    Text(text = "👁", fontSize = 50.sp, modifier = Modifier.background(Color(0xffffcc00.toInt())).constrainAs(eye_right) {
+                        end.linkTo(parent.end)
+                        start.linkTo(eye_left.end)
+                        top.linkTo(parent.top)
+                    }.absolutePadding(right = 10.dp))
+                    Text(text = "👃", fontSize = 50.sp, modifier = Modifier.background(Color(0xffffcc00.toInt())).constrainAs(nose) {
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                        top.linkTo(eye_right.bottom)
+                    }.absolutePadding(left = 20.dp, right = 20.dp))
+                    Text(text = "👄", fontSize = 50.sp, modifier = Modifier.background(Color(0xffffcc00.toInt())).constrainAs(mouth) {
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                        top.linkTo(nose.bottom)
+                    }.padding(5.dp))
+                }
+            """.trimIndent()
+        )
+    }
 }
