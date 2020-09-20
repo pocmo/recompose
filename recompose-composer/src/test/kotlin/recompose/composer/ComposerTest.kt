@@ -118,4 +118,48 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `ConstraintLayout chains`() {
+        assertComposing(
+            fileName = "constraintlayout-chains.xml",
+            """
+                ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    val (two, one, four, three, five) = createRefs()
+                    
+                    createHorizontalChain(one, two, three)
+                    createHorizontalChain(four, five)
+                    createVerticalChain(two, four)
+                    
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xffff0000.toInt())).constrainAs(one) {
+                        end.linkTo(two.start)
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top)
+                    })
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xff00ff00.toInt())).constrainAs(two) {
+                        bottom.linkTo(four.top)
+                        end.linkTo(three.start)
+                        start.linkTo(one.end)
+                        top.linkTo(parent.top)
+                    })
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xff0000ff.toInt())).constrainAs(three) {
+                        end.linkTo(parent.end)
+                        start.linkTo(two.end)
+                        top.linkTo(parent.top)
+                    })
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xffff00ff.toInt())).constrainAs(four) {
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(five.start)
+                        start.linkTo(two.start)
+                        top.linkTo(two.bottom)
+                    })
+                    Box(modifier = Modifier.width(50.dp).height(50.dp).background(Color(0xffffff00.toInt())).constrainAs(five) {
+                        end.linkTo(parent.end)
+                        start.linkTo(four.end)
+                        top.linkTo(two.bottom)
+                    })
+                }
+            """.trimIndent()
+        )
+    }
 }

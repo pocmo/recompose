@@ -42,6 +42,7 @@
         android:background="#ff00ff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/two"
+        app:layout_constraintEnd_toStartOf="@+id/five"
         app:layout_constraintTop_toBottomOf="@id/two" />
 
     <View
