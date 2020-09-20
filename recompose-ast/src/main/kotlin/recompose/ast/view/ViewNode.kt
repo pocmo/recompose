@@ -17,17 +17,22 @@
 package recompose.ast.view
 
 import recompose.ast.Node
+import recompose.ast.ViewGroupNode
 import recompose.ast.attributes.ViewAttributes
+import recompose.ast.attributes.ViewGroupAttributes
 import recompose.visitor.Visitor
 
 /**
- * Data class holding values of a parsed `<Button>`.
+ * Data class holding values of a parsed `<View>`.
  *
- * https://developer.android.com/reference/android/widget/Button
+ * Note that other nodes like [TextViewNode] do not extend [ViewNode]. We are not rebuilding the Android inheritance
+ * tree. Instead nodes may implement a shared interface with shared "attribute" properties (for example see
+ * [ViewGroupNode] an [ViewGroupAttributes]).
+ *
+ * https://developer.android.com/reference/android/view/View
  */
-data class ButtonNode(
-    override val view: ViewAttributes,
-    val text: String
+data class ViewNode(
+    override val view: ViewAttributes
 ) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitButton(this)
+    override fun accept(visitor: Visitor) = visitor.visitView(this)
 }

@@ -16,11 +16,11 @@
 
 package recompose.ast.values
 
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import recompose.ast.viewgroup.ConstraintLayoutNode
 
 /**
- * Data class holding the constraints for a [ViewNode] inside a [ConstraintLayoutNode].
+ * Data class holding the constraints for a [Node] inside a [ConstraintLayoutNode].
  */
 data class Constraints(
     val bottomToBottom: Id? = null,

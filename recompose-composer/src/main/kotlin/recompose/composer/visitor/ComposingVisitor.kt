@@ -20,6 +20,7 @@ import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
+import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.composer.ext.collectRefs
@@ -42,6 +43,17 @@ internal class ComposingVisitor : Visitor {
 
     override fun visitLayout(layout: Layout) {
         layout.children.forEach { view -> view.accept(this) }
+    }
+
+    override fun visitView(node: ViewNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            "Box",
+            parameters = listOf(
+                modifier.toCallParameter()
+            )
+        )
     }
 
     override fun visitButton(node: ButtonNode) {

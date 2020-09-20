@@ -19,6 +19,7 @@ package recompose.visitor
 import recompose.ast.Layout
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.TextViewNode
+import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 
@@ -27,6 +28,7 @@ import recompose.ast.viewgroup.LinearLayoutNode
  */
 interface Visitor {
     fun visitLayout(layout: Layout)
+    fun visitView(node: ViewNode)
     fun visitButton(node: ButtonNode)
     fun visitTextView(node: TextViewNode)
     fun visitLinearLayout(node: LinearLayoutNode)

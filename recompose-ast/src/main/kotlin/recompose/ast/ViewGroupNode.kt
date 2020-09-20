@@ -21,6 +21,6 @@ import recompose.ast.attributes.ViewGroupAttributes
 /**
  * Interface for all nodes representing a `ViewGroup`.
  */
-interface ViewGroupNode : ViewNode {
+interface ViewGroupNode : Node {
     val viewGroup: ViewGroupAttributes
 }

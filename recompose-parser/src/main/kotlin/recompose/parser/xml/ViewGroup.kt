@@ -19,14 +19,14 @@ package recompose.parser.xml
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.END_TAG
 import org.xmlpull.v1.XmlPullParser.TEXT
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import recompose.ast.attributes.ViewGroupAttributes
 
 /**
  * Parses the attributes that are shared between all `ViewGroup` implementations.
  */
 internal fun XmlPullParser.viewGroupAttributes(): ViewGroupAttributes {
-    val children = mutableListOf<ViewNode>()
+    val children = mutableListOf<Node>()
 
     while (next() != END_TAG) {
         if (eventType == TEXT) {
@@ -34,7 +34,7 @@ internal fun XmlPullParser.viewGroupAttributes(): ViewGroupAttributes {
             continue
         }
 
-        val child = view()
+        val child = node()
         children.add(child)
     }
 

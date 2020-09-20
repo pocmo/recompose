@@ -20,9 +20,9 @@ import recompose.ast.attributes.ViewAttributes
 import recompose.visitor.Visitor
 
 /**
- * Interface for all nodes representing a `View`.
+ * Base interface for all nodes in a [Layout].
  */
-interface ViewNode {
+interface Node {
     val view: ViewAttributes
 
     fun accept(visitor: Visitor)

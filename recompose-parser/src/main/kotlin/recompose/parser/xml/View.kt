@@ -18,7 +18,7 @@ package recompose.parser.xml
 
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.START_TAG
-import recompose.ast.ViewNode
+import recompose.ast.Node
 import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.LayoutSize
 import recompose.parser.Parser
@@ -28,13 +28,14 @@ import recompose.parser.values.layoutSize
 import recompose.parser.values.padding
 import recompose.parser.xml.view.button
 import recompose.parser.xml.view.textView
+import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
 import recompose.parser.xml.viewgroup.linearLayout
 
 /**
  * Parses an element representing a `View` implementation.
  */
-internal fun XmlPullParser.view(): ViewNode {
+internal fun XmlPullParser.node(): Node {
     require(START_TAG, null, null)
 
     return when (name) {
@@ -42,6 +43,7 @@ internal fun XmlPullParser.view(): ViewNode {
         "LinearLayout" -> linearLayout()
 
         // ViewNode
+        "View" -> view()
         "TextView" -> textView()
         "Button" -> button()
 
