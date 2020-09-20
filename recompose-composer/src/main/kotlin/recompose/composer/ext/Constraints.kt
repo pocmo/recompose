@@ -30,18 +30,18 @@ internal fun Constraints.hasConstraints(): Boolean {
  */
 internal fun Constraints.collectRefs(): Set<Constraints.Id.View> {
     return listOfNotNull(
-        bottomToBottom,
-        bottomToTop,
-        endToEnd,
-        endToStart,
-        leftToLeft,
-        leftToRight,
-        rightToLeft,
-        rightToRight,
-        startToEnd,
-        startToStart,
-        topToBottom,
-        topToTop
+        relative.bottomToBottom,
+        relative.bottomToTop,
+        relative.endToEnd,
+        relative.endToStart,
+        relative.leftToLeft,
+        relative.leftToRight,
+        relative.rightToLeft,
+        relative.rightToRight,
+        relative.startToEnd,
+        relative.startToStart,
+        relative.topToBottom,
+        relative.topToTop
     ).filter {
         it != Constraints.Id.Parent
     }.map {

@@ -105,30 +105,30 @@ private fun Constraints.headId(direction: Chain.Direction): Constraints.Id? {
 
 private fun Constraints.horizontalTailId(): Constraints.Id? {
     return when {
-        endToStart != null -> endToStart
-        rightToLeft != null -> rightToLeft
+        relative.endToStart != null -> relative.endToStart
+        relative.rightToLeft != null -> relative.rightToLeft
         else -> null
     }
 }
 
 private fun Constraints.verticalTailId(): Constraints.Id? {
     return when {
-        bottomToTop != null -> bottomToTop
+        relative.bottomToTop != null -> relative.bottomToTop
         else -> null
     }
 }
 
 private fun Constraints.horizontalHeadId(): Constraints.Id? {
     return when {
-        startToEnd != null -> startToEnd
-        leftToRight != null -> leftToRight
+        relative.startToEnd != null -> relative.startToEnd
+        relative.leftToRight != null -> relative.leftToRight
         else -> null
     }
 }
 
 private fun Constraints.verticalHeadId(): Constraints.Id? {
     return when {
-        topToBottom != null -> topToBottom
+        relative.topToBottom != null -> relative.topToBottom
         else -> null
     }
 }
