@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    implementation(project(":recompose-ast"))
+    implementation(project(":recompose-parser"))
+    implementation(project(":recompose-composer"))
+    implementation("com.github.ajalt.clikt:clikt:3.0.1")
     testImplementation(kotlin("test-junit"))
 }
 tasks.withType<KotlinCompile>() {
