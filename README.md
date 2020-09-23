@@ -9,6 +9,10 @@ as IntelliJ / Android Studio plugin or as a library in custom code.
 Either import the project into [IntelliJ IDEA](https://www.jetbrains.com/idea/) or use [Gradle](https://gradle.org/) on
 the command line (via the provided `gradlew` wrapper).
 
+## Running
+
+The IntelliJ / Android Studio plugin and the CLI do not get published yet. If you want to try them then you'll have to build them from code. Use the Gradle task `runIde` to run a test IDE with the plugin installed or create an installable plugin with the `buildPlugin` task. The plugin zip will be placed in `recompose-idea/build/distributions/`. To learn how to install it, read the [Install plugin from disk](https://www.jetbrains.com/help/idea/managing-plugins.html#install_plugin_from_disk) section in the IntelliJ docs.
+
 ### Modules
 
 * **recompose-ast**: Contains the data classes for the Abstract Syntax Tree (AST) representing a parsed XML layout.
@@ -27,6 +31,18 @@ the command line (via the provided `gradlew` wrapper).
 * **test**: Runs all unit tests in all modules.
 * **runIde**: Runs IntelliJ IDEA with the plugin installed. 
 * **buildPlugin**: Builds the IntelliJ / Android Studio plugin and makes it available in `recompose-idea/build/distributions`.
+
+### How does this work?
+
+The [Parser](https://github.com/pocmo/recompose/blob/main/recompose-parser/src/main/kotlin/recompose/parser/Parser.kt) (`recompose-parser`) takes the input XML and transforms it into an
+Abstract Syntax Tree (`recompose-ast`). The [Composer](https://github.com/pocmo/recompose/blob/main/recompose-composer/src/main/kotlin/recompose/composer/Composer.kt) (`recompose-composer`)
+takes the AST and translates it into Kotlin code calling [Composables](https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable).
+
+The IntelliJ / Android Studio plugin (`recompose-idea`) uses that to perform the translation when pasting copied XML code. And the CLI (`recompose-cli`) uses it to translate files.
+
+### Can I contribute?
+
+Yes, absolutely. There are a ton of `View`s and attributes to support. The list of issues labeled with [good first issue](https://github.com/pocmo/recompose/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) are a good place to start. An issue from the list labeled with [help wanted](https://github.com/pocmo/recompose/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) may be a good follow-up. Just comment on any issue that interests you.
 
 ## License
 
