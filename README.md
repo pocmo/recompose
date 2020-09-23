@@ -4,14 +4,33 @@ recompose is a tool for converting [Android layouts in XML](https://developer.an
 to Kotlin code using [Jetpack Compose](https://developer.android.com/jetpack/compose). It can be used on the command line,
 as IntelliJ / Android Studio plugin or as a library in custom code.
 
+## Running
+
+### IntelliJ / Android Studio plugin
+
+The plugin does not get published yet. If you want to try them then you'll have to build them from code. Use the Gradle task `runIde` to run a test IDE with the plugin installed or create an installable plugin with the `buildPlugin` task. The plugin zip will be placed in `recompose-idea/build/distributions/`. To learn how to install it, read the [Install plugin from disk](https://www.jetbrains.com/help/idea/managing-plugins.html#install_plugin_from_disk) section in the IntelliJ docs.
+
+### Command-line interface (CLI)
+
+Like the plugin, the command-line interface does not get published yet. You can run it directly from Gradle via
+`./gradlew recompose-cli:run --args="list file paths.."`. Alternatively you can run the `assembleDist` which will place
+a zip/tar containing a binary into `recompose-cli/build/distributions/`.
+
+```
+Usage: recompose [OPTIONS] INPUT...
+
+Options:
+  -o, --output PATH  Output directory for Kotlin code
+  -h, --help         Show this message and exit
+
+Arguments:
+  INPUT  Layout XML files to convert to Kotlin
+```
+
 ## Building
 
 Either import the project into [IntelliJ IDEA](https://www.jetbrains.com/idea/) or use [Gradle](https://gradle.org/) on
 the command line (via the provided `gradlew` wrapper).
-
-## Running
-
-The IntelliJ / Android Studio plugin and the CLI do not get published yet. If you want to try them then you'll have to build them from code. Use the Gradle task `runIde` to run a test IDE with the plugin installed or create an installable plugin with the `buildPlugin` task. The plugin zip will be placed in `recompose-idea/build/distributions/`. To learn how to install it, read the [Install plugin from disk](https://www.jetbrains.com/help/idea/managing-plugins.html#install_plugin_from_disk) section in the IntelliJ docs.
 
 ### Modules
 

@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-fun main(args: Array<String>) {
-    // Not implemented yet. :)
-}
+import recompose.cli.CommandLineComposer
+
+fun main(args: Array<String>) = CommandLineComposer().main(args)

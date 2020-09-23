@@ -17,6 +17,7 @@
 package recompose.parser
 
 import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 import recompose.ast.Layout
 import recompose.parser.xml.layout
@@ -57,7 +58,11 @@ class Parser {
      */
     @Throws(ParserException::class)
     fun parse(parser: XmlPullParser): Layout {
-        return parser.layout()
+        try {
+            return parser.layout()
+        } catch (e: XmlPullParserException) {
+            throw ParserException("Invalid XML: ${e.message}", e)
+        }
     }
 
     class ParserException : Exception {
