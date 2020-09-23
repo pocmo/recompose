@@ -4,6 +4,8 @@ recompose is a tool for converting [Android layouts in XML](https://developer.an
 to Kotlin code using [Jetpack Compose](https://developer.android.com/jetpack/compose). It can be used on the command line,
 as IntelliJ / Android Studio plugin or as a library in custom code.
 
+![](demo.gif)
+
 ## Running
 
 ### IntelliJ / Android Studio plugin
