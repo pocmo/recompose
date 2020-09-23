@@ -5,7 +5,6 @@ include(
     ":recompose-parser",
     ":recompose-composer",
     ":recompose-idea",
-    ":recompose-runtime",
     ":recompose-cli",
     ":recompose-test"
 )

@@ -16,9 +16,6 @@ the command line (via the provided `gradlew` wrapper).
 * **recompose-composer**: Responsible for taking an AST and transforming it into the equivalent `Composable` Kotlin code.
 * **recompose-idea**: An IntelliJ IDEA / Android Studio plugin that allows copying XML layouts and pasting as
 `Composable` Kotlin code.
-* **recompose-runtime**: A (not so serious) "composer" implementation that turns XML layouts into the equivalent
-`Composable` code at runtime. Think of an interpreter that interprets XML layouts at runtime, executing matching
-`Composable`s.
 * **recompose-test**: Contains test data and helpers for unit tests. 
 
 ### Important gradle tasks
