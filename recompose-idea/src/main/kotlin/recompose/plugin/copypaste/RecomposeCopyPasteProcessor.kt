@@ -18,11 +18,15 @@ package recompose.plugin.copypaste
 
 import com.intellij.codeInsight.editorActions.CopyPastePostProcessor
 import com.intellij.codeInsight.editorActions.TextBlockTransferableData
+import com.intellij.ide.highlighter.XmlFileType
+import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.RangeMarker
+import com.intellij.openapi.editor.impl.EditorImpl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
+import org.jetbrains.kotlin.idea.KotlinFileType
 import recompose.composer.Composer
 import recompose.parser.Parser
 import java.awt.datatransfer.Transferable
@@ -32,6 +36,7 @@ import java.awt.datatransfer.Transferable
  * `Composable`s.
  */
 class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferableData>() {
+
     // On copy: Collect transferable data
     override fun collectTransferableData(
         file: PsiFile,
@@ -39,7 +44,7 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
         startOffsets: IntArray,
         endOffsets: IntArray
     ): List<TextBlockTransferableData> {
-        if (file.fileType.defaultExtension != "xml") {
+        if (file.fileType != XmlFileType.INSTANCE) {
             // If this is not an XML file then we do not need to care about this copy operation.
             return emptyList()
         }
@@ -72,26 +77,40 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
         indented: Ref<Boolean>,
         values: List<TextBlockTransferableData>
     ) {
-        // We may want to check whether we are pasting into a Kotlin file here. If not then there's no reason to
+
+        // We check whether we are pasting into a Kotlin file here. If not then there's no reason to
         // paste the Composable code.
+        if ((editor as EditorImpl).virtualFile.fileType != KotlinFileType.INSTANCE) {
+            return
+        }
 
-        val value = values[0] as CopiedXMLCode
+        if (confirmConvertXmlOnPaste(project)) {
 
-        val parser = Parser()
-        // Currently we parse all text of the document we copied from. Obviously this is wrong and we should only
-        // take the selection and parse this. But this may require that we fix up the XML since the copied part may
-        // be incomplete.
-        val layout = parser.parse(value.text)
+            val value = values.single() as CopiedXMLCode
 
-        val composer = Composer()
-        val code = composer.compose(layout)
+            val parser = Parser()
+            // Currently we parse all text of the document we copied from. Obviously this is wrong and we should only
+            // take the selection and parse this. But this may require that we fix up the XML since the copied part may
+            // be incomplete.
+            val layout = parser.parse(value.text)
 
-        // We also should update the list of imports here to include the necessary classes.
+            val composer = Composer()
+            val code = composer.compose(layout)
 
-        editor.document.replaceString(
-            bounds.startOffset,
-            bounds.endOffset,
-            code
-        )
+            // We also should update the list of imports here to include the necessary classes.
+            runWriteAction {
+                editor.document.replaceString(
+                    bounds.startOffset,
+                    bounds.endOffset,
+                    code
+                )
+            }
+        }
+    }
+
+    private fun confirmConvertXmlOnPaste(project: Project): Boolean {
+        val dialog = KotlinPasteFromXmlDialog(project)
+        dialog.show()
+        return dialog.isOK
     }
 }
