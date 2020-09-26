@@ -207,4 +207,17 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Unknown view with children`() {
+        assertComposing(
+            fileName = "unknown-view-with-children.xml",
+            """
+                // xyz.pocmo.AwesomeGroup(modifier = Modifier.fillMaxWidth().fillMaxHeight().background(Color(0xffffcc00.toInt()))) {
+                    Text(text = "Hello", modifier = Modifier.background(Color(0xffff0000.toInt())).padding(10.dp))
+                    // xyz.pocmo.AwesomeView(modifier = Modifier.background(Color(0xffffcc00.toInt())))
+                // }
+            """.trimIndent()
+        )
+    }
 }
