@@ -28,6 +28,7 @@ import recompose.ast.values.Orientation
 import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
@@ -285,6 +286,25 @@ class ParserTest {
                                 )
                             )
                         )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic ImageView`() {
+        assertAST(
+            fileName = "imageview.xml",
+            Layout(
+                children = listOf(
+                    ImageViewNode(
+                        view = ViewAttributes(
+                            id = "powerOff",
+                            width = LayoutSize.Absolute(Size.Dp(100)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
+                        ),
+                        src = Drawable.Resource("ic_lock_power_off")
                     )
                 )
             )

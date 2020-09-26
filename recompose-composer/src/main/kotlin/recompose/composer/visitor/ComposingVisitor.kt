@@ -19,6 +19,7 @@ package recompose.composer.visitor
 import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
@@ -86,6 +87,19 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "text", value = ParameterValue.StringValue(node.text)),
                 node.textColor?.let { CallParameter(name = "color", value = ParameterValue.ColoValue(it)) },
                 node.textSize?.let { CallParameter(name = "fontSize", value = ParameterValue.SizeValue(it)) },
+                modifier.toCallParameter()
+            )
+        )
+    }
+
+    override fun visitImageView(node: ImageViewNode) {
+        val modifier = ModifierBuilder(node)
+
+        // Translate "src" to resource wrapped in imageResource().
+        // https://github.com/pocmo/recompose/issues/9
+        writer.writeCall(
+            name = "Image",
+            parameters = listOf(
                 modifier.toCallParameter()
             )
         )
