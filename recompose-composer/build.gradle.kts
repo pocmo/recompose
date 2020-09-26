@@ -9,10 +9,10 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation(project(":recompose-ast"))
+    implementation(project(":recompose-ast", "default"))
 
     testImplementation(kotlin("test-junit"))
-    testImplementation(project(":recompose-parser"))
+    testImplementation(project(":recompose-parser", "default"))
     testImplementation(project(":recompose-test"))
 }
 tasks.withType<KotlinCompile>() {

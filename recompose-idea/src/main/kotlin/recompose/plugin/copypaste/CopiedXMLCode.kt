@@ -28,8 +28,8 @@ import java.awt.datatransfer.DataFlavor
  */
 class CopiedXMLCode(
     val text: String,
-    val startOffsets: IntArray,
-    val endOffsets: IntArray
+    private val startOffsets: IntArray,
+    private val endOffsets: IntArray
 ) : TextBlockTransferableData {
     override fun getFlavor() = DATA_FLAVOR
     override fun getOffsetCount() = 0

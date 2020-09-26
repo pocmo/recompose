@@ -18,9 +18,9 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":recompose-ast"))
-    implementation(project(":recompose-parser"))
-    implementation(project(":recompose-composer"))
+    implementation(project(":recompose-ast", "default"))
+    implementation(project(":recompose-parser", "default"))
+    implementation(project(":recompose-composer", "default"))
 }
 
 intellij {
