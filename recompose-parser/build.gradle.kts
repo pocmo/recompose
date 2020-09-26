@@ -9,7 +9,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation(project(":recompose-ast","default"))
+    implementation(project(":recompose-ast", "default"))
     implementation("xpp3:xpp3:1.1.4c")
     implementation("junit:junit:4.12")
 

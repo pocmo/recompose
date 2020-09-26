@@ -109,7 +109,7 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
     }
 
     private fun confirmConvertXmlOnPaste(project: Project): Boolean {
-        val dialog = KotlinPasteFromXmlDialog(project)
+        val dialog = ConvertXmlToComposeConfirmationDialog(project)
         dialog.show()
         return dialog.isOK
     }
