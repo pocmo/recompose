@@ -197,4 +197,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Unknown view`() {
+        assertComposing(
+            fileName = "unknown-view.xml",
+            """
+                // xyz.pocmo.AwesomeView(modifier = Modifier.width(100.dp).height(100.dp).background(Color(0xffffcc00.toInt())))
+            """.trimIndent()
+        )
+    }
 }
