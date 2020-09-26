@@ -11,6 +11,6 @@
         <copyPastePostProcessor implementation="recompose.plugin.copypaste.RecomposeCopyPasteProcessor"/>
     </extensions>
 
-    <resource-bundle>messages.RecomposePluginBundle</resource-bundle>
+    <resource-bundle>strings.RecomposePluginBundle</resource-bundle>
 </idea-plugin>
 

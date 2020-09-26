@@ -18,15 +18,20 @@ package recompose.plugin.util
 
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
-import java.util.*
+import java.util.ResourceBundle
 
-
-object RecomposePluginBundle{
+/**
+ * Wrapper for the RecomposePluginBundle.properties
+ */
+object RecomposePluginBundle {
 
     @NonNls
-    private const val BUNDLE = "messages.RecomposePluginBundle"
+    private const val BUNDLE = "strings.RecomposePluginBundle"
 
     private val resourceBundle: ResourceBundle = ResourceBundle.getBundle(BUNDLE)
 
+    /**
+     * Returns the string from the [resourceBundle] for the given [key]
+     */
     fun message(@NonNls @PropertyKey(resourceBundle = BUNDLE) key: String): String = resourceBundle.getString(key)
 }

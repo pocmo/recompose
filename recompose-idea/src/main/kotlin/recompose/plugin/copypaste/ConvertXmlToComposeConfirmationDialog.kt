@@ -15,6 +15,7 @@
  */
 
 package recompose.plugin.copypaste
+
 import com.intellij.CommonBundle
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -30,13 +31,15 @@ import javax.swing.JPanel
  */
 class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(project, true) {
     lateinit var panel: JPanel
-    @Suppress("unused") lateinit var questionLabel: JLabel
+    @Suppress("unused")
+    lateinit var questionLabel: JLabel
 
     init {
         init()
         isModal = true
         title = RecomposePluginBundle.message("convertxmltocomposeconfirmationdialog.title")
     }
+
     override fun createCenterPanel(): JComponent = panel
 
     override fun getContentPane(): Container = panel
