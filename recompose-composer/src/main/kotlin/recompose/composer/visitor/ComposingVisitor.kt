@@ -23,6 +23,7 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.ast.viewgroup.UnknownNode
 import recompose.composer.ext.findChains
 import recompose.composer.ext.findRefs
 import recompose.composer.writer.CallParameter
@@ -122,5 +123,22 @@ internal class ComposingVisitor : Visitor {
 
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
+    }
+
+    override fun visitUnknown(node: UnknownNode) {
+        val block: (KotlinWriter.() -> Unit)? = if (node.viewGroup.children.isEmpty()) {
+            null
+        } else {
+            { node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) } }
+        }
+
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            node.name,
+            parameters = listOf(modifier.toCallParameter()),
+            linePrefix = "// ",
+            block = block
+        )
     }
 }

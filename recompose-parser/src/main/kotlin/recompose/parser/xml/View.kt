@@ -31,6 +31,7 @@ import recompose.parser.xml.view.textView
 import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
 import recompose.parser.xml.viewgroup.linearLayout
+import recompose.parser.xml.viewgroup.unknown
 
 /**
  * Parses an element representing a `View` implementation.
@@ -50,11 +51,7 @@ internal fun XmlPullParser.node(): Node {
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()
 
-        // Currently when hitting an unknown view node, we just bail completely. There's an opportunity
-        // to handle this more gracefully. We could either ignore this view or at least translate this into
-        // a code comment inside the Compose tree, at the position where we'd call a Composable function if
-        // we'd knew which one.
-        else -> throw Parser.ParserException("Unknown view node: $name")
+        else -> unknown()
     }
 }
 

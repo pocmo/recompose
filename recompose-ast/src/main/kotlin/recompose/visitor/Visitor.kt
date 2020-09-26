@@ -22,6 +22,7 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
+import recompose.ast.viewgroup.UnknownNode
 
 /**
  * Interface for a visitor for performing operations on a parsed [Layout].
@@ -33,4 +34,5 @@ interface Visitor {
     fun visitTextView(node: TextViewNode)
     fun visitLinearLayout(node: LinearLayoutNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
+    fun visitUnknown(node: UnknownNode)
 }
