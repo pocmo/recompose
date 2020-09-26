@@ -40,9 +40,10 @@ internal class KotlinWriter {
     fun writeCall(
         name: String,
         parameters: List<CallParameter?> = emptyList(),
+        linePrefix: String = "",
         block: (KotlinWriter.() -> Unit)? = null
     ) {
-        writer.startLine(name)
+        writer.startLine("$linePrefix$name")
 
         writeParameters(parameters, block != null)
 
@@ -51,7 +52,7 @@ internal class KotlinWriter {
         } else {
             writer.endLine(" {")
             writeBlock(block)
-            writer.writeLine("}")
+            writer.writeLine("$linePrefix}")
         }
     }
 
