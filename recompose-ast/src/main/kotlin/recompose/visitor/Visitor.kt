@@ -18,6 +18,7 @@ package recompose.visitor
 
 import recompose.ast.Layout
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
@@ -32,6 +33,7 @@ interface Visitor {
     fun visitView(node: ViewNode)
     fun visitButton(node: ButtonNode)
     fun visitTextView(node: TextViewNode)
+    fun visitImageView(node: ImageViewNode)
     fun visitLinearLayout(node: LinearLayoutNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
     fun visitUnknown(node: UnknownNode)

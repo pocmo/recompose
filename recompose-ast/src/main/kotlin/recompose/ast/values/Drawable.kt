@@ -16,6 +16,10 @@
 
 package recompose.ast.values
 
+/**
+ * Data classes holding `Drawable` values.
+ */
 sealed class Drawable {
     data class ColorValue(val color: Color) : Drawable()
+    data class Resource(val name: String) : Drawable()
 }

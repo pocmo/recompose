@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package recompose.parser.values
+package recompose.parser.xml.view
 
 import org.xmlpull.v1.XmlPullParser
-import recompose.ast.values.Drawable
-import recompose.parser.Parser
+import recompose.ast.view.ImageViewNode
+import recompose.parser.util.assertEndTagNext
+import recompose.parser.values.drawable
+import recompose.parser.xml.viewAttributes
 
 /**
- * Parses a [Drawable] attribute.
+ * Parses an `<ImageView>` element.
+ *
+ * https://developer.android.com/reference/android/widget/ImageView
  */
-@Suppress("MagicNumber")
-fun XmlPullParser.drawable(name: String): Drawable? {
-    val value = getAttributeValue(null, name)
+fun XmlPullParser.imageView(): ImageViewNode {
+    val viewAttributes = viewAttributes()
+    val src = drawable("android:src")
 
-    return when {
-        value == null -> null
+    assertEndTagNext()
 
-        value.startsWith("#") -> color(name)?.let { Drawable.ColorValue(it) }
-
-        value.startsWith("@drawable/") -> Drawable.Resource(name = value.substring(10))
-
-        else -> throw Parser.ParserException("Unknown drawable format: $value")
-    }
+    return ImageViewNode(
+        viewAttributes,
+        src
+    )
 }
