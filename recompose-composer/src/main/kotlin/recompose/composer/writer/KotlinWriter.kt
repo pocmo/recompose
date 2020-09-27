@@ -212,6 +212,15 @@ internal class KotlinWriter {
                     endLine = false
                 )
             }
+            is Drawable.AndroidResource -> {
+                writeCall(
+                    name = "imageResource",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.RawValue("android.R.drawable.${value.drawable.name}"))
+                    ),
+                    endLine = false
+                )
+            }
         }
     }
 

@@ -20,6 +20,18 @@ package recompose.ast.values
  * Data classes holding `Drawable` values.
  */
 sealed class Drawable {
+    /**
+     * A color value drawable, e.g. #ffcc00.
+     */
     data class ColorValue(val color: Color) : Drawable()
+
+    /**
+     * A resource reference drawable, e.g. @drawable/my_image.
+     */
     data class Resource(val name: String) : Drawable()
+
+    /**
+     * An Android resource reference drawable, e.g. @android:drawable/an_image.
+     */
+    data class AndroidResource(val name: String) : Drawable()
 }

@@ -240,4 +240,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `ImageView - Android resource reference`() {
+        assertComposing(
+            fileName = "imageview-android-reference.xml",
+            """
+                Image(imageResource(android.R.drawable.ic_lock_power_off), modifier = Modifier.width(100.dp).height(100.dp))
+            """.trimIndent()
+        )
+    }
 }
