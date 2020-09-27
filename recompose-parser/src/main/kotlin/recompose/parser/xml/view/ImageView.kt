@@ -29,12 +29,13 @@ import recompose.parser.xml.viewAttributes
  */
 fun XmlPullParser.imageView(): ImageViewNode {
     val viewAttributes = viewAttributes()
+    val compatSrc = drawable("app:srcCompat")
     val src = drawable("android:src")
 
     assertEndTagNext()
 
     return ImageViewNode(
         viewAttributes,
-        src
+        compatSrc ?: src
     )
 }
