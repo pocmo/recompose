@@ -102,7 +102,7 @@ internal class ComposingVisitor : Visitor {
                 modifier.toCallParameter()
             )
         ) {
-            node.viewGroup.children.forEach{ view -> view.accept(this@ComposingVisitor) }
+            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
 
