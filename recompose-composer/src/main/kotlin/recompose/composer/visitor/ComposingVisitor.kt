@@ -95,11 +95,10 @@ internal class ComposingVisitor : Visitor {
     override fun visitImageView(node: ImageViewNode) {
         val modifier = ModifierBuilder(node)
 
-        // Translate "src" to resource wrapped in imageResource().
-        // https://github.com/pocmo/recompose/issues/9
         writer.writeCall(
             name = "Image",
             parameters = listOf(
+                node.src?.let { CallParameter(ParameterValue.DrawableValue(it)) },
                 modifier.toCallParameter()
             )
         )
