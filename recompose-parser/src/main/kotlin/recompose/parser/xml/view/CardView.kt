@@ -17,9 +17,9 @@
 package recompose.parser.xml.view
 
 import org.xmlpull.v1.XmlPullParser
-import recompose.ast.view.CardViewNode
-import recompose.parser.util.assertEndTagNext
+import recompose.ast.viewgroup.CardViewNode
 import recompose.parser.xml.viewAttributes
+import recompose.parser.xml.viewGroupAttributes
 
 /**
  * Parses an `<CardView>` element.
@@ -27,9 +27,8 @@ import recompose.parser.xml.viewAttributes
  * https://developer.android.com/reference/androidx/cardview/widget/CardView
  */
 fun XmlPullParser.cardView(): CardViewNode {
-    val viewAttributes = viewAttributes()
-
-    assertEndTagNext()
-
-    return CardViewNode(viewAttributes)
+   return CardViewNode(
+       view = viewAttributes(),
+       viewGroup = viewGroupAttributes()
+   )
 }

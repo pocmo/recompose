@@ -27,10 +27,8 @@ import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
 import recompose.ast.values.Padding
 import recompose.ast.values.Size
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.ImageViewNode
-import recompose.ast.view.TextViewNode
-import recompose.ast.view.ViewNode
+import recompose.ast.view.*
+import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.test.utils.assertAST
@@ -305,6 +303,72 @@ class ParserTest {
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         ),
                         src = Drawable.Resource("ic_lock_power_off")
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Simple CardView`() {
+        assertAST(
+            fileName = "cardview.xml",
+            Layout(
+                children = listOf(
+                    CardViewNode(
+                        view = ViewAttributes(
+                            id = "card",
+                            width = LayoutSize.Absolute(Size.Dp(300)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `CardView with TextView and Button`() {
+        assertAST(
+            fileName = "cardview-textview-button.xml",
+            expected = Layout(
+                children = listOf(
+                    CardViewNode(
+                        view = ViewAttributes(
+                            id = "card",
+                            width = LayoutSize.Absolute(Size.Dp(300)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
+                        ),
+                        viewGroup = ViewGroupAttributes(
+                            children = listOf(
+                                LinearLayoutNode(
+                                    ViewAttributes(
+                                        width = LayoutSize.MatchParent,
+                                        height = LayoutSize.MatchParent
+                                    ),
+                                    ViewGroupAttributes(
+                                        listOf(
+                                            TextViewNode(
+                                                ViewAttributes(
+                                                    width = LayoutSize.WrapContent,
+                                                    height = LayoutSize.WrapContent
+                                                ),
+                                                text = "Hello World!",
+                                                textColor = Color.Absolute(0xFFFF0000)
+                                            ),
+                                            ButtonNode(
+                                                ViewAttributes(
+                                                    width = LayoutSize.WrapContent,
+                                                    height = LayoutSize.WrapContent
+                                                ),
+                                                text = "Click me!"
+                                            )
+                                        )
+                                    ),
+                                    Orientation.Vertical
+                                )
+                            )
+                        )
                     )
                 )
             )

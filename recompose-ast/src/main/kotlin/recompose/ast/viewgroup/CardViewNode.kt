@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.ast.viewgroup
 
-import recompose.ast.Node
+import recompose.ast.ViewGroupNode
 import recompose.ast.attributes.ViewAttributes
+import recompose.ast.attributes.ViewGroupAttributes
 import recompose.visitor.Visitor
 
 /**
@@ -27,7 +28,8 @@ import recompose.visitor.Visitor
  */
 
 data class CardViewNode(
-    override val view: ViewAttributes
-) : Node {
+    override val view: ViewAttributes,
+    override val viewGroup: ViewGroupAttributes = ViewGroupAttributes(listOf())
+) : ViewGroupNode {
     override fun accept(visitor: Visitor) = visitor.visitCardView(this)
 }

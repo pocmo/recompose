@@ -48,10 +48,10 @@ internal fun XmlPullParser.node(): Node {
         "TextView" -> textView()
         "ImageView" -> imageView()
         "Button" -> button()
-        "CardView" -> cardView()
 
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()
+        "androidx.cardview.widget.CardView" -> cardView()
 
         else -> unknown()
     }

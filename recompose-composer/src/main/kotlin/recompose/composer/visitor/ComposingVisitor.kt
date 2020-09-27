@@ -19,6 +19,7 @@ package recompose.composer.visitor
 import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.*
+import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
@@ -97,7 +98,9 @@ internal class ComposingVisitor : Visitor {
             parameters = listOf(
                 modifier.toCallParameter()
             )
-        )
+        ) {
+            node.viewGroup.children.forEach{ view -> view.accept(this@ComposingVisitor) }
+        }
     }
 
     override fun visitImageView(node: ImageViewNode) {

@@ -18,6 +18,7 @@ package recompose.visitor
 
 import recompose.ast.Layout
 import recompose.ast.view.*
+import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
