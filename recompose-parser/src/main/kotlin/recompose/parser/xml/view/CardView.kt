@@ -28,7 +28,7 @@ import recompose.parser.xml.viewGroupAttributes
  */
 fun XmlPullParser.cardView(): CardViewNode {
    return CardViewNode(
-       view = viewAttributes(),
-       viewGroup = viewGroupAttributes()
+           view = viewAttributes(),
+           viewGroup = viewGroupAttributes()
    )
 }
