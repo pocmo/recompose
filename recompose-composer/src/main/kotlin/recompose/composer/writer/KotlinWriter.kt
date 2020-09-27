@@ -41,6 +41,7 @@ internal class KotlinWriter {
         name: String,
         parameters: List<CallParameter?> = emptyList(),
         linePrefix: String = "",
+        endLine: Boolean = true,
         block: (KotlinWriter.() -> Unit)? = null
     ) {
         writer.startLine("$linePrefix$name")
@@ -48,11 +49,16 @@ internal class KotlinWriter {
         writeParameters(parameters, block != null)
 
         if (block == null) {
-            writer.endLine()
+            if (endLine) {
+                writer.endLine()
+            }
         } else {
             writer.endLine(" {")
             writeBlock(block)
-            writer.writeLine("$linePrefix}")
+            writer.startLine("$linePrefix}")
+            if (endLine) {
+                writer.endLine()
+            }
         }
     }
 
@@ -197,6 +203,15 @@ internal class KotlinWriter {
                 // write code instead.
                 ParameterValue.ColoValue(value.drawable.color)
             )
+            is Drawable.Resource -> {
+                writeCall(
+                    name = "imageResource",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.RawValue("R.drawable.${value.drawable.name}"))
+                    ),
+                    endLine = false
+                )
+            }
         }
     }
 
