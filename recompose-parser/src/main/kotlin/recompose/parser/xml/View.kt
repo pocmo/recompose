@@ -26,10 +26,9 @@ import recompose.parser.values.constraints
 import recompose.parser.values.drawable
 import recompose.parser.values.layoutSize
 import recompose.parser.values.padding
+import recompose.parser.xml.view.*
 import recompose.parser.xml.view.button
-import recompose.parser.xml.view.imageView
 import recompose.parser.xml.view.textView
-import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
 import recompose.parser.xml.viewgroup.linearLayout
 import recompose.parser.xml.viewgroup.unknown
@@ -49,6 +48,7 @@ internal fun XmlPullParser.node(): Node {
         "TextView" -> textView()
         "ImageView" -> imageView()
         "Button" -> button()
+        "CardView" -> cardView()
 
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()

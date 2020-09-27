@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.parser.xml.view
 
-import recompose.ast.Node
-import recompose.ast.attributes.ViewAttributes
-import recompose.visitor.Visitor
+import org.xmlpull.v1.XmlPullParser
+import recompose.ast.view.CardViewNode
+import recompose.parser.util.assertEndTagNext
+import recompose.parser.xml.viewAttributes
 
 /**
- * Data class holding values of a parsed `<CardView>`.
+ * Parses an `<CardView>` element.
  *
  * https://developer.android.com/reference/androidx/cardview/widget/CardView
  */
+fun XmlPullParser.cardView(): CardViewNode {
+    val viewAttributes = viewAttributes()
 
-data class CardViewNode(
-    override val view: ViewAttributes
-) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitCardView(this)
+    assertEndTagNext()
+
+    return CardViewNode(viewAttributes)
 }
