@@ -27,8 +27,8 @@ import recompose.parser.xml.viewGroupAttributes
  * https://developer.android.com/reference/androidx/cardview/widget/CardView
  */
 fun XmlPullParser.cardView(): CardViewNode {
-   return CardViewNode(
-           view = viewAttributes(),
-           viewGroup = viewGroupAttributes()
-   )
+    return CardViewNode(
+        view = viewAttributes(),
+        viewGroup = viewGroupAttributes()
+    )
 }
