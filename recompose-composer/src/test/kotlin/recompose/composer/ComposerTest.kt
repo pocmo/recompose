@@ -230,4 +230,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `ImageView - srcCompat`() {
+        assertComposing(
+            fileName = "imageview-appcompat.xml",
+            """
+                Image(imageResource(R.drawable.ic_lock_power_off), modifier = Modifier.width(100.dp).height(100.dp))
+            """.trimIndent()
+        )
+    }
 }
