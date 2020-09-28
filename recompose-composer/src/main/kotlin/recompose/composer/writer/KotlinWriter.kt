@@ -121,7 +121,7 @@ internal class KotlinWriter {
         writer.continueLine("{}")
     }
 
-    private fun writeColor(value: ParameterValue.ColoValue) {
+    private fun writeColor(value: ParameterValue.ColorValue) {
         when (val color = value.color) {
             is Color.Absolute -> {
                 writer.continueLine("Color(")
@@ -201,7 +201,7 @@ internal class KotlinWriter {
             is Drawable.ColorValue -> writeColor(
                 // Repackaging as ParameterValue.ColorValue. That's a bit hacky. We probably want to re-use the
                 // write code instead.
-                ParameterValue.ColoValue(value.drawable.color)
+                ParameterValue.ColorValue(value.drawable.color)
             )
             is Drawable.Resource -> {
                 writeCall(
@@ -228,7 +228,7 @@ internal class KotlinWriter {
         when (value) {
             is ParameterValue.StringValue -> writeString(value)
             is ParameterValue.EmptyLambdaValue -> writeEmptyLambda()
-            is ParameterValue.ColoValue -> writeColor(value)
+            is ParameterValue.ColorValue -> writeColor(value)
             is ParameterValue.ModifierValue -> writeModifierValue(value)
             is ParameterValue.RawValue -> writer.continueLine(value.raw)
             is ParameterValue.SizeValue -> writeSize(value)

@@ -32,7 +32,7 @@ internal class Text(
         }
 
         color?.let {
-            mutableList.add(CallParameter(name = colorParameter, value = ParameterValue.ColoValue(it)))
+            mutableList.add(CallParameter(name = colorParameter, value = ParameterValue.ColorValue(it)))
         }
 
         fontSize?.let {
@@ -40,7 +40,7 @@ internal class Text(
         }
 
         textAlign?.let {
-            mutableList.add(CallParameter(name = textAlignParameter, value = ParameterValue.StringValue(it)))
+            mutableList.add(CallParameter(name = textAlignParameter, value = ParameterValue.RawValue(it)))
         }
 
         modifier?.let {
