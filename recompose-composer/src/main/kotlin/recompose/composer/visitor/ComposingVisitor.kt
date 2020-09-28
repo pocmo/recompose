@@ -22,6 +22,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
+import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
@@ -90,6 +91,19 @@ internal class ComposingVisitor : Visitor {
                 modifier.toCallParameter()
             )
         )
+    }
+
+    override fun visitCardView(node: CardViewNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            name = "Card",
+            parameters = listOf(
+                modifier.toCallParameter()
+            )
+        ) {
+            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+        }
     }
 
     override fun visitImageView(node: ImageViewNode) {
