@@ -220,4 +220,34 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic ImageView`() {
+        assertComposing(
+            fileName = "imageview.xml",
+            """
+                Image(imageResource(R.drawable.ic_lock_power_off), modifier = Modifier.width(100.dp).height(100.dp))
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `ImageView - srcCompat`() {
+        assertComposing(
+            fileName = "imageview-appcompat.xml",
+            """
+                Image(imageResource(R.drawable.ic_lock_power_off), modifier = Modifier.width(100.dp).height(100.dp))
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `ImageView - Android resource reference`() {
+        assertComposing(
+            fileName = "imageview-android-reference.xml",
+            """
+                Image(imageResource(android.R.drawable.ic_lock_power_off), modifier = Modifier.width(100.dp).height(100.dp))
+            """.trimIndent()
+        )
+    }
 }
