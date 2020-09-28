@@ -28,6 +28,7 @@ import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
 import recompose.composer.ext.findChains
 import recompose.composer.ext.findRefs
+import recompose.composer.model.compose.foundation.Text
 import recompose.composer.writer.CallParameter
 import recompose.composer.writer.KotlinWriter
 import recompose.composer.writer.ModifierBuilder
@@ -52,10 +53,10 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                "Box",
-                parameters = listOf(
-                        modifier.toCallParameter()
-                )
+            "Box",
+            parameters = listOf(
+                modifier.toCallParameter()
+            )
         )
     }
 
@@ -63,15 +64,15 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                name = "Button",
-                parameters = listOf(
-                        CallParameter(name = "onClick", value = ParameterValue.EmptyLambdaValue),
-                        modifier.toCallParameter()
-                )
+            name = "Button",
+            parameters = listOf(
+                CallParameter(name = "onClick", value = ParameterValue.EmptyLambdaValue),
+                modifier.toCallParameter()
+            )
         ) {
             writeCall(
-                    name = Text.className,
-                    parameters = Text.buildParameters(text = node.text, textAlign = "TextAlign.Center")
+                name = Text.className,
+                parameters = Text(text = node.text, textAlign = "TextAlign.Center").buildCallParameters()
             )
         }
     }
@@ -80,8 +81,13 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                name = Text.className,
-                parameters = Text.buildParameters(text = node.text, color = node.textColor, fontSize = node.textSize, modifier = modifier.toCallParameter())
+            name = Text.className,
+            parameters = Text(
+                text = node.text,
+                color = node.textColor,
+                fontSize = node.textSize,
+                modifier = modifier.toCallParameter()
+            ).buildCallParameters()
         )
     }
 
@@ -89,10 +95,10 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                name = "Card",
-                parameters = listOf(
-                        modifier.toCallParameter()
-                )
+            name = "Card",
+            parameters = listOf(
+                modifier.toCallParameter()
+            )
         ) {
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
@@ -102,11 +108,11 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                name = "Image",
-                parameters = listOf(
-                        node.src?.let { CallParameter(ParameterValue.DrawableValue(it)) },
-                        modifier.toCallParameter()
-                )
+            name = "Image",
+            parameters = listOf(
+                node.src?.let { CallParameter(ParameterValue.DrawableValue(it)) },
+                modifier.toCallParameter()
+            )
         )
     }
 
@@ -125,10 +131,10 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                name = "ConstraintLayout",
-                parameters = listOf(
-                        modifier.toCallParameter()
-                )
+            name = "ConstraintLayout",
+            parameters = listOf(
+                modifier.toCallParameter()
+            )
         ) {
             val refs = node.findRefs()
             if (refs.isNotEmpty()) {
@@ -154,10 +160,10 @@ internal class ComposingVisitor : Visitor {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-                node.name,
-                parameters = listOf(modifier.toCallParameter()),
-                linePrefix = "// ",
-                block = block
+            node.name,
+            parameters = listOf(modifier.toCallParameter()),
+            linePrefix = "// ",
+            block = block
         )
     }
 }
