@@ -5,7 +5,6 @@ import recompose.ast.values.Size
 import recompose.composer.writer.CallParameter
 import recompose.composer.writer.ParameterValue
 
-
 /**
  * Helper Class building the parameters of a compose.foundation.Text.
  *
@@ -52,5 +51,4 @@ internal class Text(
     companion object {
         const val className = "Text"
     }
-
 }
