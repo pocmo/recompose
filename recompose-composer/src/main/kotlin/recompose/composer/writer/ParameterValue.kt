@@ -49,6 +49,10 @@ internal sealed class ParameterValue {
     class DrawableValue(
         val drawable: Drawable
     ) : ParameterValue()
+
+    class IntegerValue(
+        val raw: Int
+    ) : ParameterValue()
 }
 
 internal fun createSizeParameterValue(size: Size?): ParameterValue.SizeValue? {

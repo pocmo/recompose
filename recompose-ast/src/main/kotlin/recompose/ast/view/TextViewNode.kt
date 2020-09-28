@@ -31,7 +31,8 @@ data class TextViewNode(
     override val view: ViewAttributes,
     val text: String,
     val textColor: Color? = null,
-    val textSize: Size? = null
+    val textSize: Size? = null,
+    val maxLines: Int? = null
 ) : Node {
     override fun accept(visitor: Visitor) = visitor.visitTextView(this)
 }

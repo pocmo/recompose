@@ -173,7 +173,8 @@ class ParserTest {
                         ),
                         text = "I am a test",
                         textSize = Size.Sp(20),
-                        textColor = Color.Absolute(0xFFFFCC00)
+                        textColor = Color.Absolute(0xFFFFCC00),
+                        maxLines = 100
                     )
                 )
             )
