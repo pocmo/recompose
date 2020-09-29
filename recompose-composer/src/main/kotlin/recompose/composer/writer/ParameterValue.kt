@@ -27,7 +27,7 @@ internal sealed class ParameterValue {
     class RawValue(
         val raw: String
     ) : ParameterValue() {
-        constructor(raw: Int): this(raw.toString())
+        constructor(raw: Int) : this(raw.toString())
     }
 
     class StringValue(
