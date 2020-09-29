@@ -84,7 +84,7 @@ class ComposerTest {
         assertComposing(
             fileName = "textview-attributes.xml",
             """
-                Text(text = "I am a test", color = Color(0xffffcc00.toInt()), fontSize = 20.sp, modifier = Modifier.width(100.dp).background(Color(0xaa0000ff.toInt())))
+                Text(text = "I am a test", color = Color(0xffffcc00.toInt()), fontSize = 20.sp, maxLines = 100, modifier = Modifier.width(100.dp).background(Color(0xaa0000ff.toInt())))
             """.trimIndent()
         )
     }

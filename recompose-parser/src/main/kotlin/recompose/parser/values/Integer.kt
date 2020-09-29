@@ -14,25 +14,20 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.parser.values
 
-import recompose.ast.Node
-import recompose.ast.attributes.ViewAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Size
-import recompose.visitor.Visitor
+import org.xmlpull.v1.XmlPullParser
+import recompose.parser.Parser
 
 /**
- * Data class holding values of a parsed `<TextView>`.
- *
- * https://developer.android.com/reference/kotlin/android/widget/TextView
+ * Parses a integer attribute. Throws [Parser.ParserException] if the integer could not be parsed.
  */
-data class TextViewNode(
-    override val view: ViewAttributes,
-    val text: String,
-    val textColor: Color? = null,
-    val textSize: Size? = null,
-    val maxLines: Int? = null
-) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitTextView(this)
+internal fun XmlPullParser.integer(name: String): Int? {
+    val value = getAttributeValue(null, name)
+
+    return try {
+        value?.let { Integer.parseInt(it) }
+    } catch (e: NumberFormatException) {
+        throw Parser.ParserException("Could not parse integer: $value", e)
+    }
 }

@@ -26,7 +26,9 @@ import recompose.ast.values.Size
 internal sealed class ParameterValue {
     class RawValue(
         val raw: String
-    ) : ParameterValue()
+    ) : ParameterValue() {
+        constructor(raw: Int) : this(raw.toString())
+    }
 
     class StringValue(
         val raw: String
