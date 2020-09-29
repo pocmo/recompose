@@ -19,9 +19,11 @@ package recompose.plugin.copypaste
 import com.intellij.CommonBundle
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import recompose.plugin.editor.RecomposeEditorOptions
 import recompose.plugin.util.RecomposePluginBundle
 import java.awt.Container
 import javax.swing.Action
+import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -33,6 +35,9 @@ class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(pr
     lateinit var panel: JPanel
     @Suppress("unused")
     lateinit var questionLabel: JLabel
+
+    @Suppress("unused")
+    lateinit var dontShowThisCheckBox: JCheckBox
 
     init {
         init()
@@ -48,5 +53,12 @@ class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(pr
         setOKButtonText(CommonBundle.getYesButtonText())
         setCancelButtonText(CommonBundle.getNoButtonText())
         return arrayOf(okAction, cancelAction)
+    }
+
+    override fun doOKAction() {
+        if (dontShowThisCheckBox.isSelected) {
+            RecomposeEditorOptions.instance.state.isDontShowConversionDialog = true
+        }
+        super.doOKAction()
     }
 }
