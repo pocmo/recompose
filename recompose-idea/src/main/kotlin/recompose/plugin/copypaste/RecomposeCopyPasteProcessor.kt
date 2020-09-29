@@ -29,6 +29,7 @@ import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.idea.KotlinFileType
 import recompose.composer.Composer
 import recompose.parser.Parser
+import recompose.plugin.editor.RecomposeEditorOptions
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.Transferable
 
@@ -99,6 +100,11 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
             return
         }
 
+        // If Convert XML to Compose checkbox is not enabled in settings don't paste composable.
+        if (!RecomposeEditorOptions.instance.state.isEnableXmlToComposeConversion) {
+            return
+        }
+
         if (confirmConvertXmlOnPaste(project)) {
 
             val value = values.single() as CopiedXMLCode
@@ -124,6 +130,8 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
     }
 
     private fun confirmConvertXmlOnPaste(project: Project): Boolean {
+        if (RecomposeEditorOptions.instance.state.isDontShowConversionDialog) return true
+
         val dialog = ConvertXmlToComposeConfirmationDialog(project)
         dialog.show()
         return dialog.isOK
