@@ -250,4 +250,21 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `CardView with TextView and Button`() {
+        assertComposing(
+            fileName = "cardview-textview-button.xml",
+            """
+                Card(modifier = Modifier.width(300.dp).height(100.dp)) {
+                    Column {
+                        Text(text = "Hello World!", color = Color(0xffff0000.toInt()))
+                        Button(onClick = {}) {
+                            Text(text = "Click me!", textAlign = TextAlign.Center)
+                        }
+                    }
+                }
+            """.trimIndent()
+        )
+    }
 }
