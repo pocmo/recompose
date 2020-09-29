@@ -22,6 +22,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import recompose.plugin.util.RecomposePluginBundle
 import java.awt.Container
 import javax.swing.Action
+import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -33,6 +34,9 @@ class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(pr
     lateinit var panel: JPanel
     @Suppress("unused")
     lateinit var questionLabel: JLabel
+
+    @Suppress("unused")
+    lateinit var donTShowThisCheckBox: JCheckBox
 
     init {
         init()
