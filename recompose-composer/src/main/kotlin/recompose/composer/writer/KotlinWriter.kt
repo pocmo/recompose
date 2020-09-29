@@ -233,7 +233,6 @@ internal class KotlinWriter {
             is ParameterValue.RawValue -> writer.continueLine(value.raw)
             is ParameterValue.SizeValue -> writeSize(value)
             is ParameterValue.DrawableValue -> writeDrawable(value)
-            is ParameterValue.IntegerValue -> writer.continueLine(value.raw.toString())
         }
     }
 
