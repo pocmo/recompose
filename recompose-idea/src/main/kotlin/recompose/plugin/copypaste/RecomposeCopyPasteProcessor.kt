@@ -29,6 +29,7 @@ import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.idea.KotlinFileType
 import recompose.composer.Composer
 import recompose.parser.Parser
+import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.Transferable
 
 /**
@@ -58,11 +59,23 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
     override fun extractTransferableData(
         content: Transferable
     ): List<TextBlockTransferableData> {
-        if (content.isDataFlavorSupported(CopiedXMLCode.DATA_FLAVOR)) {
-            // There's some matching data in this paste, let's return it to process it.
-            return listOf(
-                content.getTransferData(CopiedXMLCode.DATA_FLAVOR) as TextBlockTransferableData
-            )
+
+        if (content.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            if (content.isDataFlavorSupported(CopiedXMLCode.DATA_FLAVOR)) {
+                // There's some matching data in this paste, let's return it to process it.
+                return listOf(
+                    content.getTransferData(CopiedXMLCode.DATA_FLAVOR) as TextBlockTransferableData
+                )
+            }
+
+            val text = content.getTransferData(DataFlavor.stringFlavor) as String
+
+            val xmlPreamble = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            return if (text.contains(xmlPreamble, true)) {
+                listOf(CopiedXMLCode(text, intArrayOf(0), intArrayOf(0)) as TextBlockTransferableData)
+            } else {
+                emptyList()
+            }
         }
 
         return emptyList()
