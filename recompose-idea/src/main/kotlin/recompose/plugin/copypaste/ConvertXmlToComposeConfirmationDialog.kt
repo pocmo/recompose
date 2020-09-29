@@ -19,6 +19,7 @@ package recompose.plugin.copypaste
 import com.intellij.CommonBundle
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import org.jetbrains.kotlin.idea.editor.KotlinEditorOptions
 import recompose.plugin.util.RecomposePluginBundle
 import java.awt.Container
 import javax.swing.Action
@@ -52,5 +53,12 @@ class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(pr
         setOKButtonText(CommonBundle.getYesButtonText())
         setCancelButtonText(CommonBundle.getNoButtonText())
         return arrayOf(okAction, cancelAction)
+    }
+
+    override fun doOKAction() {
+        if (donTShowThisCheckBox.isSelected) {
+            KotlinEditorOptions.getInstance().isDonTShowConversionDialog = true
+        }
+        super.doOKAction()
     }
 }
