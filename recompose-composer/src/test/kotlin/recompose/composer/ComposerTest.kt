@@ -267,4 +267,17 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic CheckBox`() {
+        assertComposing(
+            fileName = "checkbox.xml",
+            """
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Checkbox(checked = true, onCheckedChange = {})
+                    Text("Hello World", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            """.trimIndent()
+        )
+    }
 }

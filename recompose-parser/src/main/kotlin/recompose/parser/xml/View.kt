@@ -28,6 +28,7 @@ import recompose.parser.values.layoutSize
 import recompose.parser.values.padding
 import recompose.parser.xml.view.button
 import recompose.parser.xml.view.cardView
+import recompose.parser.xml.view.checkBox
 import recompose.parser.xml.view.imageView
 import recompose.parser.xml.view.textView
 import recompose.parser.xml.view.view
@@ -50,6 +51,7 @@ internal fun XmlPullParser.node(): Node {
         "TextView" -> textView()
         "ImageView" -> imageView()
         "Button" -> button()
+        "CheckBox" -> checkBox()
 
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()

@@ -28,6 +28,7 @@ import recompose.ast.values.Orientation
 import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -373,6 +374,25 @@ class ParserTest {
                                 )
                             )
                         )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic Checkbox`() {
+        assertAST(
+            "checkbox.xml",
+            Layout(
+                listOf(
+                    CheckBoxNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.WrapContent
+                        ),
+                        text = "Hello World",
+                        checked = true
                     )
                 )
             )
