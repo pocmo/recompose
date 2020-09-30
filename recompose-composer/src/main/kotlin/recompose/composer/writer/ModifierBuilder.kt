@@ -25,12 +25,14 @@ import recompose.composer.ext.hasConstraints
 import recompose.composer.ext.hasValues
 
 internal class ModifierBuilder(
-    node: Node
+    node: Node? = null
 ) {
     private val modifiers = mutableListOf<Modifier>()
 
     init {
-        addViewModifiers(node)
+        if (node != null) {
+            addViewModifiers(node)
+        }
     }
 
     fun add(modifier: Modifier) {

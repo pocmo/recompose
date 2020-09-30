@@ -18,6 +18,7 @@ package recompose.visitor
 
 import recompose.ast.Layout
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -37,6 +38,7 @@ interface Visitor {
     fun visitCardView(node: CardViewNode)
     fun visitImageView(node: ImageViewNode)
     fun visitLinearLayout(node: LinearLayoutNode)
+    fun visitCheckBox(node: CheckBoxNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
     fun visitUnknown(node: UnknownNode)
 }
