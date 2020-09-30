@@ -36,7 +36,7 @@ internal sealed class ParameterValue {
 
     object EmptyLambdaValue : ParameterValue()
 
-    class ColoValue(
+    class ColorValue(
         val color: Color
     ) : ParameterValue()
 
