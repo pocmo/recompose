@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
-
-import recompose.ast.Node
-import recompose.ast.attributes.ViewAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Size
-import recompose.visitor.Visitor
+package recompose.ast.values
 
 /**
- * Data class holding values of a parsed `<TextView>`.
- *
- * https://developer.android.com/reference/kotlin/android/widget/TextView
+ * InputType values, e.g. used by `EditText` in `android:inputType`.
  */
-data class TextViewNode(
-    override val view: ViewAttributes,
-    val text: String,
-    val textColor: Color? = null,
-    val textSize: Size? = null,
-    val maxLines: Int? = null
-) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitTextView(this)
+sealed class InputType {
+    object Text : InputType()
+    object Number : InputType()
+    object Phone : InputType()
+    object Uri : InputType()
+    object Email : InputType()
+    object Password : InputType()
+    object NumberPassword : InputType()
 }

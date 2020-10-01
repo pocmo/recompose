@@ -19,6 +19,8 @@ package recompose.composer.visitor
 import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.CheckBoxNode
+import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -30,6 +32,7 @@ import recompose.composer.ext.findChains
 import recompose.composer.ext.findRefs
 import recompose.composer.writer.CallParameter
 import recompose.composer.writer.KotlinWriter
+import recompose.composer.writer.Modifier
 import recompose.composer.writer.ModifierBuilder
 import recompose.composer.writer.ParameterValue
 import recompose.visitor.Visitor
@@ -37,6 +40,7 @@ import recompose.visitor.Visitor
 /**
  * [Visitor] implementation that traverses the parsed [Layout] and transforms it into `Composable" calls.
  */
+@Suppress("TooManyFunctions")
 internal class ComposingVisitor : Visitor {
     private val writer = KotlinWriter()
 
@@ -88,9 +92,48 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "text", value = ParameterValue.StringValue(node.text)),
                 node.textColor?.let { CallParameter(name = "color", value = ParameterValue.ColoValue(it)) },
                 node.textSize?.let { CallParameter(name = "fontSize", value = ParameterValue.SizeValue(it)) },
+                node.maxLines?.let { CallParameter(name = "maxLines", value = ParameterValue.RawValue(it)) },
                 modifier.toCallParameter()
             )
         )
+    }
+
+    override fun visitCheckBox(node: CheckBoxNode) {
+        val rowModifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            "Row",
+            parameters = listOf(
+                rowModifier.toCallParameter()
+            )
+        ) {
+            writeCall(
+                name = "Checkbox",
+                parameters = listOf(
+                    CallParameter(name = "checked", value = ParameterValue.RawValue(node.checked)),
+                    CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue)
+                )
+            )
+            node.text?.let { text ->
+                val textModifier = ModifierBuilder()
+                textModifier.add(
+                    Modifier(
+                        "align",
+                        listOf(
+                            CallParameter(ParameterValue.RawValue("Alignment.CenterVertically"))
+                        )
+                    )
+                )
+
+                writeCall(
+                    name = "Text",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.StringValue(text)),
+                        textModifier.toCallParameter()
+                    )
+                )
+            }
+        }
     }
 
     override fun visitCardView(node: CardViewNode) {
@@ -166,6 +209,20 @@ internal class ComposingVisitor : Visitor {
             parameters = listOf(modifier.toCallParameter()),
             linePrefix = "// ",
             block = block
+        )
+    }
+
+    override fun visitEditText(node: EditTextNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            name = "TextField",
+            parameters = listOf(
+                CallParameter(name = "value", value = ParameterValue.StringValue(node.text)),
+                CallParameter(name = "onValueChange", value = ParameterValue.EmptyLambdaValue),
+                CallParameter(name = "keyboardType", value = ParameterValue.KeyboardTypeValue(node.inputType)),
+                modifier.toCallParameter(),
+            )
         )
     }
 }

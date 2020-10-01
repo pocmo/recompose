@@ -19,6 +19,7 @@ package recompose.composer.writer
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
+import recompose.ast.values.InputType
 import recompose.ast.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.model.Chain
@@ -224,6 +225,21 @@ internal class KotlinWriter {
         }
     }
 
+    private fun writeKeyboardType(value: ParameterValue.KeyboardTypeValue) {
+        writer.continueLine("KeyboardType")
+        writer.continueLine(".")
+        val inputType = when (value.inputType) {
+            InputType.Text -> "Text"
+            InputType.Number -> "Number"
+            InputType.Phone -> "Phone"
+            InputType.Uri -> "Uri"
+            InputType.Email -> "Email"
+            InputType.Password -> "Password"
+            InputType.NumberPassword -> "NumberPassword"
+        }
+        writer.continueLine(inputType)
+    }
+
     private fun writeParameterValue(value: ParameterValue) {
         when (value) {
             is ParameterValue.StringValue -> writeString(value)
@@ -233,6 +249,7 @@ internal class KotlinWriter {
             is ParameterValue.RawValue -> writer.continueLine(value.raw)
             is ParameterValue.SizeValue -> writeSize(value)
             is ParameterValue.DrawableValue -> writeDrawable(value)
+            is ParameterValue.KeyboardTypeValue -> writeKeyboardType(value)
         }
     }
 

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package recompose.ast.view
+package recompose.parser.xml.view
 
-import recompose.ast.Node
-import recompose.ast.attributes.ViewAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Size
-import recompose.visitor.Visitor
+import org.xmlpull.v1.XmlPullParser
+import recompose.ast.view.CheckBoxNode
+import recompose.parser.xml.viewAttributes
 
 /**
- * Data class holding values of a parsed `<TextView>`.
+ * Parses a `<CheckBox>.
  *
- * https://developer.android.com/reference/kotlin/android/widget/TextView
+ * https://developer.android.com/reference/android/widget/CheckBox
  */
-data class TextViewNode(
-    override val view: ViewAttributes,
-    val text: String,
-    val textColor: Color? = null,
-    val textSize: Size? = null,
-    val maxLines: Int? = null
-) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitTextView(this)
+fun XmlPullParser.checkBox(): CheckBoxNode {
+    val viewAttributes = viewAttributes()
+    val text = getAttributeValue(null, "android:text")
+    val checked = getAttributeValue(null, "android:checked").toBoolean()
+
+    return CheckBoxNode(
+        viewAttributes,
+        text,
+        checked
+    )
 }

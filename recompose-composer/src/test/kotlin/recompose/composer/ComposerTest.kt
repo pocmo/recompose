@@ -84,7 +84,7 @@ class ComposerTest {
         assertComposing(
             fileName = "textview-attributes.xml",
             """
-                Text(text = "I am a test", color = Color(0xffffcc00.toInt()), fontSize = 20.sp, modifier = Modifier.width(100.dp).background(Color(0xaa0000ff.toInt())))
+                Text(text = "I am a test", color = Color(0xffffcc00.toInt()), fontSize = 20.sp, maxLines = 100, modifier = Modifier.width(100.dp).background(Color(0xaa0000ff.toInt())))
             """.trimIndent()
         )
     }
@@ -264,6 +264,29 @@ class ComposerTest {
                         }
                     }
                 }
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `Basic CheckBox`() {
+        assertComposing(
+            fileName = "checkbox.xml",
+            """
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Checkbox(checked = true, onCheckedChange = {})
+                    Text("Hello World", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `Basic EditText`() {
+        assertComposing(
+            fileName = "edittext.xml",
+            """
+                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, modifier = Modifier.width(200.dp).height(50.dp))
             """.trimIndent()
         )
     }

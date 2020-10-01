@@ -18,21 +18,18 @@ package recompose.ast.view
 
 import recompose.ast.Node
 import recompose.ast.attributes.ViewAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Size
+import recompose.ast.values.InputType
 import recompose.visitor.Visitor
 
 /**
- * Data class holding values of a parsed `<TextView>`.
+ * Data class holding the attributes of a parsed `<EditText>`.
  *
- * https://developer.android.com/reference/kotlin/android/widget/TextView
+ * https://developer.android.com/reference/android/widget/EditText
  */
-data class TextViewNode(
+data class EditTextNode(
     override val view: ViewAttributes,
     val text: String,
-    val textColor: Color? = null,
-    val textSize: Size? = null,
-    val maxLines: Int? = null
+    val inputType: InputType,
 ) : Node {
-    override fun accept(visitor: Visitor) = visitor.visitTextView(this)
+    override fun accept(visitor: Visitor) = visitor.visitEditText(this)
 }

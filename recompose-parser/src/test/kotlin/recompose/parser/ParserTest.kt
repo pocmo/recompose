@@ -23,11 +23,14 @@ import recompose.ast.attributes.ViewGroupAttributes
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
+import recompose.ast.values.InputType
 import recompose.ast.values.LayoutSize
 import recompose.ast.values.Orientation
 import recompose.ast.values.Padding
 import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
+import recompose.ast.view.CheckBoxNode
+import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -173,7 +176,8 @@ class ParserTest {
                         ),
                         text = "I am a test",
                         textSize = Size.Sp(20),
-                        textColor = Color.Absolute(0xFFFFCC00)
+                        textColor = Color.Absolute(0xFFFFCC00),
+                        maxLines = 100
                     )
                 )
             )
@@ -372,6 +376,43 @@ class ParserTest {
                                 )
                             )
                         )
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic Checkbox`() {
+        assertAST(
+            "checkbox.xml",
+            Layout(
+                listOf(
+                    CheckBoxNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.WrapContent
+                        ),
+                        text = "Hello World",
+                        checked = true
+                    )
+                )
+            )
+        )
+    }
+
+    fun `Basic EditText`() {
+        assertAST(
+            "edittext.xml",
+            Layout(
+                listOf(
+                    EditTextNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.Absolute(Size.Dp(200)),
+                            height = LayoutSize.Absolute(Size.Dp(50))
+                        ),
+                        text = "",
+                        inputType = InputType.Text
                     )
                 )
             )
