@@ -27,9 +27,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.idea.KotlinFileType
-import org.jetbrains.kotlin.idea.editor.KotlinEditorOptions
 import recompose.composer.Composer
 import recompose.parser.Parser
+import recompose.plugin.editor.RecomposeEditorOptions
 import java.awt.datatransfer.Transferable
 
 /**
@@ -110,7 +110,7 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
     }
 
     private fun confirmConvertXmlOnPaste(project: Project): Boolean {
-        if (KotlinEditorOptions.getInstance().isDonTShowConversionDialog) return true
+        if (RecomposeEditorOptions.instance.state.isDontShowConversionDialog) return true
 
         val dialog = ConvertXmlToComposeConfirmationDialog(project)
         dialog.show()
