@@ -20,6 +20,7 @@ import recompose.ast.Layout
 import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
+import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -208,6 +209,20 @@ internal class ComposingVisitor : Visitor {
             parameters = listOf(modifier.toCallParameter()),
             linePrefix = "// ",
             block = block
+        )
+    }
+
+    override fun visitEditText(node: EditTextNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            name = "TextField",
+            parameters = listOf(
+                CallParameter(name = "value", value = ParameterValue.StringValue(node.text)),
+                CallParameter(name = "onValueChange", value = ParameterValue.EmptyLambdaValue),
+                CallParameter(name = "keyboardType", value = ParameterValue.KeyboardTypeValue(node.inputType)),
+                modifier.toCallParameter(),
+            )
         )
     }
 }

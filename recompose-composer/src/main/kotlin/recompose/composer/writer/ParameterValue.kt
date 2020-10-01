@@ -18,6 +18,7 @@ package recompose.composer.writer
 
 import recompose.ast.values.Color
 import recompose.ast.values.Drawable
+import recompose.ast.values.InputType
 import recompose.ast.values.Size
 
 /**
@@ -51,6 +52,10 @@ internal sealed class ParameterValue {
 
     class DrawableValue(
         val drawable: Drawable
+    ) : ParameterValue()
+
+    class KeyboardTypeValue(
+        val inputType: InputType
     ) : ParameterValue()
 }
 

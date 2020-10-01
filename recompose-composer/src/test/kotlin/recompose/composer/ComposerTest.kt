@@ -280,4 +280,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic EditText`() {
+        assertComposing(
+            fileName = "edittext.xml",
+            """
+                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, modifier = Modifier.width(200.dp).height(50.dp))
+            """.trimIndent()
+        )
+    }
 }
