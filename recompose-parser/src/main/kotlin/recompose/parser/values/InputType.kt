@@ -21,7 +21,7 @@ import recompose.ast.values.InputType
 import recompose.parser.Parser
 
 /**
- * Parses an orientation attribute (from `android:inputType`) and returns the matching [InputType]
+ * Parses an inputType attribute (from `android:inputType`) and returns the matching [InputType]
  * object. Throws [Parser.ParserException] if the inputType could not be parsed.
  */
 internal fun XmlPullParser.inputType(): InputType {

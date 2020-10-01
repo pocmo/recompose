@@ -21,6 +21,11 @@ import recompose.ast.attributes.ViewAttributes
 import recompose.ast.values.InputType
 import recompose.visitor.Visitor
 
+/**
+ * Data class holding the attributes of a parsed `<EditText>`.
+ *
+ * https://developer.android.com/reference/android/widget/EditText
+ */
 data class EditTextNode(
     override val view: ViewAttributes,
     val text: String,
