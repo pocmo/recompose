@@ -17,8 +17,10 @@ class RecomposeEditorOptionsConfigurable : Configurable, NoScroll, Disposable {
         get() = RecomposeEditorOptions.instance.state
 
     // ui components
-    private var convertPastedCheckbox: JCheckBox? = JCheckBox(RecomposePluginBundle.message("editor.checkbox.title.convert.pasted.xml"))
-    private var dontShowConversionCheckbox: JCheckBox? = JCheckBox(RecomposePluginBundle.message("editor.checkbox.title.dont.show.conversion.dialog"))
+    private var convertPastedCheckbox: JCheckBox? =
+        JCheckBox(RecomposePluginBundle.message("editor.checkbox.title.convert.pasted.xml"))
+    private var dontShowConversionCheckbox: JCheckBox? =
+        JCheckBox(RecomposePluginBundle.message("editor.checkbox.title.dont.show.conversion.dialog"))
 
     override fun createComponent(): JComponent? {
         val formPanel = FormBuilder.createFormBuilder()
