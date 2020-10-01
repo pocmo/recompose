@@ -10,6 +10,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <copyPastePostProcessor implementation="recompose.plugin.copypaste.RecomposeCopyPasteProcessor"/>
         <applicationService serviceImplementation="recompose.plugin.editor.RecomposeEditorOptions"/>
+        <applicationConfigurable instance="recompose.plugin.editor.RecomposeEditorOptionsConfigurable"/>
     </extensions>
 
     <resource-bundle>strings.RecomposePluginBundle</resource-bundle>
