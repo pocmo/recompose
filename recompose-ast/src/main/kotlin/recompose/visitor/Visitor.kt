@@ -25,6 +25,7 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
+import recompose.ast.viewgroup.FrameLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
 
@@ -41,6 +42,7 @@ interface Visitor {
     fun visitCardView(node: CardViewNode)
     fun visitImageView(node: ImageViewNode)
     fun visitLinearLayout(node: LinearLayoutNode)
+    fun visitFrameLayout(node: FrameLayoutNode)
     fun visitCheckBox(node: CheckBoxNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
     fun visitUnknown(node: UnknownNode)

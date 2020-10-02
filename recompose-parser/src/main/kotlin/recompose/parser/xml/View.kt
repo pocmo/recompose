@@ -34,6 +34,7 @@ import recompose.parser.xml.view.imageView
 import recompose.parser.xml.view.textView
 import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
+import recompose.parser.xml.viewgroup.frameLayout
 import recompose.parser.xml.viewgroup.linearLayout
 import recompose.parser.xml.viewgroup.unknown
 
@@ -46,6 +47,7 @@ internal fun XmlPullParser.node(): Node {
     return when (name) {
         // ViewGroupNode
         "LinearLayout" -> linearLayout()
+        "FrameLayout" -> frameLayout()
 
         // ViewNode
         "View" -> view()

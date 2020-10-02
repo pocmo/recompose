@@ -36,6 +36,7 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
+import recompose.ast.viewgroup.FrameLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.test.utils.assertAST
 
@@ -413,6 +414,44 @@ class ParserTest {
                         ),
                         text = "",
                         inputType = InputType.Text
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `FrameLayout with TextView and Button`() {
+        assertAST(
+            fileName = "framelayout-textview-button.xml",
+            Layout(
+                listOf(
+                    FrameLayoutNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent,
+                            padding = Padding(all = Size.Dp(16))
+                        ),
+                        viewGroup = ViewGroupAttributes(
+                            children = listOf(
+                                TextViewNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.MatchParent,
+                                        height = LayoutSize.MatchParent
+                                    ),
+                                    text = "Center",
+                                    textSize = Size.Sp(20)
+                                ),
+                                ButtonNode(
+                                    view = ViewAttributes(
+                                        width = LayoutSize.MatchParent,
+                                        height = LayoutSize.WrapContent
+                                    ),
+                                    text = "Button"
+                                )
+                            )
+
+                        )
                     )
                 )
             )
