@@ -21,7 +21,7 @@ import recompose.ast.values.Drawable
 import recompose.ast.values.Size
 
 /**
- * Sealed class for types of parameter values that a passed to a `Composable`.
+ * Sealed class for types of parameter values that are passed to a `Composable`.
  */
 internal sealed class ParameterValue {
     class RawValue(

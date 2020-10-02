@@ -280,4 +280,19 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `FrameLayout with TextView and Button`() {
+        assertComposing(
+            fileName = "framelayout-textview-button.xml",
+            """
+                Box {
+                    Text(text = "Center", fontSize = 20.sp, modifier = Modifier.fillMaxWidth().fillMaxHeight())
+                    Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                        Text(text = "Button", textAlign = TextAlign.Center)
+                    }
+                }
+            """.trimIndent()
+        )
+    }
 }
