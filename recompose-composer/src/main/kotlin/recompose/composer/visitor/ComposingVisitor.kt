@@ -174,9 +174,8 @@ internal class ComposingVisitor : Visitor {
     }
 
     override fun visitFrameLayout(node: FrameLayoutNode) {
-        val composable = "Box"
-
-        writer.writeCall(composable) {
+        val rowModifier = ModifierBuilder(node)
+        writer.writeCall(name = "Box", parameters = listOf(rowModifier.toCallParameter())) {
             node.viewGroup.children.forEach { it.accept(this@ComposingVisitor) }
         }
     }
