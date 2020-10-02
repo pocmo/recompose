@@ -306,7 +306,7 @@ class ComposerTest {
         assertComposing(
             fileName = "framelayout-textview-button.xml",
             """
-                Box {
+                Box(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(16.dp)) {
                     Text(text = "Center", fontSize = 20.sp, modifier = Modifier.fillMaxWidth().fillMaxHeight())
                     Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
                         Text(text = "Button", textAlign = TextAlign.Center)
