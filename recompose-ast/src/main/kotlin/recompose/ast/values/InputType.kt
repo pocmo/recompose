@@ -17,15 +17,14 @@
 package recompose.ast.values
 
 /**
- * Different forms of color values as they can appear in layouts.
+ * InputType values, e.g. used by `EditText` in `android:inputType`.
  */
-sealed class Color {
-    /**
-     * An absolute color like 0xFFFF0000.
-     */
-    data class Absolute(val value: Long) : Color()
-    /**
-     * A resource reference color, e.g. @color/nice_color
-     */
-    data class Resource(val name: String) : Color()
+sealed class InputType {
+    object Text : InputType()
+    object Number : InputType()
+    object Phone : InputType()
+    object Uri : InputType()
+    object Email : InputType()
+    object Password : InputType()
+    object NumberPassword : InputType()
 }

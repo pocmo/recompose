@@ -46,6 +46,16 @@ class ComposerTest {
     }
 
     @Test
+    fun `TextView with text color resource reference`() {
+        assertComposing(
+            fileName = "textview-color-resource-reference.xml",
+            """
+                Text(text = "color ref", color = Color(ContextCompat.getColor(ContextAmbient.current, R.color.green)))
+            """.trimIndent()
+        )
+    }
+
+    @Test
     fun `ConstraintLayout with Buttons`() {
         assertComposing(
             fileName = "constraintlayout-buttons.xml",
@@ -277,6 +287,16 @@ class ComposerTest {
                     Checkbox(checked = true, onCheckedChange = {})
                     Text("Hello World", modifier = Modifier.align(Alignment.CenterVertically))
                 }
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `Basic EditText`() {
+        assertComposing(
+            fileName = "edittext.xml",
+            """
+                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, modifier = Modifier.width(200.dp).height(50.dp))
             """.trimIndent()
         )
     }

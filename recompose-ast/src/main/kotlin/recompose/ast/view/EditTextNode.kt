@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package recompose.ast.values
+package recompose.ast.view
+
+import recompose.ast.Node
+import recompose.ast.attributes.ViewAttributes
+import recompose.ast.values.InputType
+import recompose.visitor.Visitor
 
 /**
- * Different forms of color values as they can appear in layouts.
+ * Data class holding the attributes of a parsed `<EditText>`.
+ *
+ * https://developer.android.com/reference/android/widget/EditText
  */
-sealed class Color {
-    /**
-     * An absolute color like 0xFFFF0000.
-     */
-    data class Absolute(val value: Long) : Color()
-    /**
-     * A resource reference color, e.g. @color/nice_color
-     */
-    data class Resource(val name: String) : Color()
+data class EditTextNode(
+    override val view: ViewAttributes,
+    val text: String,
+    val inputType: InputType,
+) : Node {
+    override fun accept(visitor: Visitor) = visitor.visitEditText(this)
 }

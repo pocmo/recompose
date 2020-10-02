@@ -19,6 +19,7 @@ package recompose.composer.writer
 import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
+import recompose.ast.values.InputType
 import recompose.ast.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.model.Chain
@@ -121,7 +122,7 @@ internal class KotlinWriter {
         writer.continueLine("{}")
     }
 
-    private fun writeColor(value: ParameterValue.ColoValue) {
+    private fun writeColor(value: ParameterValue.ColorValue) {
         when (val color = value.color) {
             is Color.Absolute -> {
                 writer.continueLine("Color(")
@@ -130,6 +131,9 @@ internal class KotlinWriter {
                 writer.continueLine(color.value.toString(16))
                 writer.continueLine(".toInt()")
                 writer.continueLine(")")
+            }
+            is Color.Resource -> {
+                writer.continueLine("Color(ContextCompat.getColor(ContextAmbient.current, R.color.${color.name}))")
             }
         }
     }
@@ -201,7 +205,7 @@ internal class KotlinWriter {
             is Drawable.ColorValue -> writeColor(
                 // Repackaging as ParameterValue.ColorValue. That's a bit hacky. We probably want to re-use the
                 // write code instead.
-                ParameterValue.ColoValue(value.drawable.color)
+                ParameterValue.ColorValue(value.drawable.color)
             )
             is Drawable.Resource -> {
                 writeCall(
@@ -224,15 +228,31 @@ internal class KotlinWriter {
         }
     }
 
+    private fun writeKeyboardType(value: ParameterValue.KeyboardTypeValue) {
+        writer.continueLine("KeyboardType")
+        writer.continueLine(".")
+        val inputType = when (value.inputType) {
+            InputType.Text -> "Text"
+            InputType.Number -> "Number"
+            InputType.Phone -> "Phone"
+            InputType.Uri -> "Uri"
+            InputType.Email -> "Email"
+            InputType.Password -> "Password"
+            InputType.NumberPassword -> "NumberPassword"
+        }
+        writer.continueLine(inputType)
+    }
+
     private fun writeParameterValue(value: ParameterValue) {
         when (value) {
             is ParameterValue.StringValue -> writeString(value)
             is ParameterValue.EmptyLambdaValue -> writeEmptyLambda()
-            is ParameterValue.ColoValue -> writeColor(value)
+            is ParameterValue.ColorValue -> writeColor(value)
             is ParameterValue.ModifierValue -> writeModifierValue(value)
             is ParameterValue.RawValue -> writer.continueLine(value.raw)
             is ParameterValue.SizeValue -> writeSize(value)
             is ParameterValue.DrawableValue -> writeDrawable(value)
+            is ParameterValue.KeyboardTypeValue -> writeKeyboardType(value)
         }
     }
 

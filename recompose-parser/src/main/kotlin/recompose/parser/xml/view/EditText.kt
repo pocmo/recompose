@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package recompose.ast.values
+package recompose.parser.xml.view
+
+import org.xmlpull.v1.XmlPullParser
+import recompose.ast.view.EditTextNode
+import recompose.parser.values.inputType
+import recompose.parser.xml.viewAttributes
 
 /**
- * Different forms of color values as they can appear in layouts.
+ * Parses an `<EditText>` element.
+ *
+ * https://developer.android.com/reference/android/widget/EditText
  */
-sealed class Color {
-    /**
-     * An absolute color like 0xFFFF0000.
-     */
-    data class Absolute(val value: Long) : Color()
-    /**
-     * A resource reference color, e.g. @color/nice_color
-     */
-    data class Resource(val name: String) : Color()
+fun XmlPullParser.editText(): EditTextNode {
+    val text = getAttributeValue(null, "android:text") ?: ""
+
+    return EditTextNode(
+        view = viewAttributes(),
+        text = text,
+        inputType = inputType(),
+    )
 }
