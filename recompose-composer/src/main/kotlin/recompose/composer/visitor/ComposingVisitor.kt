@@ -25,6 +25,7 @@ import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
 import recompose.ast.viewgroup.ConstraintLayoutNode
+import recompose.ast.viewgroup.FrameLayoutNode
 import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.ast.viewgroup.UnknownNode
 import recompose.composer.ext.findChains
@@ -168,6 +169,14 @@ internal class ComposingVisitor : Visitor {
 
         writer.writeCall(composable) {
             node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+        }
+    }
+
+    override fun visitFrameLayout(node: FrameLayoutNode) {
+        val composable = "Box"
+
+        writer.writeCall(composable) {
+            node.viewGroup.children.forEach { it.accept(this@ComposingVisitor) }
         }
     }
 
