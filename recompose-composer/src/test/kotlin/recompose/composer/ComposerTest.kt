@@ -46,6 +46,16 @@ class ComposerTest {
     }
 
     @Test
+    fun `TextView with text color resource reference`() {
+        assertComposing(
+            fileName = "textview-color-resource-reference.xml",
+            """
+                Text(text = "color ref", color = Color(ContextCompat.getColor(ContextAmbient.current, R.color.green)))
+            """.trimIndent()
+        )
+    }
+
+    @Test
     fun `ConstraintLayout with Buttons`() {
         assertComposing(
             fileName = "constraintlayout-buttons.xml",

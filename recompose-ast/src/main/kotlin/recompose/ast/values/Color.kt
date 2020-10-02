@@ -24,4 +24,8 @@ sealed class Color {
      * An absolute color like 0xFFFF0000.
      */
     data class Absolute(val value: Long) : Color()
+    /**
+     * A resource reference color, e.g. @color/nice_color
+     */
+    data class Resource(val name: String) : Color()
 }

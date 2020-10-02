@@ -90,7 +90,7 @@ internal class ComposingVisitor : Visitor {
             name = "Text",
             parameters = listOf(
                 CallParameter(name = "text", value = ParameterValue.StringValue(node.text)),
-                node.textColor?.let { CallParameter(name = "color", value = ParameterValue.ColoValue(it)) },
+                node.textColor?.let { CallParameter(name = "color", value = ParameterValue.ColorValue(it)) },
                 node.textSize?.let { CallParameter(name = "fontSize", value = ParameterValue.SizeValue(it)) },
                 node.maxLines?.let { CallParameter(name = "maxLines", value = ParameterValue.RawValue(it)) },
                 modifier.toCallParameter()
