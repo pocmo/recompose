@@ -457,4 +457,23 @@ class ParserTest {
             )
         )
     }
+
+    @Test
+    fun `Basic Style Attributes`() {
+        assertAST(
+            "styleattributes.xml",
+            Layout(
+                listOf(
+                    TextViewNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.Absolute(Size.Dp(200)),
+                            height = LayoutSize.Absolute(Size.Dp(50)),
+                            background = Drawable.StyleAttribute("selectableItemBackground")
+                        ),
+                        text = "",
+                    )
+                )
+            )
+        )
+    }
 }

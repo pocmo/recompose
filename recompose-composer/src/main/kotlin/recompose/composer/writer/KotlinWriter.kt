@@ -225,6 +225,15 @@ internal class KotlinWriter {
                     endLine = false
                 )
             }
+            is Drawable.StyleAttribute -> {
+                writeCall(
+                    name = "imageAttribute",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.RawValue(value.drawable.name))
+                    ),
+                    endLine = false
+                )
+            }
         }
     }
 
