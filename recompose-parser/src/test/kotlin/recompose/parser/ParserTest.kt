@@ -386,66 +386,66 @@ class ParserTest {
     @Test
     fun `Simple MaterialCardView`() {
         assertAST(
-                fileName = "material-cardview.xml",
-                Layout(
-                        children = listOf(
-                                CardViewNode(
-                                        view = ViewAttributes(
-                                                id = "card",
-                                                width = LayoutSize.Absolute(Size.Dp(300)),
-                                                height = LayoutSize.Absolute(Size.Dp(100)),
-                                        )
-                                )
+            fileName = "material-cardview.xml",
+            Layout(
+                children = listOf(
+                    CardViewNode(
+                        view = ViewAttributes(
+                            id = "card",
+                            width = LayoutSize.Absolute(Size.Dp(300)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
                         )
+                    )
                 )
+            )
         )
     }
 
     @Test
     fun `MaterialCardView with TextView and Button`() {
         assertAST(
-                fileName = "material-cardview-textview-button.xml",
-                expected = Layout(
-                        children = listOf(
-                                CardViewNode(
-                                        view = ViewAttributes(
-                                                id = "card",
-                                                width = LayoutSize.Absolute(Size.Dp(300)),
-                                                height = LayoutSize.Absolute(Size.Dp(100)),
-                                        ),
-                                        viewGroup = ViewGroupAttributes(
-                                                children = listOf(
-                                                        LinearLayoutNode(
-                                                                ViewAttributes(
-                                                                        width = LayoutSize.MatchParent,
-                                                                        height = LayoutSize.MatchParent
-                                                                ),
-                                                                ViewGroupAttributes(
-                                                                        listOf(
-                                                                                TextViewNode(
-                                                                                        ViewAttributes(
-                                                                                                width = LayoutSize.WrapContent,
-                                                                                                height = LayoutSize.WrapContent
-                                                                                        ),
-                                                                                        text = "Hello World!",
-                                                                                        textColor = Color.Absolute(0xFFFF0000)
-                                                                                ),
-                                                                                ButtonNode(
-                                                                                        ViewAttributes(
-                                                                                                width = LayoutSize.WrapContent,
-                                                                                                height = LayoutSize.WrapContent
-                                                                                        ),
-                                                                                        text = "Click me!"
-                                                                                )
-                                                                        )
-                                                                ),
-                                                                Orientation.Vertical
-                                                        )
-                                                )
+            fileName = "material-cardview-textview-button.xml",
+            expected = Layout(
+                children = listOf(
+                    CardViewNode(
+                        view = ViewAttributes(
+                            id = "card",
+                            width = LayoutSize.Absolute(Size.Dp(300)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
+                        ),
+                        viewGroup = ViewGroupAttributes(
+                            children = listOf(
+                                LinearLayoutNode(
+                                    ViewAttributes(
+                                        width = LayoutSize.MatchParent,
+                                        height = LayoutSize.MatchParent
+                                    ),
+                                    ViewGroupAttributes(
+                                        listOf(
+                                            TextViewNode(
+                                                ViewAttributes(
+                                                    width = LayoutSize.WrapContent,
+                                                    height = LayoutSize.WrapContent
+                                                ),
+                                                text = "Hello World!",
+                                                textColor = Color.Absolute(0xFFFF0000)
+                                            ),
+                                            ButtonNode(
+                                                ViewAttributes(
+                                                    width = LayoutSize.WrapContent,
+                                                    height = LayoutSize.WrapContent
+                                                ),
+                                                text = "Click me!"
+                                            )
                                         )
+                                    ),
+                                    Orientation.Vertical
                                 )
+                            )
                         )
+                    )
                 )
+            )
         )
     }
 
