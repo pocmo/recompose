@@ -126,7 +126,7 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
 
     private fun confirmConvertXmlOnPaste(project: Project): Boolean {
         val doNotAsk = PropertiesComponent.getInstance(project)
-                .getValue(ConvertXmlToComposeConfirmationDialog.doNotAskPropertyKey, "")
+            .getValue(ConvertXmlToComposeConfirmationDialog.doNotAskPropertyKey, "")
         if (doNotAsk.isNotEmpty()) {
             return doNotAsk.toBoolean()
         }

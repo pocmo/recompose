@@ -50,14 +50,17 @@ class ConvertXmlToComposeConfirmationDialog(val project: Project) : DialogWrappe
         setOKButtonText(CommonBundle.getYesButtonText())
         setCancelButtonText(CommonBundle.getNoButtonText())
         setDoNotAskOption(object : DoNotAskOption.Adapter() {
-            override fun rememberChoice(isSelected: Boolean, exitCode: Int) {
+            override fun rememberChoice(
+                    isSelected: Boolean,
+                    exitCode: Int) {
                 if (isSelected) {
                     PropertiesComponent.getInstance(project)
                             .setValue(doNotAskPropertyKey, exitCode == Messages.YES)
                 }
             }
+
             override fun shouldSaveOptionsOnCancel(): Boolean = true
-      })
+        })
         return arrayOf(okAction, cancelAction)
     }
 
