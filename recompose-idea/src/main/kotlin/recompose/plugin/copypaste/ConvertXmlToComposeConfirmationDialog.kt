@@ -17,8 +17,10 @@
 package recompose.plugin.copypaste
 
 import com.intellij.CommonBundle
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.ui.Messages
 import recompose.plugin.util.RecomposePluginBundle
 import java.awt.Container
 import javax.swing.Action
@@ -29,7 +31,7 @@ import javax.swing.JPanel
 /**
  * This dialog asks if the user wants to convert the pasted Xml to Compose
  */
-class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(project, true) {
+class ConvertXmlToComposeConfirmationDialog(val project: Project) : DialogWrapper(project, true) {
     lateinit var panel: JPanel
     @Suppress("unused")
     lateinit var questionLabel: JLabel
@@ -47,6 +49,19 @@ class ConvertXmlToComposeConfirmationDialog(project: Project) : DialogWrapper(pr
     override fun createActions(): Array<Action> {
         setOKButtonText(CommonBundle.getYesButtonText())
         setCancelButtonText(CommonBundle.getNoButtonText())
+        setDoNotAskOption(object : DoNotAskOption.Adapter() {
+            override fun rememberChoice(isSelected: Boolean, exitCode: Int) {
+                if (isSelected) {
+                    PropertiesComponent.getInstance(project)
+                            .setValue(doNotAskPropertyKey, exitCode == Messages.YES)
+                }
+            }
+            override fun shouldSaveOptionsOnCancel(): Boolean = true
+      })
         return arrayOf(okAction, cancelAction)
+    }
+
+    companion object {
+        const val doNotAskPropertyKey = "xyz.pocmo.recompose.convertxmltocomposeconfirmationdialog.doNotAsk"
     }
 }

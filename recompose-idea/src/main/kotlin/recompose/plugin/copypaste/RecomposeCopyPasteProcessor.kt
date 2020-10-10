@@ -19,6 +19,7 @@ package recompose.plugin.copypaste
 import com.intellij.codeInsight.editorActions.CopyPastePostProcessor
 import com.intellij.codeInsight.editorActions.TextBlockTransferableData
 import com.intellij.ide.highlighter.XmlFileType
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.RangeMarker
@@ -124,6 +125,11 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
     }
 
     private fun confirmConvertXmlOnPaste(project: Project): Boolean {
+        val doNotAsk = PropertiesComponent.getInstance(project)
+                .getValue(ConvertXmlToComposeConfirmationDialog.doNotAskPropertyKey, "")
+        if (doNotAsk.isNotEmpty()) {
+            return doNotAsk.toBoolean()
+        }
         val dialog = ConvertXmlToComposeConfirmationDialog(project)
         dialog.show()
         return dialog.isOK
