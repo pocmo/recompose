@@ -33,6 +33,7 @@ import javax.swing.JPanel
  */
 class ConvertXmlToComposeConfirmationDialog(val project: Project) : DialogWrapper(project, true) {
     lateinit var panel: JPanel
+
     @Suppress("unused")
     lateinit var questionLabel: JLabel
 
@@ -49,18 +50,22 @@ class ConvertXmlToComposeConfirmationDialog(val project: Project) : DialogWrappe
     override fun createActions(): Array<Action> {
         setOKButtonText(CommonBundle.getYesButtonText())
         setCancelButtonText(CommonBundle.getNoButtonText())
-        setDoNotAskOption(object : DoNotAskOption.Adapter() {
-            override fun rememberChoice(
+        setDoNotAskOption(
+            object : DoNotAskOption.Adapter() {
+                override fun rememberChoice(
                     isSelected: Boolean,
-                    exitCode: Int) {
-                if (isSelected) {
-                    PropertiesComponent.getInstance(project)
+                    exitCode: Int
+                ) {
+                    if (isSelected) {
+                        PropertiesComponent.getInstance(project)
                             .setValue(doNotAskPropertyKey, exitCode == Messages.YES)
+                    }
                 }
-            }
 
-            override fun shouldSaveOptionsOnCancel(): Boolean = true
-        })
+                override fun shouldSaveOptionsOnCancel(): Boolean = true
+            }
+        )
+
         return arrayOf(okAction, cancelAction)
     }
 
