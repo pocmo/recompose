@@ -44,8 +44,8 @@ class RecomposeEditorOptionsConfigurable : Configurable, NoScroll, Disposable {
     override fun getDisplayName(): String = RecomposePluginBundle.message("editor.title.recompose")
 
     override fun reset() {
-        convertPastedCheckbox!!.isSelected = editorState.isEnableXmlToComposeConversion
-        dontShowConversionCheckbox!!.isSelected = editorState.isDontShowConversionDialog
+        convertPastedCheckbox?.isSelected = editorState.isEnableXmlToComposeConversion
+        dontShowConversionCheckbox?.isSelected = editorState.isDontShowConversionDialog
     }
 
     override fun dispose() {

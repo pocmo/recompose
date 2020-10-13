@@ -100,6 +100,11 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
             return
         }
 
+        // If Convert XML to Compose checkbox is not enabled in settings don't paste composable.
+        if (!RecomposeEditorOptions.instance.state.isEnableXmlToComposeConversion) {
+            return
+        }
+
         if (confirmConvertXmlOnPaste(project)) {
 
             val value = values.single() as CopiedXMLCode
