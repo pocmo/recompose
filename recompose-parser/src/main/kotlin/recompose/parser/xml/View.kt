@@ -59,7 +59,8 @@ internal fun XmlPullParser.node(): Node {
 
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()
-        "androidx.cardview.widget.CardView" -> cardView()
+        "androidx.cardview.widget.CardView",
+        "com.google.android.material.card.MaterialCardView" -> cardView()
 
         else -> unknown()
     }
