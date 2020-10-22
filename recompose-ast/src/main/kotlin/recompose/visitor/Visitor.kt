@@ -21,6 +21,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
+import recompose.ast.view.RadioButtonNode
 import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -45,6 +46,7 @@ interface Visitor {
     fun visitLinearLayout(node: LinearLayoutNode)
     fun visitFrameLayout(node: FrameLayoutNode)
     fun visitCheckBox(node: CheckBoxNode)
+    fun visitRadioButton(node: RadioButtonNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
     fun visitUnknown(node: UnknownNode)
     fun visitSwitch(node: SwitchNode)
