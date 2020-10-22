@@ -31,6 +31,7 @@ import recompose.parser.xml.view.cardView
 import recompose.parser.xml.view.checkBox
 import recompose.parser.xml.view.editText
 import recompose.parser.xml.view.imageView
+import recompose.parser.xml.view.radioButton
 import recompose.parser.xml.view.textView
 import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
@@ -55,6 +56,7 @@ internal fun XmlPullParser.node(): Node {
         "ImageView" -> imageView()
         "Button" -> button()
         "CheckBox" -> checkBox()
+        "RadioButton" -> radioButton()
         "EditText" -> editText()
 
         // AndroidX
