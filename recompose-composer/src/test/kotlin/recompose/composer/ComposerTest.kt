@@ -315,4 +315,17 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic RadioButton`() {
+        assertComposing(
+            fileName = "radiobutton.xml",
+            """
+                Row(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    RadioButton(selected = true, onClick = {})
+                    Text("myButton", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            """.trimIndent()
+        )
+    }
 }
