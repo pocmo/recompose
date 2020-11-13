@@ -34,4 +34,9 @@ sealed class Drawable {
      * An Android resource reference drawable, e.g. @android:drawable/an_image.
      */
     data class AndroidResource(val name: String) : Drawable()
+
+    /**
+     * An Android style attribute, e.g. ?my_image or ?attr/my_image.
+     */
+    data class StyleAttribute(val name: String) : Drawable()
 }

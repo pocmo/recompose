@@ -315,4 +315,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic Style Attributes`() {
+        assertComposing(
+            fileName = "styleattributes.xml",
+            """
+                Text(text = "", modifier = Modifier.width(200.dp).height(50.dp).background(imageAttribute(selectableItemBackground)))
+            """.trimIndent()
+        )
+    }
 }
