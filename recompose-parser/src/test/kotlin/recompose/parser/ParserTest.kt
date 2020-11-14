@@ -468,6 +468,7 @@ class ParserTest {
         )
     }
 
+    @Test
     fun `Basic EditText`() {
         assertAST(
             "edittext.xml",
@@ -479,7 +480,9 @@ class ParserTest {
                             height = LayoutSize.Absolute(Size.Dp(50))
                         ),
                         text = "",
-                        inputType = InputType.Text
+                        inputType = InputType.Text,
+                        hint = "text",
+                        textColorHint = Color.Resource("green")
                     )
                 )
             )

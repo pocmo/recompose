@@ -222,13 +222,29 @@ internal class ComposingVisitor : Visitor {
 
     override fun visitEditText(node: EditTextNode) {
         val modifier = ModifierBuilder(node)
-
+        val hintParameterValue = if (node.hint.isNotBlank()) {
+            ParameterValue.LambdaValue {
+                writeCall(
+                    name = "Text",
+                    parameters = listOf(
+                        CallParameter(name = "text", value = ParameterValue.StringValue(node.hint)),
+                        node.textColorHint?.let {
+                            CallParameter(name = "color", value = ParameterValue.ColorValue(it))
+                        },
+                    ),
+                    endLine = false
+                )
+            }
+        } else {
+            ParameterValue.EmptyLambdaValue
+        }
         writer.writeCall(
             name = "TextField",
             parameters = listOf(
                 CallParameter(name = "value", value = ParameterValue.StringValue(node.text)),
                 CallParameter(name = "onValueChange", value = ParameterValue.EmptyLambdaValue),
                 CallParameter(name = "keyboardType", value = ParameterValue.KeyboardTypeValue(node.inputType)),
+                CallParameter(name = "label", value = hintParameterValue),
                 modifier.toCallParameter(),
             )
         )

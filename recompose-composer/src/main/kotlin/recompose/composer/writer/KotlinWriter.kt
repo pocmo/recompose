@@ -122,6 +122,12 @@ internal class KotlinWriter {
         writer.continueLine("{}")
     }
 
+    private fun writeLambda(value: ParameterValue.LambdaValue) {
+        writer.continueLine("{ ")
+        value.lambda.invoke(this)
+        writer.continueLine(" }")
+    }
+
     private fun writeColor(value: ParameterValue.ColorValue) {
         when (val color = value.color) {
             is Color.Absolute -> {
@@ -262,6 +268,7 @@ internal class KotlinWriter {
             is ParameterValue.SizeValue -> writeSize(value)
             is ParameterValue.DrawableValue -> writeDrawable(value)
             is ParameterValue.KeyboardTypeValue -> writeKeyboardType(value)
+            is ParameterValue.LambdaValue -> writeLambda(value)
         }
     }
 

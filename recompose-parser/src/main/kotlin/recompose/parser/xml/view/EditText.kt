@@ -18,6 +18,7 @@ package recompose.parser.xml.view
 
 import org.xmlpull.v1.XmlPullParser
 import recompose.ast.view.EditTextNode
+import recompose.parser.values.color
 import recompose.parser.values.inputType
 import recompose.parser.xml.viewAttributes
 
@@ -28,10 +29,14 @@ import recompose.parser.xml.viewAttributes
  */
 fun XmlPullParser.editText(): EditTextNode {
     val text = getAttributeValue(null, "android:text") ?: ""
+    val hint = getAttributeValue(null, "android:hint") ?: ""
+    val textColorHint = color("android:textColorHint")
 
     return EditTextNode(
         view = viewAttributes(),
         text = text,
         inputType = inputType(),
+        hint = hint,
+        textColorHint = textColorHint,
     )
 }
