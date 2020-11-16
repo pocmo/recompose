@@ -481,6 +481,26 @@ class ParserTest {
                         ),
                         text = "",
                         inputType = InputType.Text,
+                        hint = ""
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic EditText with hint`() {
+        assertAST(
+            "edittext-hint.xml",
+            Layout(
+                listOf(
+                    EditTextNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.Absolute(Size.Dp(200)),
+                            height = LayoutSize.Absolute(Size.Dp(50))
+                        ),
+                        text = "",
+                        inputType = InputType.Text,
                         hint = "text",
                         textColorHint = Color.Resource("green")
                     )

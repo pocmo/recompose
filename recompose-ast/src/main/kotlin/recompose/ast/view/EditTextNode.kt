@@ -32,7 +32,7 @@ data class EditTextNode(
     val text: String,
     val inputType: InputType,
     val hint: String,
-    val textColorHint: Color?,
+    val textColorHint: Color? = null,
 ) : Node {
     override fun accept(visitor: Visitor) = visitor.visitEditText(this)
 }

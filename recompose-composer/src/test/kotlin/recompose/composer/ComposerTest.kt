@@ -296,6 +296,16 @@ class ComposerTest {
         assertComposing(
             fileName = "edittext.xml",
             """
+                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, modifier = Modifier.width(200.dp).height(50.dp))
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `Basic EditText with hint`() {
+        assertComposing(
+            fileName = "edittext-hint.xml",
+            """
                 TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, label = { Text(text = "text", color = Color(ContextCompat.getColor(ContextAmbient.current, R.color.green))) }, modifier = Modifier.width(200.dp).height(50.dp))
             """.trimIndent()
         )
