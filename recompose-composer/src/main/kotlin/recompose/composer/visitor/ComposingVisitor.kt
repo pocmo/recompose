@@ -236,7 +236,7 @@ internal class ComposingVisitor : Visitor {
                 )
             }
         } else {
-            ParameterValue.EmptyLambdaValue
+            null
         }
         writer.writeCall(
             name = "TextField",
@@ -244,7 +244,7 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "value", value = ParameterValue.StringValue(node.text)),
                 CallParameter(name = "onValueChange", value = ParameterValue.EmptyLambdaValue),
                 CallParameter(name = "keyboardType", value = ParameterValue.KeyboardTypeValue(node.inputType)),
-                CallParameter(name = "label", value = hintParameterValue),
+                hintParameterValue?.let { CallParameter(name = "label", value = it) },
                 modifier.toCallParameter(),
             )
         )
