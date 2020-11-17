@@ -57,6 +57,10 @@ internal sealed class ParameterValue {
     class KeyboardTypeValue(
         val inputType: InputType
     ) : ParameterValue()
+
+    class LambdaValue(
+        val lambda: KotlinWriter.() -> Unit
+    ) : ParameterValue()
 }
 
 internal fun createSizeParameterValue(size: Size?): ParameterValue.SizeValue? {

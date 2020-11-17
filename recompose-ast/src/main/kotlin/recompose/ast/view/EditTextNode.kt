@@ -18,6 +18,7 @@ package recompose.ast.view
 
 import recompose.ast.Node
 import recompose.ast.attributes.ViewAttributes
+import recompose.ast.values.Color
 import recompose.ast.values.InputType
 import recompose.visitor.Visitor
 
@@ -30,6 +31,8 @@ data class EditTextNode(
     override val view: ViewAttributes,
     val text: String,
     val inputType: InputType,
+    val hint: String,
+    val textColorHint: Color? = null,
 ) : Node {
     override fun accept(visitor: Visitor) = visitor.visitEditText(this)
 }
