@@ -31,6 +31,7 @@ import recompose.parser.xml.view.cardView
 import recompose.parser.xml.view.checkBox
 import recompose.parser.xml.view.editText
 import recompose.parser.xml.view.imageView
+import recompose.parser.xml.view.switch
 import recompose.parser.xml.view.textView
 import recompose.parser.xml.view.view
 import recompose.parser.xml.viewgroup.constraintLayout
@@ -56,6 +57,7 @@ internal fun XmlPullParser.node(): Node {
         "Button" -> button()
         "CheckBox" -> checkBox()
         "EditText" -> editText()
+        "Switch" -> switch()
 
         // AndroidX
         "androidx.constraintlayout.widget.ConstraintLayout" -> constraintLayout()
