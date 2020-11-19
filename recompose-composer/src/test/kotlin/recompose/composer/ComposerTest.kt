@@ -76,11 +76,12 @@ class ComposerTest {
                     }) {
                         Text(text = "001", textAlign = TextAlign.Center)
                     }
-                    Button(onClick = {}, modifier = Modifier.width(0.dp).constrainAs(ref_1) {
+                    Button(onClick = {}, modifier = Modifier.constrainAs(ref_1) {
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                         start.linkTo(parent.start)
                         top.linkTo(button001.bottom)
+                        width = Dimension.fillToConstraints
                     }) {
                         Text(text = "010", textAlign = TextAlign.Center)
                     }
