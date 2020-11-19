@@ -257,9 +257,9 @@ internal class ComposingVisitor : Visitor {
         writer.writeCall(
             name = "Switch",
             parameters = listOf(
+                modifier.toCallParameter(),
                 CallParameter(name = "checked", value = ParameterValue.RawValue(node.checked)),
-                CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue),
-                modifier.toCallParameter()
+                CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue)
             )
         )
     }
