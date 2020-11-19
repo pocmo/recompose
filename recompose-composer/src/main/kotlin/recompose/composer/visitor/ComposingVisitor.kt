@@ -22,6 +22,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
+import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
@@ -246,6 +247,19 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "keyboardType", value = ParameterValue.KeyboardTypeValue(node.inputType)),
                 hintParameterValue?.let { CallParameter(name = "label", value = it) },
                 modifier.toCallParameter(),
+            )
+        )
+    }
+
+    override fun visitSwitch(node: SwitchNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            name = "Switch",
+            parameters = listOf(
+                modifier.toCallParameter(),
+                CallParameter(name = "checked", value = ParameterValue.RawValue(node.checked)),
+                CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue)
             )
         )
     }

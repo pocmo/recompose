@@ -32,6 +32,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
+import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
@@ -560,6 +561,24 @@ class ParserTest {
                             background = Drawable.StyleAttribute("selectableItemBackground")
                         ),
                         text = "",
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic Switch`() {
+        assertAST(
+            "switch.xml",
+            Layout(
+                listOf(
+                    SwitchNode(
+                        view = ViewAttributes(
+                            width = LayoutSize.MatchParent,
+                            height = LayoutSize.MatchParent
+                        ),
+                        checked = true
                     )
                 )
             )

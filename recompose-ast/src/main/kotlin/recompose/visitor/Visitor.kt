@@ -21,6 +21,7 @@ import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageViewNode
+import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
 import recompose.ast.viewgroup.CardViewNode
@@ -46,4 +47,5 @@ interface Visitor {
     fun visitCheckBox(node: CheckBoxNode)
     fun visitConstraintLayout(node: ConstraintLayoutNode)
     fun visitUnknown(node: UnknownNode)
+    fun visitSwitch(node: SwitchNode)
 }

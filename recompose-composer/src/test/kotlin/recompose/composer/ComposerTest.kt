@@ -335,4 +335,14 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic Switch`() {
+        assertComposing(
+            fileName = "switch.xml",
+            """
+                Switch(modifier = Modifier.fillMaxWidth().fillMaxHeight(), checked = true, onCheckedChange = {})
+            """.trimIndent()
+        )
+    }
 }
