@@ -65,7 +65,7 @@ internal class ModifierBuilder(
             is LayoutSize.Absolute ->
                 // Don't add the width modifier if it is equal to 0. This is needed to ignore the width parameter in
                 // ConstraintLayout's children when the width is match_constraints (0dp)
-                if (view.width != LayoutSize.Absolute(Size.Dp(0))) {
+                if (view.width != LayoutSize.Absolute(Size.Dp(0)) || !view.constraints.hasConstraints()) {
                     addSize("width", (view.width as LayoutSize.Absolute).size)
                 }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxWidth"))
@@ -75,7 +75,7 @@ internal class ModifierBuilder(
             is LayoutSize.Absolute ->
                 // Don't add the height modifier if it is equal to 0. This is needed to ignore the width parameter in
                 // ConstraintLayout's children when the height is match_constraints (0dp)
-                if (view.height != LayoutSize.Absolute(Size.Dp(0))) {
+                if (view.height != LayoutSize.Absolute(Size.Dp(0)) || !view.constraints.hasConstraints()) {
                     addSize("height", (view.height as LayoutSize.Absolute).size)
                 }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
