@@ -347,7 +347,7 @@ class ComposerTest {
         )
     }
 
-   @Test
+    @Test
     fun `Basic RadioButton`() {
         assertComposing(
             fileName = "radiobutton.xml",
@@ -359,8 +359,8 @@ class ComposerTest {
             """.trimIndent()
         )
     }
-  
-     @Test
+
+    @Test
     fun `Basic ImageButton`() {
         assertComposing(
             fileName = "imagebutton.xml",
