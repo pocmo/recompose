@@ -347,7 +347,7 @@ class ComposerTest {
         )
     }
 
-    @Test
+   @Test
     fun `Basic RadioButton`() {
         assertComposing(
             fileName = "radiobutton.xml",
@@ -355,6 +355,18 @@ class ComposerTest {
                 Row(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
                     RadioButton(selected = true, onClick = {})
                     Text("myButton", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            """.trimIndent()
+        )
+    }
+  
+     @Test
+    fun `Basic ImageButton`() {
+        assertComposing(
+            fileName = "imagebutton.xml",
+            """
+                Button(onClick = {}, modifier = Modifier.width(100.dp).height(100.dp)) {
+                    Image(imageResource(R.drawable.ic_lock_power_off))
                 }
             """.trimIndent()
         )
