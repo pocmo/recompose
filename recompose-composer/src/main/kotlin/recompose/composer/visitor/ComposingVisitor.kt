@@ -23,6 +23,7 @@ import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
 import recompose.ast.view.ImageButtonNode
 import recompose.ast.view.ImageViewNode
+import recompose.ast.view.RadioButtonNode
 import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
 import recompose.ast.view.ViewNode
@@ -124,6 +125,46 @@ internal class ComposingVisitor : Visitor {
                         "align",
                         listOf(
                             CallParameter(ParameterValue.RawValue("Alignment.CenterVertically"))
+                        )
+                    )
+                )
+
+                writeCall(
+                    name = "Text",
+                    parameters = listOf(
+                        CallParameter(ParameterValue.StringValue(text)),
+                        textModifier.toCallParameter()
+                    )
+                )
+            }
+        }
+    }
+
+    override fun visitRadioButton(node: RadioButtonNode) {
+        val rowModifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            "Row",
+            parameters = listOf(
+                rowModifier.toCallParameter()
+            )
+        ) {
+            writeCall(
+                name = "RadioButton",
+                parameters = listOf(
+                    CallParameter(name = "selected", value = ParameterValue.RawValue(node.checked)),
+                    CallParameter(name = "onClick", value = ParameterValue.EmptyLambdaValue)
+                )
+            )
+            node.text?.let { text ->
+                val textModifier = ModifierBuilder()
+                textModifier.add(
+                    Modifier(
+                        name = "align",
+                        parameters = listOf(
+                            CallParameter(
+                                ParameterValue.RawValue("Alignment.CenterVertically")
+                            )
                         )
                     )
                 )
