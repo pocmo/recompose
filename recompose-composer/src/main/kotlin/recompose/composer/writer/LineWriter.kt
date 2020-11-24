@@ -32,7 +32,9 @@ internal class LineWriter {
     }
 
     fun startLine(text: String = "") {
-        repeat(indent) { builder.append(INDENT) }
+        if (builder.isNotEmpty() && checkLast('(').not()) {
+            repeat(indent) { builder.append(INDENT) }
+        }
         builder.append(text)
     }
 
@@ -52,6 +54,10 @@ internal class LineWriter {
     fun writeLine(text: String = "") {
         startLine(text)
         endLine()
+    }
+
+    fun checkLast(char: Char): Boolean {
+        return builder.last() == char
     }
 
     fun getString(): String {

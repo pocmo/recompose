@@ -21,6 +21,7 @@ import recompose.ast.values.Orientation
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
+import recompose.ast.view.ImageButtonNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.RadioButtonNode
 import recompose.ast.view.SwitchNode
@@ -303,5 +304,24 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue)
             )
         )
+    }
+
+    override fun visitImageButton(node: ImageButtonNode) {
+        val modifier = ModifierBuilder(node)
+
+        writer.writeCall(
+            name = "Button",
+            parameters = listOf(
+                CallParameter(name = "onClick", value = ParameterValue.EmptyLambdaValue),
+                modifier.toCallParameter()
+            )
+        ) {
+            writeCall(
+                name = "Image",
+                parameters = listOf(
+                    node.src?.let { CallParameter(ParameterValue.DrawableValue(it)) }
+                )
+            )
+        }
     }
 }
