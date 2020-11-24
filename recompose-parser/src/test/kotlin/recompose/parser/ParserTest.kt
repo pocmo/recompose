@@ -31,6 +31,7 @@ import recompose.ast.values.Size
 import recompose.ast.view.ButtonNode
 import recompose.ast.view.CheckBoxNode
 import recompose.ast.view.EditTextNode
+import recompose.ast.view.ImageButtonNode
 import recompose.ast.view.ImageViewNode
 import recompose.ast.view.SwitchNode
 import recompose.ast.view.TextViewNode
@@ -579,6 +580,25 @@ class ParserTest {
                             height = LayoutSize.MatchParent
                         ),
                         checked = true
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Basic ImageButton`() {
+        assertAST(
+            fileName = "imagebutton.xml",
+            Layout(
+                children = listOf(
+                    ImageButtonNode(
+                        view = ViewAttributes(
+                            id = "powerButton",
+                            width = LayoutSize.Absolute(Size.Dp(100)),
+                            height = LayoutSize.Absolute(Size.Dp(100)),
+                        ),
+                        src = Drawable.Resource("ic_lock_power_off")
                     )
                 )
             )

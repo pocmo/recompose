@@ -345,4 +345,16 @@ class ComposerTest {
             """.trimIndent()
         )
     }
+
+    @Test
+    fun `Basic ImageButton`() {
+        assertComposing(
+            fileName = "imagebutton.xml",
+            """
+                Button(onClick = {}, modifier = Modifier.width(100.dp).height(100.dp)) {
+                    Image(imageResource(R.drawable.ic_lock_power_off))
+                }
+            """.trimIndent()
+        )
+    }
 }
