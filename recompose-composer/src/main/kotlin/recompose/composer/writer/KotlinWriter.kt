@@ -20,6 +20,7 @@ import recompose.ast.values.Color
 import recompose.ast.values.Constraints
 import recompose.ast.values.Drawable
 import recompose.ast.values.InputType
+import recompose.ast.values.LayoutSize
 import recompose.ast.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.model.Chain
@@ -280,6 +281,13 @@ internal class KotlinWriter {
         writer.startLine("$from.linkTo(")
         writeConstraintId(id)
         writer.endLine(".$to)")
+    }
+
+    internal fun writeSizeConstraint(dimension: String, size: LayoutSize) {
+        if (size == LayoutSize.Absolute(Size.Dp(0))) {
+            writer.startLine("$dimension = Dimension.fillToConstraints")
+            writer.endLine()
+        }
     }
 
     private fun writeConstraintId(id: Constraints.Id) {

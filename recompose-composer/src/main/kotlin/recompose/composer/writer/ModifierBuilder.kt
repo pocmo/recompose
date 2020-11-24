@@ -62,12 +62,22 @@ internal class ModifierBuilder(
         val view = node.view
 
         when (view.width) {
-            is LayoutSize.Absolute -> addSize("width", (view.width as LayoutSize.Absolute).size)
+            is LayoutSize.Absolute ->
+                // Don't add the width modifier if it is equal to 0. This is needed to ignore the width parameter in
+                // ConstraintLayout's children when the width is match_constraints (0dp)
+                if (view.width != LayoutSize.Absolute(Size.Dp(0)) || !view.constraints.hasConstraints()) {
+                    addSize("width", (view.width as LayoutSize.Absolute).size)
+                }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxWidth"))
         }
 
         when (view.height) {
-            is LayoutSize.Absolute -> addSize("height", (view.height as LayoutSize.Absolute).size)
+            is LayoutSize.Absolute ->
+                // Don't add the height modifier if it is equal to 0. This is needed to ignore the width parameter in
+                // ConstraintLayout's children when the height is match_constraints (0dp)
+                if (view.height != LayoutSize.Absolute(Size.Dp(0)) || !view.constraints.hasConstraints()) {
+                    addSize("height", (view.height as LayoutSize.Absolute).size)
+                }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
         }
 
@@ -107,6 +117,8 @@ internal class ModifierBuilder(
                 constraints.relative.startToStart?.let { writeRelativePositioningConstraint("start", it, "start") }
                 constraints.relative.topToBottom?.let { writeRelativePositioningConstraint("top", it, "bottom") }
                 constraints.relative.topToTop?.let { writeRelativePositioningConstraint("top", it, "top") }
+                writeSizeConstraint("width", node.view.width)
+                writeSizeConstraint("height", node.view.height)
             }
         )
     }
