@@ -22,7 +22,7 @@ import com.github.ajalt.clikt.parameters.arguments.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import recompose.composer.Composer
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 import java.io.File
 import java.lang.Exception
 
@@ -53,7 +53,7 @@ class CommandLineComposer : CliktCommand(
         mustBeWritable = true
     )
 
-    private val parser = Parser()
+    private val parser = ParserImpl()
     private val composer = Composer()
 
     override fun run() {
@@ -72,7 +72,7 @@ class CommandLineComposer : CliktCommand(
             return try {
                 val layout = parser.parse(reader)
                 composer.compose(layout)
-            } catch (e: Parser.ParserException) {
+            } catch (e: ParserImpl.ParserException) {
                 showError(file, e)
                 null
             } catch (e: Composer.ComposerException) {

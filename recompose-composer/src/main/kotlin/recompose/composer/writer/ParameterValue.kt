@@ -16,10 +16,10 @@
 
 package recompose.composer.writer
 
-import recompose.ast.values.Color
-import recompose.ast.values.Drawable
-import recompose.ast.values.InputType
-import recompose.ast.values.Size
+import com.jds.recompose.values.Color
+import com.jds.recompose.values.Drawable
+import com.jds.recompose.values.InputType
+import com.jds.recompose.values.Size
 
 /**
  * Sealed class for types of parameter values that are passed to a `Composable`.

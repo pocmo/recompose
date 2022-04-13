@@ -16,16 +16,17 @@
 
 package recompose.composer.model
 
-import recompose.ast.Node
-import recompose.ast.values.Constraints
+import com.jds.recompose.nodes.ViewNode
+import com.jds.recompose.values.Constraints
+
 
 /**
  * Data class holding information about a chain of a `ConstraintLayout`.
  */
 internal data class Chain(
     val direction: Direction,
-    val head: Node,
-    val elements: Set<Node>,
+    val head: ViewNode,
+    val elements: Set<ViewNode>,
     val style: Constraints.Chain.Style? = null
 ) {
     enum class Direction {

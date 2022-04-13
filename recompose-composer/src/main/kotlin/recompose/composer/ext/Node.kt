@@ -16,10 +16,12 @@
 
 package recompose.composer.ext
 
-import recompose.ast.Node
+import com.jds.recompose.nodes.Node
+import com.jds.recompose.nodes.ViewNode
+import com.jds.recompose.values.Id
 import java.util.WeakHashMap
 
-private val refMap = WeakHashMap<Node, String>()
+private val refMap = WeakHashMap<Node, Id>()
 private var refCounter = 0
 
 /**
@@ -28,7 +30,7 @@ private var refCounter = 0
  * If available this returns the ID of the `View`. Otherwise a unique reference will be generated.
  */
 @Suppress("ReturnCount")
-internal fun Node.getRef(): String {
+internal fun ViewNode.getRef(): Id {
     // If this view has an ID then we can use this as a unique reference.
     view.id?.apply { return this }
 
@@ -40,7 +42,7 @@ internal fun Node.getRef(): String {
     refMap[this]?.apply { return this }
 
     refCounter++
-    val ref = "ref_$refCounter"
+    val ref = Id("ref_$refCounter")
     refMap[this] = ref
 
     return ref

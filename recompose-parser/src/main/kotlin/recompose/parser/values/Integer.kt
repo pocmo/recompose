@@ -17,10 +17,10 @@
 package recompose.parser.values
 
 import org.xmlpull.v1.XmlPullParser
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 
 /**
- * Parses a integer attribute. Throws [Parser.ParserException] if the integer could not be parsed.
+ * Parses a integer attribute. Throws [ParserImpl.ParserException] if the integer could not be parsed.
  */
 internal fun XmlPullParser.integer(name: String): Int? {
     val value = getAttributeValue(null, name)
@@ -28,6 +28,6 @@ internal fun XmlPullParser.integer(name: String): Int? {
     return try {
         value?.let { Integer.parseInt(it) }
     } catch (e: NumberFormatException) {
-        throw Parser.ParserException("Could not parse integer: $value", e)
+        throw ParserImpl.ParserException("Could not parse integer: $value", e)
     }
 }

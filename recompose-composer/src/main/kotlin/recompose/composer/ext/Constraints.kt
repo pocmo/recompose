@@ -16,7 +16,7 @@
 
 package recompose.composer.ext
 
-import recompose.ast.values.Constraints
+import com.jds.recompose.values.Constraints
 
 /**
  * Returns true if at least one constraint is set in [Constraints].

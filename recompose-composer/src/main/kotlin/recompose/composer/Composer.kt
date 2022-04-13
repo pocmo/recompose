@@ -16,7 +16,7 @@
 
 package recompose.composer
 
-import recompose.ast.Layout
+import com.jds.recompose.nodes.Layout
 import recompose.composer.visitor.ComposingVisitor
 
 /**

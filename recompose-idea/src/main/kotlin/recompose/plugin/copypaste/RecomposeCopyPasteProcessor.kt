@@ -28,7 +28,7 @@ import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.idea.KotlinFileType
 import recompose.composer.Composer
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 import recompose.plugin.editor.RecomposeEditorOptions
 import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.Transferable
@@ -109,7 +109,7 @@ class RecomposeCopyPasteProcessor : CopyPastePostProcessor<TextBlockTransferable
 
             val value = values.single() as CopiedXMLCode
 
-            val parser = Parser()
+            val parser = ParserImpl()
             // Currently we parse all text of the document we copied from. Obviously this is wrong and we should only
             // take the selection and parse this. But this may require that we fix up the XML since the copied part may
             // be incomplete.

@@ -13,10 +13,10 @@ dependencies {
     implementation(project(":recompose-ast"))
     implementation(project(":recompose-parser"))
     implementation(project(":recompose-composer"))
-    implementation("com.github.ajalt.clikt:clikt:3.0.1")
+    implementation("com.github.ajalt.clikt:clikt:3.4.0")
     testImplementation(kotlin("test-junit"))
 }
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 application {

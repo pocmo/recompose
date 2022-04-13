@@ -16,16 +16,16 @@
 
 package recompose.composer.writer
 
-import recompose.ast.Node
-import recompose.ast.values.LayoutSize
-import recompose.ast.values.Padding
-import recompose.ast.values.Size
+import com.jds.recompose.nodes.ViewNode
+import com.jds.recompose.values.LayoutSize
+import com.jds.recompose.values.Padding
+import com.jds.recompose.values.Size
 import recompose.composer.ext.getRef
 import recompose.composer.ext.hasConstraints
 import recompose.composer.ext.hasValues
 
 internal class ModifierBuilder(
-    node: Node? = null
+    node: ViewNode? = null
 ) {
     private val modifiers = mutableListOf<Modifier>()
 
@@ -58,7 +58,7 @@ internal class ModifierBuilder(
         return modifiers.isNotEmpty()
     }
 
-    private fun addViewModifiers(node: Node) {
+    private fun addViewModifiers(node: ViewNode) {
         val view = node.view
 
         when (view.width) {
@@ -69,6 +69,7 @@ internal class ModifierBuilder(
                     addSize("width", (view.width as LayoutSize.Absolute).size)
                 }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxWidth"))
+            is LayoutSize.WrapContent -> {}
         }
 
         when (view.height) {
@@ -79,6 +80,7 @@ internal class ModifierBuilder(
                     addSize("height", (view.height as LayoutSize.Absolute).size)
                 }
             is LayoutSize.MatchParent -> add(Modifier("fillMaxHeight"))
+            is LayoutSize.WrapContent -> {}
         }
 
         view.background?.let { drawable ->
@@ -101,10 +103,10 @@ internal class ModifierBuilder(
         }
     }
 
-    private fun addConstraints(node: Node) {
+    private fun addConstraints(node: ViewNode) {
         val constraints = node.view.constraints
         add(
-            Modifier("constrainAs", listOf(CallParameter(ParameterValue.RawValue(node.getRef())))) {
+            Modifier("constrainAs", listOf(CallParameter(ParameterValue.RawValue(node.getRef().value)))) {
                 constraints.relative.bottomToBottom?.let { writeRelativePositioningConstraint("bottom", it, "bottom") }
                 constraints.relative.bottomToTop?.let { writeRelativePositioningConstraint("bottom", it, "top") }
                 constraints.relative.endToEnd?.let { writeRelativePositioningConstraint("end", it, "end") }

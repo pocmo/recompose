@@ -16,17 +16,18 @@
 
 package recompose.composer.ext
 
-import recompose.ast.Node
-import recompose.ast.values.Constraints
-import recompose.ast.viewgroup.ConstraintLayoutNode
+import com.jds.recompose.nodes.ConstraintLayoutNode
+import com.jds.recompose.nodes.ViewNode
+import com.jds.recompose.values.Constraints
+import com.jds.recompose.values.Id
 import recompose.composer.model.Chain
 
 /**
  * Finds all references used in constraints.
  */
-internal fun ConstraintLayoutNode.findRefs(): Set<String> {
-    return viewGroup.children
-        .map { node -> node.view.constraints.collectRefs().map { it.id } + node.getRef() }
+internal fun ConstraintLayoutNode.findRefs(): Set<Id> {
+    return viewGroupAttributes.children
+        .map { node -> view.constraints.collectRefs().map { Id(it.id) } + node.getRef() }
         .flatten()
         .toSet()
 }
@@ -42,14 +43,14 @@ internal fun ConstraintLayoutNode.findChains(): Set<Chain> {
  * Finds all chains in the provided [direction].
  */
 private fun ConstraintLayoutNode.findChainsIn(direction: Chain.Direction): Set<Chain> {
-    val lookupMap = mutableMapOf<String, Node>()
-    viewGroup.children.forEach { node ->
+    val lookupMap = mutableMapOf<Id, ViewNode>()
+    viewGroupAttributes.children.forEach { node ->
         lookupMap[node.getRef()] = node
     }
 
     val chainBuilder = ChainBuilder(direction)
 
-    viewGroup.children.forEach { node ->
+    viewGroupAttributes.children.forEach { node ->
         val tailNode = node.findTailNodeIn(direction, lookupMap)
         if (tailNode != null) {
             chainBuilder.addLink(node, tailNode)
@@ -65,24 +66,24 @@ private fun ConstraintLayoutNode.findChainsIn(direction: Chain.Direction): Set<C
  * Tail node here means the node following this node in a chain.
  */
 @Suppress("ReturnCount")
-private fun Node.findTailNodeIn(
+private fun ViewNode.findTailNodeIn(
     direction: Chain.Direction,
-    lookupMap: Map<String, Node>
-): Node? {
-    val id = view.constraints.tailId(direction) ?: return null
+    lookupMap: MutableMap<Id, ViewNode>
+): ViewNode? {
+    val id = this.view.constraints.tailId(direction) ?: return null
     if (id == Constraints.Id.Parent) {
         return null
     }
 
     val tailRef = (id as Constraints.Id.View).id
-    val tail = lookupMap[tailRef]
+    val tail = lookupMap[Id(tailRef)]
 
     val headId = tail?.view?.constraints?.headId(direction) ?: return null
     if (headId !is Constraints.Id.View) {
         return null
     }
 
-    return if (headId.id == this.getRef()) {
+    return if (headId.id == this.getRef().value) {
         tail
     } else {
         return null
@@ -139,9 +140,9 @@ private fun Constraints.verticalHeadId(): Constraints.Id? {
 private class ChainBuilder(
     private val direction: Chain.Direction
 ) {
-    val chains = mutableMapOf<Node, Set<Node>>()
+    val chains = mutableMapOf<ViewNode, Set<ViewNode>>()
 
-    private fun headWithTail(chains: Map<Node, Set<Node>>, tail: Node): Node? {
+    private fun headWithTail(chains: Map<ViewNode, Set<ViewNode>>, tail: ViewNode): ViewNode? {
         chains.forEach { (head, chain) ->
             if (chain.last() == tail) {
                 return head
@@ -150,7 +151,7 @@ private class ChainBuilder(
         return null
     }
 
-    fun addLink(head: Node, tail: Node) {
+    fun addLink(head: ViewNode, tail: ViewNode) {
         if (tail in chains) {
             // The tail of the new chain is the head of another chain. Let's remove it and make the new head the head
             // of the combined chain

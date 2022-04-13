@@ -16,29 +16,11 @@
 
 package recompose.parser
 
+import com.jds.recompose.attributes.ViewAttributes
+import com.jds.recompose.attributes.ViewGroupAttributes
+import com.jds.recompose.nodes.*
+import com.jds.recompose.values.*
 import org.junit.Test
-import recompose.ast.Layout
-import recompose.ast.attributes.ViewAttributes
-import recompose.ast.attributes.ViewGroupAttributes
-import recompose.ast.values.Color
-import recompose.ast.values.Constraints
-import recompose.ast.values.Drawable
-import recompose.ast.values.InputType
-import recompose.ast.values.LayoutSize
-import recompose.ast.values.Orientation
-import recompose.ast.values.Padding
-import recompose.ast.values.Size
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.CheckBoxNode
-import recompose.ast.view.EditTextNode
-import recompose.ast.view.ImageViewNode
-import recompose.ast.view.SwitchNode
-import recompose.ast.view.TextViewNode
-import recompose.ast.view.ViewNode
-import recompose.ast.viewgroup.CardViewNode
-import recompose.ast.viewgroup.ConstraintLayoutNode
-import recompose.ast.viewgroup.FrameLayoutNode
-import recompose.ast.viewgroup.LinearLayoutNode
 import recompose.test.utils.assertAST
 
 class ParserTest {
@@ -53,22 +35,28 @@ class ParserTest {
                             width = LayoutSize.MatchParent,
                             height = LayoutSize.MatchParent
                         ),
-                        ViewGroupAttributes(
-                            listOf(
-                                TextViewNode(
-                                    ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent
+                        ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            viewGroupAttributes = ViewGroupAttributes(
+                                listOf(
+                                    TextViewNode(
+                                        ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent
+                                        ),
+                                        text = "Hello World!",
+                                        textColor = Color.Absolute(0xFFFF0000)
                                     ),
-                                    text = "Hello World!",
-                                    textColor = Color.Absolute(0xFFFF0000)
-                                ),
-                                ButtonNode(
-                                    ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent
-                                    ),
-                                    text = "Click me!"
+                                    ButtonNode(
+                                        ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent
+                                        ),
+                                        text = "Click me!"
+                                    )
                                 )
                             )
                         ),
@@ -109,51 +97,57 @@ class ParserTest {
                             width = LayoutSize.MatchParent,
                             height = LayoutSize.MatchParent
                         ),
-                        ViewGroupAttributes(
-                            children = listOf(
-                                ButtonNode(
-                                    ViewAttributes(
-                                        id = "button000",
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        constraints = Constraints(
-                                            Constraints.RelativePositioning(
-                                                startToStart = Constraints.Id.Parent,
-                                                topToTop = Constraints.Id.Parent
+                        ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                children = listOf(
+                                    ButtonNode(
+                                        ViewAttributes(
+                                            id = Id("button000"),
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            constraints = Constraints(
+                                                Constraints.RelativePositioning(
+                                                    startToStart = Constraints.Id.Parent,
+                                                    topToTop = Constraints.Id.Parent
+                                                )
                                             )
-                                        )
+                                        ),
+                                        text = "000"
                                     ),
-                                    text = "000"
-                                ),
-                                ButtonNode(
-                                    ViewAttributes(
-                                        id = "button001",
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        constraints = Constraints(
-                                            Constraints.RelativePositioning(
-                                                endToEnd = Constraints.Id.Parent,
-                                                startToStart = Constraints.Id.Parent,
-                                                topToBottom = Constraints.Id.View("button000")
+                                    ButtonNode(
+                                        ViewAttributes(
+                                            id = Id("button001"),
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            constraints = Constraints(
+                                                Constraints.RelativePositioning(
+                                                    endToEnd = Constraints.Id.Parent,
+                                                    startToStart = Constraints.Id.Parent,
+                                                    topToBottom = Constraints.Id.View("button000")
+                                                )
                                             )
-                                        )
+                                        ),
+                                        text = "001"
                                     ),
-                                    text = "001"
-                                ),
-                                ButtonNode(
-                                    ViewAttributes(
-                                        width = LayoutSize.Absolute(Size.Dp(0)),
-                                        height = LayoutSize.WrapContent,
-                                        constraints = Constraints(
-                                            Constraints.RelativePositioning(
-                                                bottomToBottom = Constraints.Id.Parent,
-                                                endToEnd = Constraints.Id.Parent,
-                                                startToStart = Constraints.Id.Parent,
-                                                topToBottom = Constraints.Id.View("button001")
+                                    ButtonNode(
+                                        ViewAttributes(
+                                            width = LayoutSize.Absolute(Size.Dp(0)),
+                                            height = LayoutSize.WrapContent,
+                                            constraints = Constraints(
+                                                Constraints.RelativePositioning(
+                                                    bottomToBottom = Constraints.Id.Parent,
+                                                    endToEnd = Constraints.Id.Parent,
+                                                    startToStart = Constraints.Id.Parent,
+                                                    topToBottom = Constraints.Id.View("button001")
+                                                )
                                             )
-                                        )
-                                    ),
-                                    text = "010"
+                                        ),
+                                        text = "010"
+                                    )
                                 )
                             )
                         )
@@ -171,7 +165,7 @@ class ParserTest {
                 children = listOf(
                     TextViewNode(
                         view = ViewAttributes(
-                            id = "title",
+                            id = Id("title"),
                             width = LayoutSize.Absolute(Size.Dp(100)),
                             height = LayoutSize.WrapContent,
                             background = Drawable.ColorValue(Color.Absolute(0xAA0000FF))
@@ -198,52 +192,60 @@ class ParserTest {
                             height = LayoutSize.MatchParent
                         ),
                         orientation = Orientation.Vertical,
-                        viewGroup = ViewGroupAttributes(
-                            children = listOf(
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        background = Drawable.ColorValue(Color.Absolute(0xffff0000)),
-                                        padding = Padding(all = Size.Dp(10))
+                        viewGroup =
+
+                        ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                listOf(
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            background = Drawable.ColorValue(Color.Absolute(0xffff0000)),
+                                            padding = Padding(all = Size.Dp(10))
+                                        ),
+                                        text = "padding"
                                     ),
-                                    text = "padding"
-                                ),
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        background = Drawable.ColorValue(Color.Absolute(0xff00ff00)),
-                                        padding = Padding(top = Size.Dp(10), left = Size.Dp(10))
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            background = Drawable.ColorValue(Color.Absolute(0xff00ff00)),
+                                            padding = Padding(top = Size.Dp(10), left = Size.Dp(10))
+                                        ),
+                                        text = "paddingTop/Left"
                                     ),
-                                    text = "paddingTop/Left"
-                                ),
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        background = Drawable.ColorValue(Color.Absolute(0xff0000ff)),
-                                        padding = Padding(right = Size.Dp(10), bottom = Size.Dp(10))
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            background = Drawable.ColorValue(Color.Absolute(0xff0000ff)),
+                                            padding = Padding(right = Size.Dp(10), bottom = Size.Dp(10))
+                                        ),
+                                        text = "paddingRight/Bottom"
                                     ),
-                                    text = "paddingRight/Bottom"
-                                ),
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        background = Drawable.ColorValue(Color.Absolute(0xff00ffff)),
-                                        padding = Padding(start = Size.Dp(10), end = Size.Dp(10))
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            background = Drawable.ColorValue(Color.Absolute(0xff00ffff)),
+                                            padding = Padding(start = Size.Dp(10), end = Size.Dp(10))
+                                        ),
+                                        text = "paddingStartEnd"
                                     ),
-                                    text = "paddingStartEnd"
-                                ),
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.WrapContent,
-                                        height = LayoutSize.WrapContent,
-                                        background = Drawable.ColorValue(Color.Absolute(0xffff00ff)),
-                                        padding = Padding(horizontal = Size.Dp(10), vertical = Size.Dp(10))
-                                    ),
-                                    text = "paddingHorizontalVertically"
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.WrapContent,
+                                            height = LayoutSize.WrapContent,
+                                            background = Drawable.ColorValue(Color.Absolute(0xffff00ff)),
+                                            padding = Padding(horizontal = Size.Dp(10), vertical = Size.Dp(10))
+                                        ),
+                                        text = "paddingHorizontalVertically"
+                                    )
                                 )
                             )
                         )
@@ -265,30 +267,36 @@ class ParserTest {
                             height = LayoutSize.MatchParent
                         ),
                         orientation = Orientation.Horizontal,
-                        viewGroup = ViewGroupAttributes(
-                            children = listOf(
-                                ViewNode(
-                                    view = ViewAttributes(
-                                        id = "one",
-                                        width = LayoutSize.Absolute(Size.Dp(50)),
-                                        height = LayoutSize.Absolute(Size.Dp(50)),
-                                        background = Drawable.ColorValue(Color.Absolute(0xffff0000))
-                                    )
-                                ),
-                                ViewNode(
-                                    view = ViewAttributes(
-                                        id = "two",
-                                        width = LayoutSize.Absolute(Size.Dp(50)),
-                                        height = LayoutSize.Absolute(Size.Dp(50)),
-                                        background = Drawable.ColorValue(Color.Absolute(0xff00ff00))
-                                    )
-                                ),
-                                ViewNode(
-                                    view = ViewAttributes(
-                                        id = "three",
-                                        width = LayoutSize.Absolute(Size.Dp(50)),
-                                        height = LayoutSize.Absolute(Size.Dp(50)),
-                                        background = Drawable.ColorValue(Color.Absolute(0xff0000ff))
+                        viewGroup = ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                listOf(
+                                    ViewNode(
+                                        view = ViewAttributes(
+                                            id = Id("one"),
+                                            width = LayoutSize.Absolute(Size.Dp(50)),
+                                            height = LayoutSize.Absolute(Size.Dp(50)),
+                                            background = Drawable.ColorValue(Color.Absolute(0xffff0000))
+                                        )
+                                    ),
+                                    ViewNode(
+                                        view = ViewAttributes(
+                                            id = Id("two"),
+                                            width = LayoutSize.Absolute(Size.Dp(50)),
+                                            height = LayoutSize.Absolute(Size.Dp(50)),
+                                            background = Drawable.ColorValue(Color.Absolute(0xff00ff00))
+                                        )
+                                    ),
+                                    ViewNode(
+                                        view = ViewAttributes(
+                                            id = Id("three"),
+                                            width = LayoutSize.Absolute(Size.Dp(50)),
+                                            height = LayoutSize.Absolute(Size.Dp(50)),
+                                            background = Drawable.ColorValue(Color.Absolute(0xff0000ff))
+                                        )
                                     )
                                 )
                             )
@@ -307,7 +315,7 @@ class ParserTest {
                 children = listOf(
                     ImageViewNode(
                         view = ViewAttributes(
-                            id = "powerOff",
+                            id = Id("powerOff"),
                             width = LayoutSize.Absolute(Size.Dp(100)),
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         ),
@@ -326,7 +334,7 @@ class ParserTest {
                 children = listOf(
                     CardViewNode(
                         view = ViewAttributes(
-                            id = "card",
+                            id = Id("card"),
                             width = LayoutSize.Absolute(Size.Dp(300)),
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         )
@@ -344,37 +352,49 @@ class ParserTest {
                 children = listOf(
                     CardViewNode(
                         view = ViewAttributes(
-                            id = "card",
+                            id = Id("card"),
                             width = LayoutSize.Absolute(Size.Dp(300)),
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         ),
-                        viewGroup = ViewGroupAttributes(
-                            children = listOf(
-                                LinearLayoutNode(
-                                    ViewAttributes(
-                                        width = LayoutSize.MatchParent,
-                                        height = LayoutSize.MatchParent
-                                    ),
-                                    ViewGroupAttributes(
-                                        listOf(
-                                            TextViewNode(
-                                                ViewAttributes(
-                                                    width = LayoutSize.WrapContent,
-                                                    height = LayoutSize.WrapContent
-                                                ),
-                                                text = "Hello World!",
-                                                textColor = Color.Absolute(0xFFFF0000)
+                        viewGroup = ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                listOf(
+                                    LinearLayoutNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.MatchParent,
+                                            height = LayoutSize.MatchParent
+                                        ),
+                                        viewGroup = ViewGroupNode(
+                                            view = ViewAttributes(
+                                                width = LayoutSize.MatchParent,
+                                                height = LayoutSize.MatchParent
                                             ),
-                                            ButtonNode(
-                                                ViewAttributes(
-                                                    width = LayoutSize.WrapContent,
-                                                    height = LayoutSize.WrapContent
-                                                ),
-                                                text = "Click me!"
+                                            ViewGroupAttributes(
+                                                listOf(
+                                                    TextViewNode(
+                                                        ViewAttributes(
+                                                            width = LayoutSize.WrapContent,
+                                                            height = LayoutSize.WrapContent
+                                                        ),
+                                                        text = "Hello World!",
+                                                        textColor = Color.Absolute(0xFFFF0000)
+                                                    ),
+                                                    ButtonNode(
+                                                        ViewAttributes(
+                                                            width = LayoutSize.WrapContent,
+                                                            height = LayoutSize.WrapContent
+                                                        ),
+                                                        text = "Click me!"
+                                                    )
+                                                )
                                             )
-                                        )
-                                    ),
-                                    Orientation.Vertical
+                                        ),
+                                        Orientation.Vertical
+                                    )
                                 )
                             )
                         )
@@ -392,7 +412,7 @@ class ParserTest {
                 children = listOf(
                     CardViewNode(
                         view = ViewAttributes(
-                            id = "card",
+                            id = Id("card"),
                             width = LayoutSize.Absolute(Size.Dp(300)),
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         )
@@ -410,37 +430,49 @@ class ParserTest {
                 children = listOf(
                     CardViewNode(
                         view = ViewAttributes(
-                            id = "card",
+                            id = Id("card"),
                             width = LayoutSize.Absolute(Size.Dp(300)),
                             height = LayoutSize.Absolute(Size.Dp(100)),
                         ),
-                        viewGroup = ViewGroupAttributes(
-                            children = listOf(
-                                LinearLayoutNode(
-                                    ViewAttributes(
-                                        width = LayoutSize.MatchParent,
-                                        height = LayoutSize.MatchParent
-                                    ),
-                                    ViewGroupAttributes(
-                                        listOf(
-                                            TextViewNode(
-                                                ViewAttributes(
-                                                    width = LayoutSize.WrapContent,
-                                                    height = LayoutSize.WrapContent
-                                                ),
-                                                text = "Hello World!",
-                                                textColor = Color.Absolute(0xFFFF0000)
+                        viewGroup = ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                children = listOf(
+                                    LinearLayoutNode(
+                                        ViewAttributes(
+                                            width = LayoutSize.MatchParent,
+                                            height = LayoutSize.MatchParent
+                                        ),
+                                        ViewGroupNode(
+                                            view = ViewAttributes(
+                                                width = LayoutSize.MatchParent,
+                                                height = LayoutSize.MatchParent
                                             ),
-                                            ButtonNode(
-                                                ViewAttributes(
-                                                    width = LayoutSize.WrapContent,
-                                                    height = LayoutSize.WrapContent
-                                                ),
-                                                text = "Click me!"
+                                            ViewGroupAttributes(
+                                                listOf(
+                                                    TextViewNode(
+                                                        ViewAttributes(
+                                                            width = LayoutSize.WrapContent,
+                                                            height = LayoutSize.WrapContent
+                                                        ),
+                                                        text = "Hello World!",
+                                                        textColor = Color.Absolute(0xFFFF0000)
+                                                    ),
+                                                    ButtonNode(
+                                                        ViewAttributes(
+                                                            width = LayoutSize.WrapContent,
+                                                            height = LayoutSize.WrapContent
+                                                        ),
+                                                        text = "Click me!"
+                                                    )
+                                                )
                                             )
-                                        )
-                                    ),
-                                    Orientation.Vertical
+                                        ),
+                                        orientation = Orientation.Vertical
+                                    )
                                 )
                             )
                         )
@@ -522,25 +554,31 @@ class ParserTest {
                             height = LayoutSize.MatchParent,
                             padding = Padding(all = Size.Dp(16))
                         ),
-                        viewGroup = ViewGroupAttributes(
-                            children = listOf(
-                                TextViewNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.MatchParent,
-                                        height = LayoutSize.MatchParent
+                        viewGroup = ViewGroupNode(
+                            view = ViewAttributes(
+                                width = LayoutSize.MatchParent,
+                                height = LayoutSize.MatchParent
+                            ),
+                            ViewGroupAttributes(
+                                children = listOf(
+                                    TextViewNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.MatchParent,
+                                            height = LayoutSize.MatchParent
+                                        ),
+                                        text = "Center",
+                                        textSize = Size.Sp(20)
                                     ),
-                                    text = "Center",
-                                    textSize = Size.Sp(20)
-                                ),
-                                ButtonNode(
-                                    view = ViewAttributes(
-                                        width = LayoutSize.MatchParent,
-                                        height = LayoutSize.WrapContent
-                                    ),
-                                    text = "Button"
+                                    ButtonNode(
+                                        view = ViewAttributes(
+                                            width = LayoutSize.MatchParent,
+                                            height = LayoutSize.WrapContent
+                                        ),
+                                        text = "Button"
+                                    )
                                 )
-                            )
 
+                            )
                         )
                     )
                 )

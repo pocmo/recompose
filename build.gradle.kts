@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         mavenCentral()
@@ -13,7 +15,11 @@ allprojects {
 }
 
 plugins {
-    kotlin("jvm") version "1.4.10"
-    id("io.gitlab.arturbosch.detekt") version "1.13.1"
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
+    kotlin("jvm") version "1.6.20"
+    id("io.gitlab.arturbosch.detekt") version "1.20.0-RC2"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
 }
+
+//tasks.withType<KotlinCompile> {
+//
+//}

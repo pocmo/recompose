@@ -16,29 +16,12 @@
 
 package recompose.composer.visitor
 
-import recompose.ast.Layout
-import recompose.ast.values.Orientation
-import recompose.ast.view.ButtonNode
-import recompose.ast.view.CheckBoxNode
-import recompose.ast.view.EditTextNode
-import recompose.ast.view.ImageViewNode
-import recompose.ast.view.RadioButtonNode
-import recompose.ast.view.SwitchNode
-import recompose.ast.view.TextViewNode
-import recompose.ast.view.ViewNode
-import recompose.ast.viewgroup.CardViewNode
-import recompose.ast.viewgroup.ConstraintLayoutNode
-import recompose.ast.viewgroup.FrameLayoutNode
-import recompose.ast.viewgroup.LinearLayoutNode
-import recompose.ast.viewgroup.UnknownNode
+import com.jds.recompose.nodes.*
+import com.jds.recompose.values.Orientation
+import com.jds.recompose.visitor.Visitor
 import recompose.composer.ext.findChains
 import recompose.composer.ext.findRefs
-import recompose.composer.writer.CallParameter
-import recompose.composer.writer.KotlinWriter
-import recompose.composer.writer.Modifier
-import recompose.composer.writer.ModifierBuilder
-import recompose.composer.writer.ParameterValue
-import recompose.visitor.Visitor
+import recompose.composer.writer.*
 
 /**
  * [Visitor] implementation that traverses the parsed [Layout] and transforms it into `Composable" calls.
@@ -51,11 +34,11 @@ internal class ComposingVisitor : Visitor {
         return writer.getString()
     }
 
-    override fun visitLayout(layout: Layout) {
+    private fun visitLayout(layout: Layout) {
         layout.children.forEach { view -> view.accept(this) }
     }
 
-    override fun visitView(node: ViewNode) {
+    private fun visitView(node: ViewNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -66,7 +49,7 @@ internal class ComposingVisitor : Visitor {
         )
     }
 
-    override fun visitButton(node: ButtonNode) {
+    private fun visitButton(node: ButtonNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -86,7 +69,7 @@ internal class ComposingVisitor : Visitor {
         }
     }
 
-    override fun visitTextView(node: TextViewNode) {
+    private fun visitTextView(node: TextViewNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -101,7 +84,7 @@ internal class ComposingVisitor : Visitor {
         )
     }
 
-    override fun visitCheckBox(node: CheckBoxNode) {
+    private fun visitCheckBox(node: CheckBoxNode) {
         val rowModifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -139,7 +122,7 @@ internal class ComposingVisitor : Visitor {
         }
     }
 
-    override fun visitRadioButton(node: RadioButtonNode) {
+    private fun visitRadioButton(node: RadioButtonNode) {
         val rowModifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -179,7 +162,7 @@ internal class ComposingVisitor : Visitor {
         }
     }
 
-    override fun visitCardView(node: CardViewNode) {
+    private fun visitCardView(node: CardViewNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -188,11 +171,11 @@ internal class ComposingVisitor : Visitor {
                 modifier.toCallParameter()
             )
         ) {
-            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+            node.viewGroupAttributes.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
 
-    override fun visitImageView(node: ImageViewNode) {
+    private fun visitImageView(node: ImageViewNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -204,25 +187,25 @@ internal class ComposingVisitor : Visitor {
         )
     }
 
-    override fun visitLinearLayout(node: LinearLayoutNode) {
+    private fun visitLinearLayout(node: LinearLayoutNode) {
         val composable = when (node.orientation) {
             Orientation.Vertical -> "Column"
             Orientation.Horizontal -> "Row"
         }
 
         writer.writeCall(composable) {
-            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+            node.viewGroupAttributes.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
 
-    override fun visitFrameLayout(node: FrameLayoutNode) {
+    private fun visitFrameLayout(node: FrameLayoutNode) {
         val rowModifier = ModifierBuilder(node)
         writer.writeCall(name = "Box", parameters = listOf(rowModifier.toCallParameter())) {
-            node.viewGroup.children.forEach { it.accept(this@ComposingVisitor) }
+            node.viewGroupAttributes.children.forEach { it.accept(this@ComposingVisitor) }
         }
     }
 
-    override fun visitConstraintLayout(node: ConstraintLayoutNode) {
+    private fun visitConstraintLayout(node: ConstraintLayoutNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -241,28 +224,28 @@ internal class ComposingVisitor : Visitor {
                 writer.writeChains(chains)
             }
 
-            node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) }
+            node.viewGroupAttributes.children.forEach { view -> view.accept(this@ComposingVisitor) }
         }
     }
 
-    override fun visitUnknown(node: UnknownNode) {
-        val block: (KotlinWriter.() -> Unit)? = if (node.viewGroup.children.isEmpty()) {
+    private fun visitUnknown(node: UnknownNode) {
+        val block: (KotlinWriter.() -> Unit)? = if (node.viewGroupAttributes.children.isEmpty()) {
             null
         } else {
-            { node.viewGroup.children.forEach { view -> view.accept(this@ComposingVisitor) } }
+            { node.viewGroupAttributes.children.forEach { view -> view.accept(this@ComposingVisitor) } }
         }
 
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
-            node.name,
+            node.unknownNodeName,
             parameters = listOf(modifier.toCallParameter()),
             linePrefix = "// ",
             block = block
         )
     }
 
-    override fun visitEditText(node: EditTextNode) {
+    private fun visitEditText(node: EditTextNode) {
         val modifier = ModifierBuilder(node)
         val hintParameterValue = if (node.hint.isNotBlank()) {
             ParameterValue.LambdaValue {
@@ -292,7 +275,7 @@ internal class ComposingVisitor : Visitor {
         )
     }
 
-    override fun visitSwitch(node: SwitchNode) {
+    private fun visitSwitch(node: SwitchNode) {
         val modifier = ModifierBuilder(node)
 
         writer.writeCall(
@@ -303,5 +286,25 @@ internal class ComposingVisitor : Visitor {
                 CallParameter(name = "onCheckedChange", value = ParameterValue.EmptyLambdaValue)
             )
         )
+    }
+
+    override fun visit(node: Node) {
+        when (node) {
+            is ButtonNode -> visitButton(node)
+            is CardViewNode -> visitCardView(node)
+            is CheckBoxNode -> visitCheckBox(node)
+            is ConstraintLayoutNode -> visitConstraintLayout(node)
+            is EditTextNode -> visitEditText(node)
+            is FrameLayoutNode -> visitFrameLayout(node)
+            is ImageViewNode -> visitImageView(node)
+            is Layout -> visitLayout(node)
+            is LinearLayoutNode -> visitLinearLayout(node)
+            is RadioButtonNode -> visitRadioButton(node)
+            is SwitchNode -> visitSwitch(node)
+            is TextViewNode -> visitTextView(node)
+            is UnknownNode -> visitUnknown(node)
+            is ViewNode -> visitView(node)
+            else -> {}
+        }
     }
 }

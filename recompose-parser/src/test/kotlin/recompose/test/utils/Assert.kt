@@ -16,16 +16,17 @@
 
 package recompose.test.utils
 
+import TestData
+import com.jds.recompose.nodes.Layout
 import org.junit.Assert
-import recompose.ast.Layout
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 
 internal fun assertAST(
     fileName: String,
     expected: Layout
 ) {
-    val parser = Parser()
+    val parser = ParserImpl()
     val layout = parser.parse(TestData.load(fileName))
 
-    Assert.assertEquals(expected, layout)
+    Assert.assertEquals(expected.toString().trim(), layout.toString().trim())
 }

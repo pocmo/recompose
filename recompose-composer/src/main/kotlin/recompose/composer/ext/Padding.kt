@@ -16,7 +16,8 @@
 
 package recompose.composer.ext
 
-import recompose.ast.values.Padding
+import com.jds.recompose.values.Padding
+
 
 fun Padding.hasValues(): Boolean {
     return this != Padding()

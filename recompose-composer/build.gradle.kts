@@ -15,6 +15,6 @@ dependencies {
     testImplementation(project(":recompose-parser", "default"))
     testImplementation(project(":recompose-test"))
 }
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }

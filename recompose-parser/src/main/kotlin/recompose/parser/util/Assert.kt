@@ -17,14 +17,14 @@
 package recompose.parser.util
 
 import org.xmlpull.v1.XmlPullParser
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 
 /**
  * Moves to the next parse event and assets that it is an END_TAG event. Otherwise throws a
- * [Parser.ParserException].
+ * [ParserImpl.ParserException].
  */
 internal fun XmlPullParser.assertEndTagNext() {
     if (next() != XmlPullParser.END_TAG) {
-        throw Parser.ParserException("Expected END_TAG event, but got $eventType")
+        throw ParserImpl.ParserException("Expected END_TAG event, but got $eventType")
     }
 }

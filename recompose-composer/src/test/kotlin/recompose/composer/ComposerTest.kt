@@ -136,7 +136,7 @@ class ComposerTest {
             fileName = "constraintlayout-chains.xml",
             """
                 ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
-                    val (two, one, four, three, five) = createRefs()
+                    val (one, two, three, four, five) = createRefs()
                     
                     createHorizontalChain(one, two, three, chainStyle = ChainStyle.Spread)
                     createHorizontalChain(four, five)
@@ -180,7 +180,7 @@ class ComposerTest {
             fileName = "constraintlayout-face.xml",
             """
                 ConstraintLayout(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
-                    val (eye_right, eye_left, nose, mouth) = createRefs()
+                    val (eye_left, eye_right, nose, mouth) = createRefs()
                     
                     createHorizontalChain(eye_left, eye_right, chainStyle = ChainStyle.Packed)
                     

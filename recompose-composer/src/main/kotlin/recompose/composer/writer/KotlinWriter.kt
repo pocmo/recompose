@@ -16,12 +16,7 @@
 
 package recompose.composer.writer
 
-import recompose.ast.values.Color
-import recompose.ast.values.Constraints
-import recompose.ast.values.Drawable
-import recompose.ast.values.InputType
-import recompose.ast.values.LayoutSize
-import recompose.ast.values.Size
+import com.jds.recompose.values.*
 import recompose.composer.ext.getRef
 import recompose.composer.model.Chain
 
@@ -64,7 +59,7 @@ internal class KotlinWriter {
         }
     }
 
-    fun writeRefsDeclaration(refs: Set<String>) {
+    fun writeRefsDeclaration(refs: Set<Id>) {
         writer.startLine("val (")
         writer.continueLine(refs.joinToString(", "))
         writer.endLine(") = createRefs()")
@@ -80,7 +75,7 @@ internal class KotlinWriter {
             }
 
             val parameters = (listOf(chain.head) + chain.elements).map { node ->
-                CallParameter(ParameterValue.RawValue(node.getRef()))
+                CallParameter(ParameterValue.RawValue(node.getRef().toString()))
             }.toMutableList()
 
             when (chain.style) {
@@ -105,6 +100,7 @@ internal class KotlinWriter {
                             value = ParameterValue.RawValue("ChainStyle.SpreadInside")
                         )
                     )
+                null -> {}
             }
 
             writeParameters(parameters, false)
@@ -255,6 +251,7 @@ internal class KotlinWriter {
             InputType.Email -> "Email"
             InputType.Password -> "Password"
             InputType.NumberPassword -> "NumberPassword"
+            else -> "Text"
         }
         writer.continueLine(inputType)
     }

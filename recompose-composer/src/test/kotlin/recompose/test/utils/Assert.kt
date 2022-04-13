@@ -18,13 +18,13 @@ package recompose.test.utils
 
 import org.junit.Assert.assertEquals
 import recompose.composer.Composer
-import recompose.parser.Parser
+import recompose.parser.ParserImpl
 
 internal fun assertComposing(
     fileName: String,
     expected: String
 ) {
-    val parser = Parser()
+    val parser = ParserImpl()
     val layout = parser.parse(TestData.load(fileName))
 
     val composer = Composer()
