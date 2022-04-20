@@ -1,12 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    idea apply true
     id("java")
     kotlin("jvm")
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
-    id("org.jetbrains.intellij") version "0.4.22"
-    id("org.jetbrains.changelog") version "0.5.0"
+    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.changelog") version "1.3.1"
 }
 
 project.group = "xyz.pocmo.recompose"
@@ -24,28 +25,27 @@ dependencies {
 }
 
 intellij {
-    pluginName = "Recompose"
-    version = "2019.3"
-    updateSinceUntilBuild = false
-    downloadSources = true
-    updateSinceUntilBuild = true
-
-    setPlugins("IntelliLang", "Kotlin")
+    version.set("2022.1")
+    updateSinceUntilBuild.set(false)
+    updateSinceUntilBuild.set(false)
+    downloadSources.set(true)
+    plugins.set(listOf("IntelliLang", "Kotlin"))
 }
 
 tasks {
-    // Set the compatibility versions to 1.8
-    withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-    }
-    listOf("compileKotlin", "compileTestKotlin").forEach {
-        getByName<KotlinCompile>(it) {
-            kotlinOptions.jvmTarget = "1.8"
+    withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_11.toString()
+            freeCompilerArgs = listOf("-progressive")
         }
     }
+
     patchPluginXml {
-        sinceBuild("193")
-        untilBuild("202.*")
+        sinceBuild.set("193")
+        untilBuild.set("202.*")
+    }
+    runPluginVerifier {
+        ideVersions.set(listOf("2022.1"))
     }
 }
+
