@@ -34,6 +34,10 @@ Arguments:
 Either import the project into [IntelliJ IDEA](https://www.jetbrains.com/idea/) or use [Gradle](https://gradle.org/) on
 the command line (via the provided `gradlew` wrapper).
 
+สำหรับ IntelliJ IDEA
+ใช้ tab gradle build plugin โดยการกด build ใน recompose-idea/Tasks/build
+[](../../../../../var/folders/w0/rhb8ybv567ld4jtbbxh9sbgr0000gn/T/TemporaryItems/NSIRD_screencaptureui_xg5ane/Screen Shot 2565-11-04 at 17.03.22.png)
+
 ### Modules
 
 * **recompose-ast**: Contains the data classes for the Abstract Syntax Tree (AST) representing a parsed XML layout.
