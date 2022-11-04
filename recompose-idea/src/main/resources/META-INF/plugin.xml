@@ -14,5 +14,10 @@
     </extensions>
 
     <resource-bundle>strings.RecomposePluginBundle</resource-bundle>
+    <description><![CDATA[
+    For more information visit the
+    <a href="https://github.com/pocmo/recompose">project site</a>.
+    ]]>
+    </description>
 </idea-plugin>
 
