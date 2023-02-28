@@ -26,7 +26,6 @@ dependencies {
 intellij {
     pluginName = "Recompose"
     version = "2019.3"
-    updateSinceUntilBuild = false
     downloadSources = true
     updateSinceUntilBuild = true
 
@@ -43,9 +42,5 @@ tasks {
         getByName<KotlinCompile>(it) {
             kotlinOptions.jvmTarget = "1.8"
         }
-    }
-    patchPluginXml {
-        sinceBuild("193")
-        untilBuild("213.*")
     }
 }
