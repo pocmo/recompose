@@ -28,7 +28,6 @@ intellij {
     version = "2019.3"
     updateSinceUntilBuild = false
     downloadSources = true
-    updateSinceUntilBuild = true
 
     setPlugins("IntelliLang", "Kotlin")
 }
@@ -46,6 +45,5 @@ tasks {
     }
     patchPluginXml {
         sinceBuild("193")
-        untilBuild("202.*")
     }
 }
