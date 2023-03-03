@@ -50,7 +50,7 @@ class ComposerTest {
         assertComposing(
             fileName = "textview-color-resource-reference.xml",
             """
-                Text(text = "color ref", color = Color(ContextCompat.getColor(ContextAmbient.current, R.color.green)))
+                Text(text = "color ref", color = Color(ContextCompat.getColor(LocalContext.current, R.color.green)))
             """.trimIndent()
         )
     }
@@ -307,7 +307,7 @@ class ComposerTest {
         assertComposing(
             fileName = "edittext-hint.xml",
             """
-                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, label = { Text(text = "text", color = Color(ContextCompat.getColor(ContextAmbient.current, R.color.green))) }, modifier = Modifier.width(200.dp).height(50.dp))
+                TextField(value = "", onValueChange = {}, keyboardType = KeyboardType.Text, label = { Text(text = "text", color = Color(ContextCompat.getColor(LocalContext.current, R.color.green))) }, modifier = Modifier.width(200.dp).height(50.dp))
             """.trimIndent()
         )
     }
