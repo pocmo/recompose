@@ -29,15 +29,11 @@ fun XmlPullParser.drawable(name: String): Drawable? {
 
     return when {
         value == null -> null
-
         value.startsWith("#") -> color(name)?.let { Drawable.ColorValue(it) }
-
+        value.startsWith("@color/") -> color(name)?.let { Drawable.ColorValue(it) }
         value.startsWith("@drawable/") -> Drawable.Resource(name = value.substring(10))
-
         value.startsWith("@android:drawable/") -> Drawable.AndroidResource(name = value.substring(18))
-
         value.startsWith("?") -> Drawable.StyleAttribute(name = value.substring(1))
-
         else -> throw Parser.ParserException("Unknown drawable format: $value")
     }
 }

@@ -30,8 +30,7 @@ internal fun XmlPullParser.color(name: String): Color? {
 
     return when {
         raw == null -> null
-
-        raw.startsWith("#") ->
+        raw.startsWith("#") -> {
             try {
                 val colorAsString = raw.substring(1)
                 val colorToParse = if (colorAsString.length == 6) {
@@ -44,9 +43,8 @@ internal fun XmlPullParser.color(name: String): Color? {
             } catch (e: NumberFormatException) {
                 throw Parser.ParserException("Could not parse color: $raw", e)
             }
-
+        }
         raw.startsWith("@color/") -> Color.Resource(name = raw.removePrefix("@color/"))
-
         // There are multiple more color formats that need to be supported.
         else -> throw Parser.ParserException("Unknown color format: $raw")
     }

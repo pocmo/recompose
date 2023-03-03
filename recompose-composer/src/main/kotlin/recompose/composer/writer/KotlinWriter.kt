@@ -140,7 +140,7 @@ internal class KotlinWriter {
                 writer.continueLine(")")
             }
             is Color.Resource -> {
-                writer.continueLine("Color(ContextCompat.getColor(ContextAmbient.current, R.color.${color.name}))")
+                writer.continueLine("Color(ContextCompat.getColor(LocalContext.current, R.color.${color.name}))")
             }
         }
     }
