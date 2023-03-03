@@ -30,7 +30,7 @@ import recompose.visitor.Visitor
 data class LinearLayoutNode(
     override val view: ViewAttributes,
     override val viewGroup: ViewGroupAttributes,
-    val orientation: Orientation = Orientation.Vertical
+    val orientation: Orientation = Orientation.Horizontal
 ) : ViewGroupNode {
     override fun accept(visitor: Visitor) = visitor.visitLinearLayout(this)
 }

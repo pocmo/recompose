@@ -31,7 +31,7 @@ import recompose.parser.xml.viewGroupAttributes
 internal fun XmlPullParser.linearLayout(): LinearLayoutNode {
     return LinearLayoutNode(
         view = viewAttributes(),
-        orientation = orientation() ?: Orientation.Vertical,
+        orientation = orientation() ?: Orientation.Horizontal,
         viewGroup = viewGroupAttributes()
     )
 }
